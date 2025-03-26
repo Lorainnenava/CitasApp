@@ -1,0 +1,20 @@
+# Ignorar carpetas de compilación y binarios
+bin/
+obj/
+.vs/
+*.suo
+*.user
+*.cache
+
+# Ignorar archivos de configuración sensibles
+Presentation/appsettings.Development.json
+Presentation/appsettings.Staging.json
+Presentation/appsettings.Production.json
+Presentation/*.env
+
+# Ignorar archivos secretos
+*.env
+
+# Ignorar otros archivos específicos del entorno
+.idea/
+.vscode/
