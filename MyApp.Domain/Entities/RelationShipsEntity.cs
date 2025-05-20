@@ -1,8 +1,8 @@
 ﻿namespace MyApp.Domain.Entities
 {
-    public class SpecialtiesEntity
+    public class RelationShipsEntity
     {
-        public int SpecialtyId { get; set; }
+        public int RelationShipId { get; set; }
         public string Name { get; set; } = string.Empty;
     }
 }

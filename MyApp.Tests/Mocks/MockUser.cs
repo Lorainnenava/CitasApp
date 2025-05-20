@@ -43,15 +43,22 @@ namespace MyApp.Tests.Mocks
             return new UsersEntity
             {
                 UserId = 1,
-                UserName = "NuevoUsuario",
-                FirstName = "Luis",
-                SecondName = "Miguel",
-                LastName = "Gómez",
-                Email = "luis@example.com",
-                Password = "pass123",
-                IdentificatiónNumber = "555555555",
-                Phone = "3200000000",
-                TypeIdentification = 3
+                FirstName = "userPrueba",
+                MiddleName = "Del Carmen",
+                LastName = "userPrueba",
+                SecondName = "Test",
+                Email = "userprueba@example.com",
+                PasswordHash = "hashed_password_123",
+                IdentificatiónNumber = "1234567890",
+                IdentificationTypeId = 1,
+                GenderId = 1,
+                DateOfBirth = new DateTime(2004, 7, 23),
+                RoleId = 2,
+                CodeValidation = "VAL123",
+                IsActive = true,
+                Phone = "+57 3011234567",
+                CreatedAt = DateTime.Now.AddMonths(-2),
+                UpdatedAt = DateTime.Now
             };
         }
 
@@ -59,15 +66,21 @@ namespace MyApp.Tests.Mocks
         {
             return new UsersEntity
             {
-                UserName = "NuevoUsuario",
-                FirstName = "Luis",
-                SecondName = "Miguel",
-                LastName = "Gómez",
-                Email = "luis@example.com",
-                Password = "pass123",
-                IdentificatiónNumber = "555555555",
-                Phone = "3200000000",
-                TypeIdentification = 3
+                FirstName = "userPrueba",
+                MiddleName = "Del Carmen",
+                LastName = "userPrueba",
+                SecondName = "Test",
+                Email = "userprueba@example.com",
+                PasswordHash = "hashed_password_123",
+                IdentificatiónNumber = "1234567890",
+                IdentificationTypeId = 1,
+                GenderId = 1,
+                DateOfBirth = new DateTime(2004, 7, 23),
+                RoleId = 2,
+                CodeValidation = "VAL123",
+                IsActive = true,
+                Phone = "+57 3011234567",
+                CreatedAt = DateTime.Now.AddMonths(-2),
             };
         }
 

@@ -160,6 +160,20 @@ namespace MyApp.Infrastructure.Seeders
                 new BloodTypesEntity { BloodTypeId = 7, Name = "O+" },
                 new BloodTypesEntity { BloodTypeId = 8, Name = "O−" }
             );
+
+            // Tipos de relaciones
+            modelBuilder.Entity<RelationShipsEntity>().HasData(
+                new RelationShipsEntity { RelationShipId = 1, Name = "Padre" },
+                new RelationShipsEntity { RelationShipId = 2, Name = "Madre" },
+                new RelationShipsEntity { RelationShipId = 3, Name = "Hermano/a" },
+                new RelationShipsEntity { RelationShipId = 4, Name = "Tío/a" },
+                new RelationShipsEntity { RelationShipId = 5, Name = "Abuelo/a" },
+                new RelationShipsEntity { RelationShipId = 6, Name = "Esposo/a" },
+                new RelationShipsEntity { RelationShipId = 7, Name = "Hijo/a" },
+                new RelationShipsEntity { RelationShipId = 8, Name = "Primo/a" },
+                new RelationShipsEntity { RelationShipId = 9, Name = "Otro" }
+            );
+
         }
     }
 }

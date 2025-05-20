@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyApp.Domain.Interfaces.Infrastructure;
 using MyApp.Infrastructure.Context;
-using MyApp.Shared.DTOs;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace MyApp.Infrastructure.Repositories
 {
@@ -51,7 +49,8 @@ namespace MyApp.Infrastructure.Repositories
                 {
                     query = query.Include(include);
                 }
-            };
+            }
+            ;
 
             return await query.ToListAsync();
         }
@@ -66,7 +65,8 @@ namespace MyApp.Infrastructure.Repositories
                 {
                     query = query.Include(include);
                 }
-            };
+            }
+            ;
 
             return await query.FirstOrDefaultAsync(condition);
         }
@@ -80,7 +80,7 @@ namespace MyApp.Infrastructure.Repositories
             return searchItem;
         }
 
-        public async Task<(IEnumerable<T> Items, int TotalCount)> Pagination(int currentPage, int pageSize, 
+        public async Task<(IEnumerable<T> Items, int TotalCount)> Pagination(int currentPage, int pageSize,
             Expression<Func<T, bool>>? condition = null, params Expression<Func<T, object>>[] includes)
         {
             IQueryable<T> query = _dbContext.Set<T>().AsNoTracking();

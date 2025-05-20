@@ -14,6 +14,7 @@ namespace MyApp.Infrastructure.Security
     {
         private readonly JwtSettings _jwtSettings;
         private readonly ILogger<JwtTokenService> _logger;
+
         public JwtTokenService(ILogger<JwtTokenService> logger, IOptions<JwtSettings> jwtSettings)
         {
             _logger = logger;
@@ -53,7 +54,7 @@ namespace MyApp.Infrastructure.Security
             {
                 var refreshToken = new RefreshTokensEntity
                 {
-                    Active = true,
+                    IsActive = true,
                     Token = Guid.NewGuid().ToString("N"),
                     TokenExpirationDate = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpirationDays),
                 };

@@ -1,36 +1,24 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace MyApp.Domain.Entities
+﻿namespace MyApp.Domain.Entities
 {
     public class MedicalHistoriesEntity
     {
-        [Key]
         public int MedicalHistoryId { get; set; }
-        [Required]
         public int UserId { get; set; }
-        [Required]
-        [StringLength(50)]
-        public string FullName { get; set; } = string.Empty;
-        [Required]
-        public DateTime DateOfBirth { get; set; }
-        [Required]
-        public double Weight { get; set; }
-        [Required]
-        public double Height { get; set; }
-        [Required]
+        public int Age { get; set; }
+        public decimal Weight { get; set; }
+        public decimal Height { get; set; }
         public int BloodTypeId { get; set; }
-        [Required]
         public int MaritalStatusId { get; set; }
-        [Required]
-        [StringLength(50)]
         public string Occupation { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; }
 
         // Relaciones
-        public UsersEntity User { get; set; }
-        public MaritalStatusesEntity MaritalStatus { get; set; }
-        public MedicalConditionsEntity MedicalCondition { get; set; }
-        public BloodTypesEntity BloodType { get; set; }
+        public UsersEntity User { get; set; } = new();
+        public UserAddressDetailsEntity UserAddressDetail { get; set; } = new();
+        public EmergencyContactsEntity EmergencyContact { get; set; } = new();
+        public MaritalStatusesEntity MaritalStatus { get; set; } = new();
+        public MedicalConditionsEntity MedicalCondition { get; set; } = new();
+        public BloodTypesEntity BloodType { get; set; } = new();
     }
 }

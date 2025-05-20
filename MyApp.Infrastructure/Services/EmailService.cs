@@ -38,7 +38,7 @@ namespace MyApp.Infrastructure.Services
 
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("Tu Nombre o Nombre de la App", senderEmail));
-                message.To.Add(new MailboxAddress("",recipientAddress));
+                message.To.Add(new MailboxAddress("", recipientAddress));
                 message.Subject = subject;
 
                 // Crear la parte HTML con imágenes embebidas
