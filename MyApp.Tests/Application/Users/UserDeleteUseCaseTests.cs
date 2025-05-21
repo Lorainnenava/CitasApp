@@ -11,15 +11,15 @@ namespace MyApp.Tests.Application.Users
     public class UserDeleteUseCaseTests
     {
         private readonly Mock<IGenericRepository<UsersEntity>> _userRepositoryMock;
-        private readonly UserDeleteUseCase _useCase;
-        private readonly Mock<ILogger<UserDeleteUseCase>> _loggerMock;
+        private readonly UserSetActiveStatusUseCase _useCase;
+        private readonly Mock<ILogger<UserSetActiveStatusUseCase>> _loggerMock;
 
         public UserDeleteUseCaseTests()
         {
             _userRepositoryMock = new Mock<IGenericRepository<UsersEntity>>();
-            _loggerMock = new Mock<ILogger<UserDeleteUseCase>>();
+            _loggerMock = new Mock<ILogger<UserSetActiveStatusUseCase>>();
 
-            _useCase = new UserDeleteUseCase(_userRepositoryMock.Object, _loggerMock.Object);
+            _useCase = new UserSetActiveStatusUseCase(_userRepositoryMock.Object, _loggerMock.Object);
         }
 
         [Fact]

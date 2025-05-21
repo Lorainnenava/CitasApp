@@ -12,28 +12,42 @@ namespace MyApp.Tests.Mocks
                 new UsersEntity
                 {
                     UserId = 1,
-                    UserName = "Prueba123",
-                    FirstName = "Carlos",
-                    SecondName = "Andrés",
-                    LastName = "Pérez",
-                    Email = "carlos.perez@example.com",
-                    Password = "1234",
-                    IdentificatiónNumber = "123456789",
-                    Phone = "3001234567",
-                    TypeIdentification = 1
+                    FirstName = "Usuario",
+                    MiddleName = "Prueba",
+                    LastName = "Ejemplo",
+                    SecondName = null,
+                    Email = "usuario.prueba@example.com",
+                    PasswordHash = "hashed_password_placeholder",
+                    IdentificatiónNumber = "1234567890",
+                    IdentificationTypeId = 1,
+                    GenderId = 1,
+                    DateOfBirth = new DateTime(2004, 7, 23),
+                    RoleId = 2,
+                    CodeValidation = null,
+                    IsActive = true,
+                    Phone = "+57 300 123 4567",
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
                 },
                 new UsersEntity
                 {
                     UserId = 2,
-                    UserName = "DevJane",
-                    FirstName = "Jane",
-                    SecondName = "Marie",
-                    LastName = "Doe",
-                    Email = "jane.doe@example.com",
-                    Password = "secure123",
-                    IdentificatiónNumber = "987654321",
-                    Phone = "3107654321",
-                    TypeIdentification = 2
+                    FirstName = "Usuario2",
+                    MiddleName = "Prueba2",
+                    LastName = "Ejemplo2",
+                    SecondName = null,
+                    Email = "usuario2.prueba@example.com",
+                    PasswordHash = "hashed_password_placeholder",
+                    IdentificatiónNumber = "23456789",
+                    IdentificationTypeId = 1,
+                    GenderId = 1,
+                    DateOfBirth = new DateTime(2004, 7, 23),
+                    RoleId = 2,
+                    CodeValidation = null,
+                    IsActive = true,
+                    Phone = "+57 300 123 4567",
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
                 }
             ];
         }
@@ -43,21 +57,21 @@ namespace MyApp.Tests.Mocks
             return new UsersEntity
             {
                 UserId = 1,
-                FirstName = "userPrueba",
-                MiddleName = "Del Carmen",
-                LastName = "userPrueba",
-                SecondName = "Test",
-                Email = "userprueba@example.com",
-                PasswordHash = "hashed_password_123",
+                FirstName = "Usuario",
+                MiddleName = "Prueba",
+                LastName = "Ejemplo",
+                SecondName = null,
+                Email = "usuario.prueba@example.com",
+                PasswordHash = "hashed_password_placeholder",
                 IdentificatiónNumber = "1234567890",
                 IdentificationTypeId = 1,
                 GenderId = 1,
                 DateOfBirth = new DateTime(2004, 7, 23),
                 RoleId = 2,
-                CodeValidation = "VAL123",
+                CodeValidation = null,
                 IsActive = true,
-                Phone = "+57 3011234567",
-                CreatedAt = DateTime.Now.AddMonths(-2),
+                Phone = "+57 300 123 4567",
+                CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
             };
         }
@@ -66,21 +80,23 @@ namespace MyApp.Tests.Mocks
         {
             return new UsersEntity
             {
-                FirstName = "userPrueba",
-                MiddleName = "Del Carmen",
-                LastName = "userPrueba",
-                SecondName = "Test",
-                Email = "userprueba@example.com",
-                PasswordHash = "hashed_password_123",
+                UserId = 1,
+                FirstName = "Usuario",
+                MiddleName = "Prueba",
+                LastName = "Ejemplo",
+                SecondName = null,
+                Email = "usuario.prueba@example.com",
+                PasswordHash = "hashed_password_placeholder",
                 IdentificatiónNumber = "1234567890",
                 IdentificationTypeId = 1,
                 GenderId = 1,
                 DateOfBirth = new DateTime(2004, 7, 23),
                 RoleId = 2,
-                CodeValidation = "VAL123",
+                CodeValidation = null,
                 IsActive = true,
-                Phone = "+57 3011234567",
-                CreatedAt = DateTime.Now.AddMonths(-2),
+                Phone = "+57 300 123 4567",
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             };
         }
 
@@ -88,15 +104,17 @@ namespace MyApp.Tests.Mocks
         {
             return new UserCreateRequest
             {
-                UserName = "NuevoUsuario",
-                FirstName = "Luis",
-                SecondName = "Miguel",
-                LastName = "Gómez",
-                Email = "luis@example.com",
-                Password = "pass123",
-                IdentificatiónNumber = "555555555",
-                Phone = "3200000000",
-                TypeIdentification = 3
+                FirstName = "Usuario",
+                MiddleName = "Prueba",
+                LastName = "Ejemplo",
+                SecondName = null,
+                Email = "usuario.prueba@example.com",
+                IdentificatiónNumber = "1234567890",
+                IdentificationTypeId = 1,
+                GenderId = 1,
+                DateOfBirth = new DateTime(2004, 7, 23),
+                RoleId = 2,
+                Phone = "+57 300 123 4567",
             };
         }
 
@@ -104,14 +122,17 @@ namespace MyApp.Tests.Mocks
         {
             return new UserResponse
             {
-                UserName = "NuevoUsuario",
-                FirstName = "Luis",
-                SecondName = "Miguel",
-                LastName = "Gómez",
-                Email = "luis@example.com",
-                IdentificatiónNumber = "555555555",
-                Phone = "3200000000",
-                TypeIdentification = 3
+                UserId = 1,
+                FirstName = "Usuario",
+                MiddleName = "Prueba",
+                LastName = "Ejemplo",
+                SecondName = null,
+                Email = "usuario.prueba@example.com",
+                IdentificationTypeId = 1,
+                GenderId = 1,
+                DateOfBirth = new DateTime(2004, 7, 23),
+                RoleId = 2,
+                Phone = "+57 300 123 4567"
             };
         }
 
@@ -119,32 +140,40 @@ namespace MyApp.Tests.Mocks
         {
             return new UsersEntity
             {
-                UserId = 2,
-                UserName = "DevJane",
-                FirstName = "Jane",
-                SecondName = "Marie",
-                LastName = "Doe",
-                Email = "jane.doe567@example.com",
-                Password = "secure123",
-                IdentificatiónNumber = "987654321",
-                Phone = "3107654321",
-                TypeIdentification = 2
+                UserId = 1,
+                FirstName = "Usuario",
+                MiddleName = "Prueba",
+                LastName = "Ejemplo",
+                SecondName = "Segundo apellido",
+                Email = "usuario.prueba@example.com",
+                PasswordHash = "hashed_password_placeholder",
+                IdentificatiónNumber = "1234567890",
+                IdentificationTypeId = 1,
+                GenderId = 1,
+                DateOfBirth = new DateTime(2004, 7, 23),
+                RoleId = 2,
+                CodeValidation = null,
+                IsActive = true,
+                Phone = "+57 300 123 4685",
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             };
         }
 
-        public static UserCreateRequest MockOneUserEntityToUpdate()
+        public static UserUpdateRequest MockOneUserEntityToUpdate()
         {
-            return new UserCreateRequest
+            return new UserUpdateRequest
             {
-                UserName = "DevJane",
-                FirstName = "Jane",
-                SecondName = "Marie",
-                LastName = "Doe",
-                Email = "jane.doe567@example.com",
-                Password = "secure123",
-                IdentificatiónNumber = "987654321",
-                Phone = "3107654321",
-                TypeIdentification = 2
+                FirstName = "Usuario",
+                MiddleName = "Prueba",
+                LastName = "Ejemplo",
+                SecondName = "Segundo apellido",
+                Email = "usuario.prueba@example.com",
+                IdentificationTypeId = 1,
+                GenderId = 1,
+                DateOfBirth = new DateTime(2004, 7, 23),
+                RoleId = 2,
+                Phone = "+57 300 123 4685",
             };
         }
     }

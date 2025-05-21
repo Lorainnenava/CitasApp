@@ -71,13 +71,20 @@ namespace MyApp.Infrastructure.Repositories
             return await query.FirstOrDefaultAsync(condition);
         }
 
-        public async Task<T> Update(Expression<Func<T, bool>> condition, T searchItem, T request)
+        public async Task<T> Update(T entityToUpdate)
         {
-            _dbContext.Set<T>().Entry(searchItem).CurrentValues.SetValues(request);
+            _dbContext.Set<T>().Update(entityToUpdate);
+            await _dbContext.SaveChangesAsync();
+            return entityToUpdate;
+        }
+
+        public async Task<T> Update(T entityToUpdate, T request)
+        {
+            _dbContext.Set<T>().Entry(entityToUpdate).CurrentValues.SetValues(request);
 
             await _dbContext.SaveChangesAsync();
 
-            return searchItem;
+            return request;
         }
 
         public async Task<(IEnumerable<T> Items, int TotalCount)> Pagination(int currentPage, int pageSize,

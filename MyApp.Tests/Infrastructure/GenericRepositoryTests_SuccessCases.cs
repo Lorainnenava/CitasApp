@@ -39,14 +39,14 @@ namespace MyApp.Tests.Infrastructure
 
             Assert.NotNull(result);
             Assert.Equal(3, _dbContext.Users.Count());
-            Assert.Equal("NuevoUsuario", result.Name);
-            Assert.True(await _dbContext.Users.AnyAsync(p => p.Name == "NuevoUsuario"));
+            Assert.Equal("usuario.prueba@example.com", result.Email);
+            Assert.True(await _dbContext.Users.AnyAsync(p => p.IdentificatiónNumber == "1234567890"));
         }
 
         [Fact]
         public async Task Delete_ShouldRemoveEntity_WhenEntityExists()
         {
-            bool result = await _genericRepository.Delete(x => x.UserName == "Prueba123");
+            bool result = await _genericRepository.Delete(x => x.UserId == 1);
 
             Assert.True(result);
             Assert.Equal(1, _dbContext.Users.Count());
@@ -60,8 +60,8 @@ namespace MyApp.Tests.Infrastructure
             Assert.NotNull(result);
             Assert.Equal(2, result.Count());
             Assert.Collection(result,
-                item => Assert.Equal("Prueba123", item.UserName),
-                item => Assert.Equal("Jane", item.FirstName)
+                item => Assert.Equal("usuario.prueba@example.com", item.Email),
+                item => Assert.Equal("23456789", item.IdentificatiónNumber)
             );
 
         }
@@ -71,11 +71,36 @@ namespace MyApp.Tests.Infrastructure
         {
             var entityToUpdate = MockUser.MockOneUserEntityUpdated();
 
-            UsersEntity? result = await _genericRepository.Update(x => x.UserName == "DevJane", entityToUpdate);
+            UsersEntity? result = await _genericRepository.Update(entityToUpdate);
 
             Assert.NotNull(result);
-            Assert.Equal("jane.doe567@example.com", result.Email);
-            Assert.True(await _dbContext.Users.AnyAsync(p => p.Email == "jane.doe567@example.com"));
+            Assert.Equal("+57 300 123 4685", result.Phone);
+            Assert.True(await _dbContext.Users.AnyAsync(p => p.SecondName == "Segundo apellido"));
         }
+
+        [Fact]
+        public async Task Update_WithTwoParameters_ShouldUpdateFieldsCorrectly()
+        {
+            var originalEntity = MockUser.MockOneUserEntity();
+            var updatedEntity = MockUser.MockOneUserEntityUpdated();
+
+            var result = await _genericRepository.Update(originalEntity, updatedEntity);
+
+            Assert.NotNull(result);
+            Assert.Equal("+57 300 123 4685", result.Phone);
+            Assert.Equal("Segundo apellido", result.SecondName);
+            Assert.Equal("1234567890", result.IdentificatiónNumber);
+        }
+
+        [Fact]
+        public async Task GetAllPaginated_ShouldReturnCorrectPage()
+        {
+            var (items, totalCount) = await _genericRepository.Pagination(1, 1);
+
+            Assert.Single(items);
+            Assert.Equal("usuario.prueba@example.com", items.First().Email);
+            Assert.Equal(2, totalCount);
+        }
+
     }
 }

@@ -24,7 +24,7 @@ namespace MyApp.Application.Services
                 code = _random.Next(10000, 100000).ToString();
                 exists = await _repository.GetByCondition(x => x.CodeValidation == code);
             }
-            while (exists != null);
+            while (exists is not null);
 
             return code;
         }

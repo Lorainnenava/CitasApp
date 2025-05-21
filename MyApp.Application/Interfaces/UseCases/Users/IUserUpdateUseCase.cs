@@ -4,6 +4,6 @@ namespace MyApp.Application.Interfaces.UseCases.Users
 {
     public interface IUserUpdateUseCase
     {
-        Task<UserResponse> Execute(int Id, UserCreateRequest request);
+        Task<UserResponse> Execute(int UserId, UserUpdateRequest request);
     }
 }

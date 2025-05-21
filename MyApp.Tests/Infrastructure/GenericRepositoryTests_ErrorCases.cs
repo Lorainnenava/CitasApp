@@ -39,7 +39,7 @@ namespace MyApp.Tests.Infrastructure
         {
             SeedDatabaseWithFakeData();
 
-            var resultado = await _genericRepository.Delete(x => x.UserName == "UsuarioInexistente");
+            var resultado = await _genericRepository.Delete(x => x.FirstName == "Usuario");
 
             Assert.False(resultado);
             Assert.Equal(2, _dbContext.Users.Count());
@@ -62,7 +62,7 @@ namespace MyApp.Tests.Infrastructure
             var updatedData = MockUser.MockOneUserEntityUpdated();
 
             var exception = await Assert.ThrowsAsync<NotFoundException>(() =>
-                _genericRepository.Update(x => x.UserName == "UsuarioInexistente", updatedData));
+                _genericRepository.Update(updatedData));
 
             Assert.Equal("Item no encontrado", exception.Message);
         }

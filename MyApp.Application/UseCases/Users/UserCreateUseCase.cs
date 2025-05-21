@@ -4,9 +4,11 @@ using MyApp.Application.DTOs.Users;
 using MyApp.Application.Interfaces.Infrastructure;
 using MyApp.Application.Interfaces.Services;
 using MyApp.Application.Interfaces.UseCases.Users;
+using MyApp.Application.Validators;
 using MyApp.Domain.Entities;
 using MyApp.Domain.Interfaces.Infrastructure;
 using MyApp.Shared.Exceptions;
+using MyApp.Shared.Services;
 
 namespace MyApp.Application.UseCases.Users
 {
@@ -36,9 +38,12 @@ namespace MyApp.Application.UseCases.Users
         {
             _logger.LogInformation("Iniciando la creación de usuario con email: {Email}", request.Email);
 
+            var validator = new UserCreateValidator();
+            ValidatorHelper.ValidateAndThrow(request, validator);
+
             var emailExisted = await _userRepository.GetByCondition(x => x.Email == request.Email);
 
-            if (emailExisted != null)
+            if (emailExisted is not null)
             {
                 _logger.LogWarning("Intento de crear usuario con un email ya existente: {Email}", request.Email);
                 throw new AlreadyExistsException($"El email '{request.Email}' ya está registrado.");
@@ -48,8 +53,8 @@ namespace MyApp.Application.UseCases.Users
 
             var codeValidation = await _codeGeneratorService.GenerateUniqueCode();
 
-            entityMapped.Password = _passwordHasherService.HashPassword(request.Password);
             entityMapped.CodeValidation = codeValidation;
+            entityMapped.PasswordHash = _passwordHasherService.HashPassword(request.Password);
 
             var userCreated = await _userRepository.Create(entityMapped);
 

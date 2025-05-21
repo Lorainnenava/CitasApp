@@ -1,5 +1,5 @@
-﻿using MyApp.Application.DTOs.Users;
-using AutoMapper;
+﻿using AutoMapper;
+using MyApp.Application.DTOs.Users;
 using MyApp.Domain.Entities;
 
 namespace MyApp.Application.Mappers
@@ -9,6 +9,7 @@ namespace MyApp.Application.Mappers
         public UsersProfile()
         {
             CreateMap<UserCreateRequest, UsersEntity>();
+            CreateMap<UserUpdateRequest, UsersEntity>();
             CreateMap<UsersEntity, UserResponse>();
         }
     }

@@ -17,9 +17,12 @@ namespace MyApp.Application
             // Registro de casos de uso (implementaciones de las interfaces)
             services.AddScoped<IUserCreateUseCase, UserCreateUseCase>();
             services.AddScoped<IUserGetByIdUseCase, UserGetByIdUseCase>();
-            services.AddScoped<IUserDeleteUseCase, UserDeleteUseCase>();
+            services.AddScoped<IUserSetActiveStatusUseCase, UserSetActiveStatusUseCase>();
             services.AddScoped<IUserUpdateUseCase, UserUpdateUseCase>();
-            services.AddScoped<IUserGetAllUseCase, UserGetAllUseCase>();
+            services.AddScoped<IUserGetAllPaginatedUseCase, UserGetAllPaginatedUseCase>();
+            services.AddScoped<IUserValidateUseCase, UserValidateUseCase>();
+            services.AddScoped<IUserChangePasswordUseCase, UserChangePasswordUseCase>();
+
             services.AddScoped<IUserSessionsCreateUseCase, UserSessionCreateUseCase>();
 
             services.AddScoped(typeof(IGenericCreateUseCase<,>), typeof(GenericCreateUseCase<,>));

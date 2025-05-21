@@ -40,7 +40,7 @@ namespace MyApp.Tests.Infrastructure
         public async Task Delete_ShouldThrowInvalidOperationException_WhenDbContextIsMisconfigured()
         {
             await Assert.ThrowsAsync<InvalidOperationException>(() =>
-                _faultyRepository.Delete(u => u.UserName == "PruebaError"));
+                _faultyRepository.Delete(u => u.FirstName == "PruebaError"));
         }
 
         [Fact]
@@ -56,7 +56,7 @@ namespace MyApp.Tests.Infrastructure
             var userToUpdate = MockUser.MockOneUserEntityUpdated();
 
             await Assert.ThrowsAsync<InvalidOperationException>(() =>
-            _faultyRepository.Update(x => x.UserId == 1, userToUpdate));
+            _faultyRepository.Update(userToUpdate));
         }
     }
 }

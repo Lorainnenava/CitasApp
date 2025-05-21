@@ -14,13 +14,13 @@ namespace MyApp.Tests.Application.Users
     {
         public readonly Mock<IGenericRepository<UsersEntity>> _userRepositoryMock;
         public readonly IMapper _mapper;
-        private readonly UserGetAllUseCase _useCase;
-        private readonly Mock<ILogger<UserGetAllUseCase>> _loggerMock;
+        private readonly UserGetAllPaginatedUseCase _useCase;
+        private readonly Mock<ILogger<UserGetAllPaginatedUseCase>> _loggerMock;
 
         public UserGetAllUseCaseTests()
         {
             _userRepositoryMock = new Mock<IGenericRepository<UsersEntity>>();
-            _loggerMock = new Mock<ILogger<UserGetAllUseCase>>();
+            _loggerMock = new Mock<ILogger<UserGetAllPaginatedUseCase>>();
 
             var config = new MapperConfiguration(cfg =>
             {
@@ -28,7 +28,7 @@ namespace MyApp.Tests.Application.Users
                 cfg.CreateMap<UsersEntity, UserResponse>();
             });
             _mapper = config.CreateMapper();
-            _useCase = new UserGetAllUseCase(_userRepositoryMock.Object, _mapper, _loggerMock.Object);
+            _useCase = new UserGetAllPaginatedUseCase(_userRepositoryMock.Object, _mapper, _loggerMock.Object);
         }
 
         [Fact]

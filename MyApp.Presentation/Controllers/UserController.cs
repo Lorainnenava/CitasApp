@@ -4,9 +4,6 @@ using MyApp.Application.DTOs.Users;
 using MyApp.Application.Interfaces.UseCases.Users;
 using MyApp.Shared.DTOs;
 
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace MyApp.Presentation.Controllers
 {
     [Route("api/[controller]")]
@@ -15,60 +12,62 @@ namespace MyApp.Presentation.Controllers
     {
         public readonly IUserCreateUseCase _userCreateUseCase;
         public readonly IUserGetByIdUseCase _userGetByIdUseCase;
-        public readonly IUserGetAllUseCase _userGetAllUseCase;
+        public readonly IUserGetAllPaginatedUseCase _userGetAllUseCase;
         public readonly IUserUpdateUseCase _userUpdateUseCase;
-        public readonly IUserDeleteUseCase _userDeleteUseCase;
+        public readonly IUserSetActiveStatusUseCase _userDeleteUseCase;
+        public readonly IUserChangePasswordUseCase _userChangePasswordUseCase;
+        public readonly IUserValidateUseCase _userValidateUseCase;
 
-        public UserController(IUserCreateUseCase userCreateUseCase, IUserGetByIdUseCase userGetByIdUseCase, IUserGetAllUseCase userGetAllUseCase, IUserUpdateUseCase userUpdateUseCase,
-            IUserDeleteUseCase userDeleteUseCase)
+        public UserController(
+            IUserCreateUseCase userCreateUseCase,
+            IUserGetByIdUseCase userGetByIdUseCase,
+            IUserGetAllPaginatedUseCase userGetAllUseCase,
+            IUserUpdateUseCase userUpdateUseCase,
+            IUserSetActiveStatusUseCase userDeleteUseCase,
+            IUserChangePasswordUseCase userChangePasswordUseCase,
+            IUserValidateUseCase userValidateUseCase)
         {
             _userCreateUseCase = userCreateUseCase;
             _userGetByIdUseCase = userGetByIdUseCase;
             _userGetAllUseCase = userGetAllUseCase;
             _userUpdateUseCase = userUpdateUseCase;
             _userDeleteUseCase = userDeleteUseCase;
+            _userChangePasswordUseCase = userChangePasswordUseCase;
+            _userValidateUseCase = userValidateUseCase;
         }
 
         [HttpPost("create")]
         [AllowAnonymous]
         public async Task<IActionResult> CreateUser([FromBody] UserCreateRequest request)
         {
-            var response = await _userCreateUseCase.Execute(request);
-
-            return CreatedAtAction(nameof(CreateUser), new { id = response.UserId }, response);
+            var result = await _userCreateUseCase.Execute(request);
+            return CreatedAtAction(nameof(CreateUser), new { id = result.UserId }, result);
         }
 
         [HttpGet("getById/{id}")]
         [Authorize]
         public async Task<IActionResult> GetByIdUser(int id)
         {
-            var response = await _userGetByIdUseCase.Execute(id);
-
-            if (response == null)
-                return NotFound(new { Message = "User not found" });
-
-            return Ok(response);
+            var result = await _userGetByIdUseCase.Execute(id);
+            return Ok(result);
         }
 
         [HttpGet("getAll")]
         [AllowAnonymous]
-        public async Task<ActionResult<PaginationResult<UserResponse>>> GetAllUsers()
+        public async Task<ActionResult<PaginationResult<UserResponse>>> GetAllUsers(
+            [FromQuery] int page = 1,
+            [FromQuery] int size = 10)
         {
-            var users = await _userGetAllUseCase.Execute(1, 1);
-
-            return Ok(users);
+            var result = await _userGetAllUseCase.Execute(page, size);
+            return Ok(result);
         }
 
         [HttpPut("update/{id}")]
         [Authorize]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserCreateRequest request)
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserUpdateRequest request)
         {
-            var response = await _userUpdateUseCase.Execute(id, request);
-
-            if (response == null)
-                return NotFound();
-
-            return Ok(response);
+            var result = await _userUpdateUseCase.Execute(id, request);
+            return Ok(result);
         }
 
         [HttpDelete("delete/{id}")]
@@ -76,11 +75,7 @@ namespace MyApp.Presentation.Controllers
         public async Task<IActionResult> DeleteUser(int id)
         {
             var result = await _userDeleteUseCase.Execute(id);
-
-            if (!result)
-                return NotFound();
-
-            return NoContent();
+            return Ok(result);
         }
     }
 }

@@ -24,21 +24,21 @@ namespace MyApp.Application.UseCases.Users
             _logger = logger;
         }
 
-        public async Task<UserResponse> Execute(int Id)
+        public async Task<UserResponse> Execute(int UserId)
         {
-            _logger.LogInformation("Buscando usuario con UserId {UserId}", Id);
+            _logger.LogInformation("Buscando usuario con UserId: {UserId}", UserId);
 
-            var searchUser = await _userRepository.GetByCondition(u => u.UserId == Id);
+            var searchUser = await _userRepository.GetByCondition(u => u.UserId == UserId);
 
             if (searchUser is null)
             {
-                _logger.LogWarning("No se encontró ningún usuario con UserId {UserId}", Id);
-                throw new NotFoundException("Usuario no encontrado");
+                _logger.LogWarning("No se encontró ningún usuario con UserId: {UserId}", UserId);
+                throw new NotFoundException("Usuario no encontrado.");
             }
 
             var response = _mapper.Map<UserResponse>(searchUser);
 
-            _logger.LogInformation("Usuario con UserId {UserId} encontrado exitosamente", Id);
+            _logger.LogInformation("Usuario con UserId {UserId} encontrado exitosamente", UserId);
 
             return response;
         }

@@ -8,27 +8,27 @@ using MyApp.Shared.DTOs;
 
 namespace MyApp.Application.UseCases.Users
 {
-    public class UserGetAllUseCase : IUserGetAllUseCase
+    public class UserGetAllPaginatedUseCase : IUserGetAllPaginatedUseCase
     {
         private readonly IGenericRepository<UsersEntity> _userRepository;
         private readonly IMapper _mapper;
-        private readonly ILogger<UserGetAllUseCase> _logger;
+        private readonly ILogger<UserGetAllPaginatedUseCase> _logger;
 
-        public UserGetAllUseCase(
+        public UserGetAllPaginatedUseCase(
             IGenericRepository<UsersEntity> userRepository,
             IMapper mapper,
-            ILogger<UserGetAllUseCase> logger)
+            ILogger<UserGetAllPaginatedUseCase> logger)
         {
             _logger = logger;
             _userRepository = userRepository;
             _mapper = mapper;
         }
 
-        public async Task<PaginationResult<UserResponse>> Execute(int page, int size)
+        public async Task<PaginationResult<UserResponse>> Execute(int Page, int Size)
         {
             _logger.LogInformation("Iniciando la obtención de todos los usuarios.");
 
-            var (items, totalCount) = await _userRepository.Pagination(page, size);
+            var (items, totalCount) = await _userRepository.Pagination(Page, Size);
 
             var mappedItems = _mapper.Map<IEnumerable<UserResponse>>(items);
 
@@ -37,9 +37,9 @@ namespace MyApp.Application.UseCases.Users
             return new PaginationResult<UserResponse>
             {
                 RowsCount = totalCount,
-                PageCount = (int)Math.Ceiling((double)totalCount / size),
-                PageSize = size,
-                CurrentPage = page,
+                PageCount = (int)Math.Ceiling((double)totalCount / Size),
+                PageSize = Size,
+                CurrentPage = Page,
                 Results = mappedItems
             };
         }

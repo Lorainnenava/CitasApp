@@ -11,7 +11,7 @@
         public string IdentificatiónNumber { get; set; } = string.Empty;
         public int IdentificationTypeId { get; set; }
         public int GenderId { get; set; }
-        public DateTime DateOfBirth { get; set; } = DateTime.Now;
+        public DateTime DateOfBirth { get; set; }
         public int RoleId { get; set; }
         public string Phone { get; set; } = string.Empty;
     }

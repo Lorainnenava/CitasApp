@@ -4,6 +4,6 @@ namespace MyApp.Application.Interfaces.UseCases.Users
 {
     public interface IUserGetByIdUseCase
     {
-        public Task<UserResponse> Execute(int Id);
+        public Task<UserResponse> Execute(int UserId);
     }
 }
