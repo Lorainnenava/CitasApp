@@ -24,7 +24,7 @@ namespace MyApp.Application.UseCases.Users
             _logger = logger;
         }
 
-        public async Task<UserResponse> Execute(int Id, UserRequest request)
+        public async Task<UserResponse> Execute(int Id, UserCreateRequest request)
         {
             _logger.LogInformation("Iniciando actualización del usuario con ID {UserId}", Id);
 

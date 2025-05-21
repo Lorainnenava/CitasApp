@@ -24,7 +24,7 @@ namespace MyApp.Tests.Application.Users
 
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<UserRequest, UsersEntity>();
+                cfg.CreateMap<UserCreateRequest, UsersEntity>();
                 cfg.CreateMap<UsersEntity, UserResponse>();
             });
             _mapper = config.CreateMapper();

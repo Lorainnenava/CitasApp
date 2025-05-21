@@ -32,7 +32,7 @@ namespace MyApp.Application.UseCases.Users
             _codeGeneratorService = codeGeneratorService;
         }
 
-        public async Task<UserResponse> Execute(UserRequest request)
+        public async Task<UserResponse> Execute(UserCreateRequest request)
         {
             _logger.LogInformation("Iniciando la creación de usuario con email: {Email}", request.Email);
 

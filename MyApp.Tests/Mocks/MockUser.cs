@@ -84,9 +84,9 @@ namespace MyApp.Tests.Mocks
             };
         }
 
-        public static UserRequest MockOneUserRequest()
+        public static UserCreateRequest MockOneUserRequest()
         {
-            return new UserRequest
+            return new UserCreateRequest
             {
                 UserName = "NuevoUsuario",
                 FirstName = "Luis",
@@ -132,9 +132,9 @@ namespace MyApp.Tests.Mocks
             };
         }
 
-        public static UserRequest MockOneUserEntityToUpdate()
+        public static UserCreateRequest MockOneUserEntityToUpdate()
         {
-            return new UserRequest
+            return new UserCreateRequest
             {
                 UserName = "DevJane",
                 FirstName = "Jane",

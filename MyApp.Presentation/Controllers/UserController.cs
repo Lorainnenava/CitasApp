@@ -31,7 +31,7 @@ namespace MyApp.Presentation.Controllers
 
         [HttpPost("create")]
         [AllowAnonymous]
-        public async Task<IActionResult> CreateUser([FromBody] UserRequest request)
+        public async Task<IActionResult> CreateUser([FromBody] UserCreateRequest request)
         {
             var response = await _userCreateUseCase.Execute(request);
 
@@ -61,7 +61,7 @@ namespace MyApp.Presentation.Controllers
 
         [HttpPut("update/{id}")]
         [Authorize]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserRequest request)
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserCreateRequest request)
         {
             var response = await _userUpdateUseCase.Execute(id, request);
 

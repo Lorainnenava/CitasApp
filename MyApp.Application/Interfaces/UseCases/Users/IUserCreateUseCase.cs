@@ -4,6 +4,6 @@ namespace MyApp.Application.Interfaces.UseCases.Users
 {
     public interface IUserCreateUseCase
     {
-        Task<UserResponse> Execute(UserRequest request);
+        Task<UserResponse> Execute(UserCreateRequest request);
     }
 }

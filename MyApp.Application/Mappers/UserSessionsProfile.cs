@@ -8,7 +8,7 @@ namespace MyApp.Application.Mappers
     {
         public UserSessionsProfile()
         {
-            CreateMap<UserRequest, UserSessionsEntity>();
+            CreateMap<UserCreateRequest, UserSessionsEntity>();
             CreateMap<UserSessionsEntity, UserResponse>();
         }
     }
