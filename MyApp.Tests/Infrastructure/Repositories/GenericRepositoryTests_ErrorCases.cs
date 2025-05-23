@@ -2,10 +2,9 @@
 using MyApp.Domain.Entities;
 using MyApp.Infrastructure.Context;
 using MyApp.Infrastructure.Repositories;
-using MyApp.Shared.Exceptions;
 using MyApp.Tests.Mocks;
 
-namespace MyApp.Tests.Infrastructure
+namespace MyApp.Tests.Infrastructure.Repositories
 {
     public class GenericRepositoryTests_ErrorCases
     {
@@ -55,16 +54,24 @@ namespace MyApp.Tests.Infrastructure
         }
 
         [Fact]
-        public async Task Update_ShouldThrowNotFoundException_WhenEntityDoesNotExist()
+        public async Task GetByCondition_ShouldReturnNull_WhenEntityDoesNotExist()
         {
             SeedDatabaseWithFakeData();
 
-            var updatedData = MockUser.MockOneUserEntityUpdated();
+            var result = await _genericRepository.GetByCondition(u => u.Email == "noexiste@email.com");
 
-            var exception = await Assert.ThrowsAsync<NotFoundException>(() =>
-                _genericRepository.Update(updatedData));
+            Assert.Null(result);
+        }
 
-            Assert.Equal("Item no encontrado", exception.Message);
+        [Fact]
+        public async Task Pagination_ShouldReturnEmpty_WhenPageOutOfRange()
+        {
+            SeedDatabaseWithFakeData();
+
+            var (Items, TotalCount) = await _genericRepository.Pagination(currentPage: 100, pageSize: 10);
+
+            Assert.Empty(Items);
+            Assert.Equal(2, TotalCount);
         }
     }
 }

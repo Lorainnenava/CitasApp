@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Logging;
 using Moq;
 using MyApp.Application.DTOs.Users;
+using MyApp.Application.Interfaces.Infrastructure;
+using MyApp.Application.Interfaces.Services;
 using MyApp.Application.UseCases.Users;
 using MyApp.Domain.Entities;
 using MyApp.Domain.Interfaces.Infrastructure;
@@ -17,11 +19,15 @@ namespace MyApp.Tests.Application.Users
         public readonly IMapper _mapper;
         private readonly UserCreateUseCase _useCase;
         private readonly Mock<ILogger<UserCreateUseCase>> _loggerMock;
+        private readonly Mock<ICodeGeneratorService> _codeGeneratorServiceMock;
+        private readonly Mock<IPasswordHasherService> _passwordHasherServiceMock;
 
         public UserCreateUseCaseTests()
         {
             _userRepositoryMock = new Mock<IGenericRepository<UsersEntity>>();
             _loggerMock = new Mock<ILogger<UserCreateUseCase>>();
+            _codeGeneratorServiceMock = new Mock<ICodeGeneratorService>();
+            _passwordHasherServiceMock = new Mock<IPasswordHasherService>();
 
             var config = new MapperConfiguration(cfg =>
             {
@@ -33,22 +39,39 @@ namespace MyApp.Tests.Application.Users
             _useCase = new UserCreateUseCase(
                 _userRepositoryMock.Object,
                 _mapper,
-                _loggerMock.Object);
+                _loggerMock.Object,
+                _passwordHasherServiceMock.Object,
+                _codeGeneratorServiceMock.Object);
         }
 
         [Fact]
         public async Task Execute_ShouldCreateUserSuccessfully()
         {
-            var userEntity = MockUser.MockOneUserEntity();
+            var userEntity = MockUser.MockOneUserEntityWithCodeValidation();
             var userRequest = MockUser.MockOneUserRequest();
 
-            _userRepositoryMock.Setup(x => x.Create(It.IsAny<UsersEntity>())).ReturnsAsync(userEntity);
+            _userRepositoryMock
+                .Setup(repo => repo.GetByCondition(It.IsAny<Expression<Func<UsersEntity, bool>>>()))
+                .ReturnsAsync((UsersEntity)null!);
+
+            _codeGeneratorServiceMock
+                .Setup(service => service.GenerateUniqueCode())
+                .ReturnsAsync("CODE123");
+
+            _passwordHasherServiceMock
+                .Setup(service => service.HashPassword(userRequest.Password))
+                .Returns("hashed_password_placeholder");
+
+
+            _userRepositoryMock
+                .Setup(x => x.Create(It.IsAny<UsersEntity>()))
+                .ReturnsAsync(userEntity);
 
             var result = await _useCase.Execute(userRequest);
 
             Assert.NotNull(result);
-            Assert.Equal(1, result.UserId);
-            Assert.Equal("luis@example.com", result.Email);
+            Assert.Equal(userEntity.UserId, result.UserId);
+            Assert.Equal(userEntity.Email, result.Email);
         }
 
         [Fact]
@@ -61,25 +84,21 @@ namespace MyApp.Tests.Application.Users
                 .Setup(repo => repo.GetByCondition(It.IsAny<Expression<Func<UsersEntity, bool>>>()))
                 .ReturnsAsync(userEntity);
 
-            var exception = await Assert.ThrowsAsync<ConflictException>(() => _useCase.Execute(userRequest));
+            var exception = await Assert.ThrowsAsync<AlreadyExistsException>(() => _useCase.Execute(userRequest));
 
-            Assert.Equal("El email 'luis@example.com' ya está registrado.", exception.Message);
+            Assert.Equal("El email 'usuario.prueba@example.com' ya está registrado.", exception.Message);
         }
 
         [Fact]
-        public async Task Execute_ShouldThrowApplicationException_WhenRepositoryFails()
+        public async Task Execute_ShouldThrowValidationException_WhenRequestIsInvalid()
         {
-            var userRequest = MockUser.MockOneUserRequest();
+            var userRequest = new UserCreateRequest
+            {
+                Email = "",
+                Password = "123"
+            };
 
-            _userRepositoryMock
-                .Setup(repo => repo.Create(It.IsAny<UsersEntity>()))
-                .ThrowsAsync(new Exception("DB Error"));
-
-            var exception = await Assert.ThrowsAsync<ApplicationException>(() => _useCase.Execute(userRequest));
-
-            Assert.Contains("Ha ocurrido un error en la creación del usuario", exception.Message);
-            Assert.NotNull(exception.InnerException);
-            Assert.Equal("DB Error", exception.InnerException.Message);
+            await Assert.ThrowsAsync<FluentValidation.ValidationException>(() => _useCase.Execute(userRequest));
         }
     }
 }

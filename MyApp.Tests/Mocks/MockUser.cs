@@ -76,6 +76,30 @@ namespace MyApp.Tests.Mocks
             };
         }
 
+        public static UsersEntity MockOneUserEntityWithCodeValidation()
+        {
+            return new UsersEntity
+            {
+                UserId = 1,
+                FirstName = "Usuario",
+                MiddleName = "Prueba",
+                LastName = "Ejemplo",
+                SecondName = null,
+                Email = "usuario.prueba@example.com",
+                PasswordHash = "hashed_password_placeholder",
+                IdentificatiónNumber = "1234567890",
+                IdentificationTypeId = 1,
+                GenderId = 1,
+                DateOfBirth = new DateTime(2004, 7, 23),
+                RoleId = 2,
+                CodeValidation = "CODE123",
+                IsActive = true,
+                Phone = "+57 300 123 4567",
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
+            };
+        }
+
         public static UsersEntity MockOneUserEntityToCreate()
         {
             return new UsersEntity
@@ -160,9 +184,26 @@ namespace MyApp.Tests.Mocks
             };
         }
 
-        public static UserUpdateRequest MockOneUserEntityToUpdate()
+        public static UserUpdateRequest MockOneUserEntityToUpdateRequest()
         {
             return new UserUpdateRequest
+            {
+                FirstName = "Usuario",
+                MiddleName = "Prueba",
+                LastName = "Ejemplo",
+                SecondName = "Segundo apellido",
+                Email = "usuario.prueba@example.com",
+                IdentificationTypeId = 1,
+                GenderId = 1,
+                DateOfBirth = new DateTime(2004, 7, 23),
+                RoleId = 2,
+                Phone = "+57 300 123 4685",
+            };
+        }
+
+        public static UsersEntity MockOneUserEntityToUpdateEntityModel()
+        {
+            return new UsersEntity
             {
                 FirstName = "Usuario",
                 MiddleName = "Prueba",

@@ -9,11 +9,10 @@ namespace MyApp.Tests.Mocks
             return new RefreshTokensEntity
             {
                 RefreshTokenId = 1,
-                UserId = 1,
                 SessionId = 1,
                 Token = "myRefreshToken",
                 TokenExpirationDate = DateTime.UtcNow.AddMinutes(10),
-                Active = true,
+                IsActive = true,
             };
         }
 
@@ -22,10 +21,9 @@ namespace MyApp.Tests.Mocks
             return new RefreshTokensEntity
             {
                 RefreshTokenId = 1,
-                UserId = 1,
                 SessionId = 1,
                 Token = "expiredToken",
-                Active = false,
+                IsActive = false,
                 TokenExpirationDate = DateTime.UtcNow.AddMinutes(-1),
             };
         }

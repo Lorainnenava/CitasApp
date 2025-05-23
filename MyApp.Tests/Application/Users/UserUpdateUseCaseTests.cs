@@ -5,6 +5,7 @@ using MyApp.Application.DTOs.Users;
 using MyApp.Application.UseCases.Users;
 using MyApp.Domain.Entities;
 using MyApp.Domain.Interfaces.Infrastructure;
+using MyApp.Shared.Exceptions;
 using MyApp.Tests.Mocks;
 using System.Linq.Expressions;
 
@@ -34,33 +35,47 @@ namespace MyApp.Tests.Application.Users
         [Fact]
         public async Task Execute_ShouldReturnUserUpdatedSuccessfully()
         {
-            var userToUpdate = MockUser.MockOneUserEntityToUpdate();
+            var userToUpdate = MockUser.MockOneUserEntityToUpdateRequest();
             var expectedUser = MockUser.MockOneUserEntityUpdated();
+            var expectedUserEntity = MockUser.MockOneUserEntity();
 
-            _userRepositoryMock.Setup(x => x.Update(It.IsAny<Expression<Func<UsersEntity, bool>>>(), It.IsAny<UsersEntity>()))
+            _userRepositoryMock
+                .Setup(repo => repo.GetByCondition(It.IsAny<Expression<Func<UsersEntity, bool>>>()))
+                .ReturnsAsync(expectedUserEntity);
+
+            _userRepositoryMock.Setup(x => x.Update(It.IsAny<UsersEntity>(), It.IsAny<UsersEntity>()))
                 .ReturnsAsync(expectedUser);
 
             var result = await _useCase.Execute(1, userToUpdate);
 
             Assert.NotNull(result);
-            Assert.Equal("DevJane", result.UserName);
-            Assert.Equal("jane.doe567@example.com", result.Email);
+            Assert.Equal(expectedUser.FirstName, result.FirstName);
+            Assert.Equal(expectedUser.Email, result.Email);
         }
 
         [Fact]
         public async Task Execute_ShouldThrowApplicationException_WhenUpdateFails()
         {
-            var userToUpdate = MockUser.MockOneUserEntityToUpdate();
+            var userToUpdate = MockUser.MockOneUserEntityToUpdateRequest();
 
             _userRepositoryMock
-                .Setup(repo => repo.Update(It.IsAny<Expression<Func<UsersEntity, bool>>>(), It.IsAny<UsersEntity>()))
-                .ThrowsAsync(new Exception("DB Error"));
+                .Setup(repo => repo.GetByCondition(It.IsAny<Expression<Func<UsersEntity, bool>>>()))
+                .ReturnsAsync((UsersEntity)null!);
 
-            var exception = await Assert.ThrowsAsync<ApplicationException>(() => _useCase.Execute(1, userToUpdate));
+            var exception = await Assert.ThrowsAsync<NotFoundException>(() => _useCase.Execute(1, userToUpdate));
 
-            Assert.Contains("Ha ocurrido un error en la actualización del usuario", exception.Message);
-            Assert.NotNull(exception.InnerException);
-            Assert.Equal("DB Error", exception.InnerException.Message);
+            Assert.Contains("Usuario no encontrado.", exception.Message);
+        }
+
+        [Fact]
+        public async Task Execute_ShouldThrowValidationException_WhenRequestIsInvalid()
+        {
+            var userRequest = new UserUpdateRequest
+            {
+                Email = ""
+            };
+
+            await Assert.ThrowsAsync<FluentValidation.ValidationException>(() => _useCase.Execute(1, userRequest));
         }
     }
 }

@@ -43,8 +43,8 @@ namespace MyApp.Tests.Application.Users
             var result = await _useCase.Execute(1);
 
             Assert.NotNull(result);
-            Assert.Equal("NuevoUsuario", result.UserName);
-            Assert.Equal("luis@example.com", result.Email);
+            Assert.Equal(expectedUser.FirstName, result.FirstName);
+            Assert.Equal(expectedUser.Email, result.Email);
         }
 
         [Fact]
@@ -54,24 +54,8 @@ namespace MyApp.Tests.Application.Users
                 .Setup(repo => repo.GetByCondition(It.IsAny<Expression<Func<UsersEntity, bool>>>()))
                 .ReturnsAsync(null as UsersEntity);
 
-            await Assert.ThrowsAsync<NotFoundException>(() => _useCase.Execute(99));
-        }
-
-
-        [Fact]
-        public async Task Execute_ShouldThrowApplicationException_WhenGetByIdFails()
-        {
-            var userRequest = MockUser.MockOneUserRequest();
-
-            _userRepositoryMock
-                .Setup(repo => repo.GetByCondition(It.IsAny<Expression<Func<UsersEntity, bool>>>()))
-                .ThrowsAsync(new Exception("DB Error"));
-
-            var exception = await Assert.ThrowsAsync<ApplicationException>(() => _useCase.Execute(1));
-
-            Assert.Contains("Ha ocurrido un error al obtener un usuario", exception.Message);
-            Assert.NotNull(exception.InnerException);
-            Assert.Equal("DB Error", exception.InnerException.Message);
+            var exception = await Assert.ThrowsAsync<NotFoundException>(() => _useCase.Execute(99));
+            Assert.Contains("Usuario no encontrado.", exception.Message);
         }
     }
 }

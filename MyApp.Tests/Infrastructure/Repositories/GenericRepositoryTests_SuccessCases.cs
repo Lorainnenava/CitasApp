@@ -4,7 +4,7 @@ using MyApp.Infrastructure.Context;
 using MyApp.Infrastructure.Repositories;
 using MyApp.Tests.Mocks;
 
-namespace MyApp.Tests.Infrastructure
+namespace MyApp.Tests.Infrastructure.Repositories
 {
     public class GenericRepositoryTests_SuccessCases
     {

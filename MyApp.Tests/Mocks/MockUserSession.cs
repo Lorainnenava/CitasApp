@@ -20,7 +20,7 @@ namespace MyApp.Tests.Mocks
             return new UsersEntity
             {
                 Email = "user@example.com",
-                Password = "123456",
+                PasswordHash = "123456",
                 UserId = 1
             };
         }
@@ -39,7 +39,7 @@ namespace MyApp.Tests.Mocks
             return new RefreshTokensEntity
             {
                 SessionId = 99,
-                Active = true,
+                IsActive = true,
                 Token = "refreshToken123",
                 TokenExpirationDate = DateTime.UtcNow.AddDays(7),
             };
