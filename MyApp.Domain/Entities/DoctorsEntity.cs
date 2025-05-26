@@ -5,6 +5,7 @@
         public int DoctorId { get; set; }
         public int UserId { get; set; }
         public int SpecialtyId { get; set; }
+        public int HospitalId { get; set; }
         public string LicenseNumber { get; set; } = string.Empty;
         public int YearsExperience { get; set; }
         public bool IsActive { get; set; } = true;

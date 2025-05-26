@@ -3,6 +3,7 @@
     public class UsersEntity
     {
         public int UserId { get; set; }
+        public int HospitalId { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string? MiddleName { get; set; }
         public string LastName { get; set; } = string.Empty;
@@ -24,5 +25,6 @@
         public IdentificationTypesEntity IdentificationType { get; set; } = new();
         public GendersEntity Gender { get; set; } = new();
         public RolesEntity Role { get; set; } = new();
+        public HospitalsEntity Hospital { get; set; } = new();
     }
 }
