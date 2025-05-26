@@ -59,6 +59,5 @@ namespace MyApp.Infrastructure.Context
         public DbSet<UserAddressDetailsEntity> UserAddressDetails { get; set; }
         public DbSet<UsersEntity> Users { get; set; }
         public DbSet<UserSessionsEntity> UserSessions { get; set; }
-
     }
 }

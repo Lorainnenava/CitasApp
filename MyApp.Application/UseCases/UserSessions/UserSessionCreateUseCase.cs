@@ -64,9 +64,9 @@ namespace MyApp.Application.UseCases.UserSessions
             }
 
             var claims = new List<Claim>
-                {
-                    new(ClaimTypes.Sid, searchUser.UserId.ToString())
-                };
+            {
+                new(ClaimTypes.Sid, searchUser.UserId.ToString())
+            };
 
             var generateAccessToken = _jwtHandler.GenerateAccessToken(claims);
             var generateRefreshToken = await _jwtHandler.GenerateRefreshToken();

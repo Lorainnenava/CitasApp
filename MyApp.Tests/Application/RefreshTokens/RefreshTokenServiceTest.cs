@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Moq;
-using MyApp.Application.DTOs.UserSessions;
 using MyApp.Application.Interfaces.Infrastructure;
 using MyApp.Application.UseCases.RefreshTokens;
 using MyApp.Domain.Entities;
@@ -47,49 +47,40 @@ namespace MyApp.Tests.Application.RefreshTokens
                 .Setup(j => j.GenerateAccessToken(It.IsAny<List<Claim>>()))
                 .Returns("newAccessToken");
 
-            var request = new UserSessionResponse { RefreshToken = "myRefreshToken" };
-
-            var result = await _service.Execute(request);
+            var result = await _service.Execute("myRefreshToken");
 
             Assert.Equal("newAccessToken", result.AccessToken);
             Assert.Equal("myRefreshToken", result.RefreshToken);
         }
 
         [Fact]
+        public async Task Execute_EmptyRefreshToken_ThrowsValidationException()
+        {
+            var ex = await Assert.ThrowsAsync<ValidationException>(() => _service.Execute(""));
+            Assert.Contains("El refresh token es requerido.", ex.Message);
+        }
+
+        [Fact]
         public async Task Execute_WithExpiredRefreshToken_DeletesSessionAndThrowsException()
         {
             var refreshToken = MockRefreshToken.MockRefreshTokenEntityExpired();
+            var userSessionResponse = MockRefreshToken.MockUserSessionsEntityActiveFalse();
+            var refreshTokenResponse = MockRefreshToken.MockRefreshTokenEntityExpiredWithActiveFalse();
 
             _refreshTokenRepoMock
                 .Setup(r => r.GetByCondition(x => x.Token == It.IsAny<string>()))
                 .ReturnsAsync(refreshToken);
 
             _userSessionsRepoMock
-                .Setup(r => r.Delete(x => x.UserSessionId == It.IsAny<int>()))
-                .ReturnsAsync(true);
+                .Setup(r => r.Update(It.IsAny<UserSessionsEntity>()))
+                .ReturnsAsync(userSessionResponse);
 
             _refreshTokenRepoMock
-                .Setup(r => r.Delete(x => x.Token == It.IsAny<string>()))
-                .ReturnsAsync(true);
+                .Setup(r => r.Update(It.IsAny<RefreshTokensEntity>()))
+                .ReturnsAsync(refreshTokenResponse);
 
-            var request = new UserSessionResponse { RefreshToken = "expiredToken" };
-
-            var ex = await Assert.ThrowsAsync<ApplicationException>(() => _service.Execute(request));
-            Assert.Contains("La sessión expiro", ex.InnerException?.Message);
-        }
-
-        [Fact]
-        public async Task Execute_WhenRepositoryThrowsException_ThrowsApplicationException()
-        {
-            _refreshTokenRepoMock
-                .Setup(r => r.GetByCondition(It.IsAny<System.Linq.Expressions.Expression<Func<RefreshTokensEntity, bool>>>()))
-                .ThrowsAsync(new Exception("DB failure"));
-
-            var request = new UserSessionResponse { RefreshToken = "anyToken" };
-
-            var ex = await Assert.ThrowsAsync<ApplicationException>(() => _service.Execute(request));
-            Assert.Contains("Ha ocurrido un error", ex.Message);
-            Assert.Equal("DB failure", ex.InnerException?.Message);
+            var ex = await Assert.ThrowsAsync<UnauthorizedAccessException>(() => _service.Execute("expiredToken"));
+            Assert.Contains("La sessión ha expirado.", ex.Message);
         }
     }
 }

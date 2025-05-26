@@ -46,8 +46,34 @@ namespace MyApp.Tests.Mocks
                 RefreshTokenId = 1,
                 UserSessionId = 1,
                 Token = "expiredToken",
+                IsActive = true,
+                TokenExpirationDate = DateTime.UtcNow.AddMinutes(-1),
+            };
+        }
+
+        public static RefreshTokensEntity MockRefreshTokenEntityExpiredWithActiveFalse()
+        {
+            return new RefreshTokensEntity
+            {
+                RefreshTokenId = 1,
+                UserSessionId = 1,
+                Token = "expiredToken",
                 IsActive = false,
                 TokenExpirationDate = DateTime.UtcNow.AddMinutes(-1),
+            };
+        }
+
+        public static UserSessionsEntity MockUserSessionsEntityActiveFalse()
+        {
+            return new UserSessionsEntity
+            {
+                UserSessionId = 101,
+                UserId = 202,
+                IpAddress = "192.168.0.123",
+                IsRevoked = true,
+                ExpiresAt = DateTime.UtcNow,
+                CreatedAt = DateTime.UtcNow.AddDays(-1),
+                UpdatedAt = DateTime.UtcNow,
             };
         }
     }

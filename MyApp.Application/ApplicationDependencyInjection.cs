@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MyApp.Application.Interfaces.Services;
 using MyApp.Application.Interfaces.UseCases.Common;
+using MyApp.Application.Interfaces.UseCases.RefreshTokens;
 using MyApp.Application.Interfaces.UseCases.Users;
 using MyApp.Application.Interfaces.UseCases.UserSessions;
 using MyApp.Application.Services;
 using MyApp.Application.UseCases.Common;
+using MyApp.Application.UseCases.RefreshTokens;
 using MyApp.Application.UseCases.Users;
 using MyApp.Application.UseCases.UserSessions;
 
@@ -25,6 +27,8 @@ namespace MyApp.Application
 
             services.AddScoped<IUserSessionsCreateUseCase, UserSessionCreateUseCase>();
             services.AddScoped<IUserSessionRevokedUseCase, UserSessionRevokedUseCase>();
+
+            services.AddScoped<IRefreshTokenService, RefreshTokenService>();
 
             services.AddScoped(typeof(IGenericCreateUseCase<,>), typeof(GenericCreateUseCase<,>));
             services.AddScoped(typeof(IGenericGetAllUseCase<,>), typeof(GenericGetAllPaginatedUseCase<,>));

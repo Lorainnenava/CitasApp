@@ -4,6 +4,6 @@ namespace MyApp.Application.Interfaces.UseCases.RefreshTokens
 {
     public interface IRefreshTokenService
     {
-        Task<UserSessionResponse> Execute(UserSessionResponse request);
+        Task<UserSessionResponse> Execute(string RefreshToken);
     }
 }
