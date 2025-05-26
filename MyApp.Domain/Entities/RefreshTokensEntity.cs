@@ -3,7 +3,7 @@
     public class RefreshTokensEntity
     {
         public int RefreshTokenId { get; set; }
-        public int SessionId { get; set; }
+        public int UserSessionId { get; set; }
         public string Token { get; set; } = string.Empty;
         public DateTime TokenExpirationDate { get; set; }
         public bool IsActive { get; set; } = true;
@@ -11,6 +11,6 @@
         public DateTime UpdatedAt { get; set; }
 
         // Relaciones
-        public UserSessionsEntity Session { get; set; } = new();
+        public UserSessionsEntity UserSession { get; set; } = new();
     }
 }

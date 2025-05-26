@@ -33,6 +33,7 @@ namespace MyApp.Application.UseCases.Users
             }
 
             searchUser.IsActive = !searchUser.IsActive;
+            searchUser.UpdatedAt = DateTime.Now;
 
             var updateEntity = await _userRepository.Update(searchUser);
 

@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using MyApp.Application.DTOs.Users;
 
-namespace MyApp.Application.Validators
+namespace MyApp.Application.Validators.Users
 {
-    public class UserUpdateValidator : AbstractValidator<UserUpdateRequest>
+    public class UserCreateValidator : AbstractValidator<UserCreateRequest>
     {
-        public UserUpdateValidator()
+        public UserCreateValidator()
         {
             RuleFor(x => x.FirstName)
                 .NotEmpty().WithMessage("El campo FirstName es requerido.")
@@ -24,6 +24,14 @@ namespace MyApp.Application.Validators
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("El campo Email es requerido.")
                 .EmailAddress().WithMessage("El campo Email no es un correo electrónico válido.");
+
+            RuleFor(x => x.Password)
+                .NotEmpty().WithMessage("El campo Password es requerido.")
+                .Length(4, 10).WithMessage("Password debe tener entre 4 y 10 caracteres.");
+
+            RuleFor(x => x.IdentificatiónNumber)
+                .NotEmpty().WithMessage("El campo IdentificatiónNumber es requerido.")
+                .MaximumLength(20).WithMessage("IdentificatiónNumber debe tener máximo 20 caracteres.");
 
             RuleFor(x => x.IdentificationTypeId)
                 .NotEmpty().WithMessage("El campo IdentificationTypeId es requerido.");

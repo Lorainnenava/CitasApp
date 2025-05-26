@@ -2,9 +2,11 @@
 using MyApp.Application.DTOs.UserSessions;
 using MyApp.Application.Interfaces.Infrastructure;
 using MyApp.Application.Interfaces.UseCases.UserSessions;
+using MyApp.Application.Validators.UserSessions;
 using MyApp.Domain.Entities;
 using MyApp.Domain.Interfaces.Infrastructure;
 using MyApp.Shared.Exceptions;
+using MyApp.Shared.Services;
 using System.Security.Claims;
 
 namespace MyApp.Application.UseCases.UserSessions
@@ -15,6 +17,7 @@ namespace MyApp.Application.UseCases.UserSessions
         private readonly IGenericRepository<UserSessionsEntity> _userSessionsRepository;
         private readonly IGenericRepository<RefreshTokensEntity> _refreshTokensRepository;
         private readonly IJwtHandler _jwtHandler;
+        private readonly IPasswordHasherService _passwordHasherService;
         private readonly ILogger<UserSessionCreateUseCase> _logger;
 
         public UserSessionCreateUseCase(
@@ -22,29 +25,42 @@ namespace MyApp.Application.UseCases.UserSessions
             IGenericRepository<UserSessionsEntity> userSessionsRepository,
             IJwtHandler jwtHandler,
             IGenericRepository<RefreshTokensEntity> refreshTokensRepository,
+            IPasswordHasherService passwordHasherService,
             ILogger<UserSessionCreateUseCase> logger)
         {
             _logger = logger;
             _usersRepository = usersRepository;
+            _passwordHasherService = passwordHasherService;
             _userSessionsRepository = userSessionsRepository;
             _jwtHandler = jwtHandler;
             _refreshTokensRepository = refreshTokensRepository;
         }
 
-        public async Task<UserSessionResponseDto> Execute(UserSessionRequestDto request)
+        public async Task<UserSessionResponse> Execute(UserSessionRequest request)
         {
-            var searchUser = await _usersRepository.GetByCondition(x => x.Email == request.Email && x.Password == request.Password);
+            var validator = new UserSessionCreateValidator();
+            ValidatorHelper.ValidateAndThrow(request, validator);
+
+            var searchUser = await _usersRepository.GetByCondition(x => x.Email == request.Email);
 
             if (searchUser is null)
             {
-                _logger.LogWarning("El usuario con el email {Request.Email} ingreso credenciales invalidas", request.Email);
+                _logger.LogWarning("El usuario con el email {Email} ingresó credenciales inválidas", request.Email);
                 throw new InvalidDataException("Las credenciales son incorrectas.");
             }
 
-            if (searchUser.CodeValidation is not null || searchUser.IsActive is false)
+            if (searchUser.CodeValidation is not null || !searchUser.IsActive)
             {
-                _logger.LogWarning("El usuario con el email {email} esta inactivo", request.Email);
-                throw new NotFoundException("El usuario no existe o no esta activo.");
+                _logger.LogWarning("El usuario con el email {Email} está inactivo o no ha validado su cuenta", request.Email);
+                throw new NotFoundException("Cuenta inactiva o no verificada.");
+            }
+
+            bool isPasswordValid = _passwordHasherService.VerifyPassword(request.Password, searchUser.PasswordHash);
+
+            if (!isPasswordValid)
+            {
+                _logger.LogWarning("El usuario con el email {Email} ingresó una contraseña incorrecta", request.Email);
+                throw new InvalidDataException("Las credenciales son incorrectas.");
             }
 
             var claims = new List<Claim>
@@ -53,7 +69,7 @@ namespace MyApp.Application.UseCases.UserSessions
                 };
 
             var generateAccessToken = _jwtHandler.GenerateAccessToken(claims);
-            var generateRefreshToken = _jwtHandler.GenerateRefreshToken();
+            var generateRefreshToken = await _jwtHandler.GenerateRefreshToken();
 
             var dataToCreate = new UserSessionsEntity
             {
@@ -64,12 +80,12 @@ namespace MyApp.Application.UseCases.UserSessions
 
             var createUserSession = await _userSessionsRepository.Create(dataToCreate);
 
-            generateRefreshToken.SessionId = createUserSession.UserSessionId;
+            generateRefreshToken.UserSessionId = createUserSession.UserSessionId;
             var createRefreshToken = await _refreshTokensRepository.Create(generateRefreshToken);
 
-            _logger.LogInformation("Sesión creada exitosamente.");
+            _logger.LogInformation("Sesión creada exitosamente para el usuario {Email}", request.Email);
 
-            return new UserSessionResponseDto
+            return new UserSessionResponse
             {
                 AccessToken = generateAccessToken,
                 RefreshToken = generateRefreshToken.Token

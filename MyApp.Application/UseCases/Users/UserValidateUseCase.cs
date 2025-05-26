@@ -32,6 +32,8 @@ namespace MyApp.Application.UseCases.Users
             }
 
             searchUser.CodeValidation = null;
+            searchUser.IsActive = true;
+            searchUser.UpdatedAt = DateTime.Now;
 
             UsersEntity? updateEntity = await _userRepository.Update(searchUser);
 

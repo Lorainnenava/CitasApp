@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using MyApp.Application.DTOs.Users;
 using MyApp.Application.Interfaces.UseCases.Users;
-using MyApp.Application.Validators;
+using MyApp.Application.Validators.Users;
 using MyApp.Domain.Entities;
 using MyApp.Domain.Interfaces.Infrastructure;
 using MyApp.Shared.Exceptions;
@@ -34,6 +34,7 @@ namespace MyApp.Application.UseCases.Users
             ValidatorHelper.ValidateAndThrow(request, validator);
 
             var userMapped = _mapper.Map<UsersEntity>(request);
+            userMapped.UpdatedAt = DateTime.Now;
 
             UsersEntity? searchUser = await _userRepository.GetByCondition(x => x.UserId == UserId);
 

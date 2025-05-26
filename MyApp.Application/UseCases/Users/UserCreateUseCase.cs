@@ -4,7 +4,7 @@ using MyApp.Application.DTOs.Users;
 using MyApp.Application.Interfaces.Infrastructure;
 using MyApp.Application.Interfaces.Services;
 using MyApp.Application.Interfaces.UseCases.Users;
-using MyApp.Application.Validators;
+using MyApp.Application.Validators.Users;
 using MyApp.Domain.Entities;
 using MyApp.Domain.Interfaces.Infrastructure;
 using MyApp.Shared.Exceptions;

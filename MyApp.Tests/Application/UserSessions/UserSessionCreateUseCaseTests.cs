@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
+using MyApp.Application.DTOs.UserSessions;
 using MyApp.Application.Interfaces.Infrastructure;
 using MyApp.Application.UseCases.UserSessions;
 using MyApp.Domain.Entities;
 using MyApp.Domain.Interfaces.Infrastructure;
+using MyApp.Shared.Exceptions;
 using MyApp.Tests.Mocks;
 using System.Linq.Expressions;
 using System.Security.Claims;
@@ -17,6 +19,7 @@ namespace MyApp.Tests.Application.UserSessions
         private readonly Mock<IGenericRepository<RefreshTokensEntity>> _refreshTokensRepoMock;
         private readonly Mock<IJwtHandler> _jwtHandlerMock;
         private readonly UserSessionCreateUseCase _useCase;
+        private readonly Mock<IPasswordHasherService> _passwordHasherMock;
         private readonly Mock<ILogger<UserSessionCreateUseCase>> _loggerMock;
 
         public UserSessionCreateUseCaseTests()
@@ -26,12 +29,14 @@ namespace MyApp.Tests.Application.UserSessions
             _refreshTokensRepoMock = new Mock<IGenericRepository<RefreshTokensEntity>>();
             _jwtHandlerMock = new Mock<IJwtHandler>();
             _loggerMock = new Mock<ILogger<UserSessionCreateUseCase>>();
+            _passwordHasherMock = new Mock<IPasswordHasherService>();
 
             _useCase = new UserSessionCreateUseCase(
                 _usersRepoMock.Object,
                 _userSessionsRepoMock.Object,
                 _jwtHandlerMock.Object,
                 _refreshTokensRepoMock.Object,
+                _passwordHasherMock.Object,
                 _loggerMock.Object
             );
         }
@@ -40,24 +45,25 @@ namespace MyApp.Tests.Application.UserSessions
         public async Task Execute_WithValidCredentials_ReturnsAccessAndRefreshToken()
         {
             var request = MockUserSession.MockUserSessionsRequestDto();
-
-            var user = MockUserSession.MockUsersEntity();
-
+            var user = MockUserSession.MockUsersEntityCorrect();
             var createdSession = MockUserSession.MockUserSessionsEntity();
-
             var refreshToken = MockUserSession.MockRefreshTokensEntity();
 
             _usersRepoMock
                 .Setup(r => r.GetByCondition(It.IsAny<Expression<Func<UsersEntity, bool>>>()))
                 .ReturnsAsync(user);
 
+            _passwordHasherMock
+                .Setup(service => service.VerifyPassword(request.Password, user.PasswordHash))
+                .Returns(true);
+
             _jwtHandlerMock
                 .Setup(j => j.GenerateAccessToken(It.IsAny<List<Claim>>()))
                 .Returns("accessToken123");
 
             _jwtHandlerMock
-                .Setup(j => j.GenerateRefreshToken(1))
-                .Returns(refreshToken);
+                .Setup(j => j.GenerateRefreshToken())
+                .ReturnsAsync(It.IsAny<RefreshTokensEntity>());
 
             _userSessionsRepoMock
                 .Setup(r => r.Create(It.IsAny<UserSessionsEntity>()))
@@ -82,23 +88,49 @@ namespace MyApp.Tests.Application.UserSessions
                 .Setup(r => r.GetByCondition(It.IsAny<Expression<Func<UsersEntity, bool>>>()))
                 .ReturnsAsync((UsersEntity)null!);
 
-            var ex = await Assert.ThrowsAsync<ApplicationException>(() => _useCase.Execute(request));
-
-            Assert.Contains("Las credenciales son incorrectas", ex.InnerException?.Message);
+            var ex = await Assert.ThrowsAsync<InvalidDataException>(() => _useCase.Execute(request));
+            Assert.Contains("Las credenciales son incorrectas.", ex.Message);
         }
 
         [Fact]
-        public async Task Execute_WhenRepositoryThrows_ThrowsApplicationException()
+        public async Task Execute_WithInactiveUser_ThrowsNotFoundException()
+        {
+            var request = MockUserSession.MockUserSessionsRequestDto();
+            var user = MockUserSession.MockUserSessionsEntityWithNotActive();
+
+            _usersRepoMock.Setup(r => r.GetByCondition(It.IsAny<Expression<Func<UsersEntity, bool>>>()))
+                .ReturnsAsync(user);
+
+            var ex = await Assert.ThrowsAsync<NotFoundException>(() => _useCase.Execute(request));
+            Assert.Contains("Cuenta inactiva o no verificada.", ex.Message);
+        }
+
+        [Fact]
+        public async Task Execute_WithInvalidPassword_ThrowsInvalidDataException()
         {
             var request = MockUserSession.MockUserSessionsRequestDtoWrong();
+            var user = MockUserSession.MockUsersEntityCorrect();
 
-            _usersRepoMock
-                .Setup(r => r.GetByCondition(It.IsAny<Expression<Func<UsersEntity, bool>>>()))
-                .ThrowsAsync(new Exception("DB error"));
+            _usersRepoMock.Setup(r => r.GetByCondition(It.IsAny<Expression<Func<UsersEntity, bool>>>()))
+                .ReturnsAsync(user);
 
-            var ex = await Assert.ThrowsAsync<ApplicationException>(() => _useCase.Execute(request));
-            Assert.Contains("Ha ocurrido un error al momento de inciar sesión", ex.Message);
-            Assert.Equal("DB error", ex.InnerException?.Message);
+            _passwordHasherMock.Setup(p => p.VerifyPassword(request.Password, user.PasswordHash))
+                .Returns(false);
+
+            var ex = await Assert.ThrowsAsync<InvalidDataException>(() => _useCase.Execute(request));
+            Assert.Contains("Las credenciales son incorrectas.", ex.Message);
+        }
+
+        [Fact]
+        public async Task Execute_ShouldThrowValidationException_WhenRequestIsInvalid()
+        {
+            var userRequest = new UserSessionRequest
+            {
+                Email = "",
+                Password = "123"
+            };
+
+            await Assert.ThrowsAsync<FluentValidation.ValidationException>(() => _useCase.Execute(userRequest));
         }
     }
 }

@@ -2,6 +2,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using MyApp.Application.DTOs.Common;
+using MyApp.Domain.Entities;
+using MyApp.Domain.Interfaces.Infrastructure;
 using MyApp.Infrastructure.Security;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -22,7 +24,13 @@ namespace MyApp.Tests.Infrastructure.Security
             });
 
             var loggerMock = new Mock<ILogger<JwtTokenService>>();
-            var service = new JwtTokenService(loggerMock.Object, jwtSettings);
+            var refreshTokenRepoMock = new Mock<IGenericRepository<RefreshTokensEntity>>();
+
+            var service = new JwtTokenService(
+                loggerMock.Object,
+                jwtSettings,
+                refreshTokenRepoMock.Object
+            );
 
             var claims = new List<Claim>
             {
@@ -42,7 +50,7 @@ namespace MyApp.Tests.Infrastructure.Security
         }
 
         [Fact]
-        public void GenerateRefreshToken_ShouldReturnValidRefreshToken()
+        public async Task GenerateRefreshToken_ShouldReturnValidRefreshToken()
         {
             var jwtSettings = Options.Create(new JwtSettings
             {
@@ -50,9 +58,20 @@ namespace MyApp.Tests.Infrastructure.Security
             });
 
             var loggerMock = new Mock<ILogger<JwtTokenService>>();
-            var service = new JwtTokenService(loggerMock.Object, jwtSettings);
+            var refreshTokenRepoMock = new Mock<IGenericRepository<RefreshTokensEntity>>();
 
-            var refreshToken = service.GenerateRefreshToken();
+            // Simula que ningún token generado existe aún (para evitar bucle infinito)
+            refreshTokenRepoMock
+                .Setup(repo => repo.GetByCondition(It.IsAny<System.Linq.Expressions.Expression<Func<RefreshTokensEntity, bool>>>()))
+                .ReturnsAsync((RefreshTokensEntity)null!);
+
+            var service = new JwtTokenService(
+                loggerMock.Object,
+                jwtSettings,
+                refreshTokenRepoMock.Object
+            );
+
+            var refreshToken = await service.GenerateRefreshToken();
 
             Assert.NotNull(refreshToken);
             Assert.True(refreshToken.IsActive);
@@ -72,14 +91,17 @@ namespace MyApp.Tests.Infrastructure.Security
             });
 
             var loggerMock = new Mock<ILogger<JwtTokenService>>();
-            var service = new JwtTokenService(loggerMock.Object, jwtSettings);
+            var refreshTokenRepoMock = new Mock<IGenericRepository<RefreshTokensEntity>>();
+
+            var service = new JwtTokenService(
+                loggerMock.Object,
+                jwtSettings,
+                refreshTokenRepoMock.Object
+            );
 
             var claims = new List<Claim> { new Claim(ClaimTypes.Name, "test") };
 
             Assert.ThrowsAny<Exception>(() => service.GenerateAccessToken(claims));
         }
-
-
     }
-
 }

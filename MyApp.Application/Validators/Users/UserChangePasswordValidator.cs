@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using MyApp.Application.DTOs.Users;
 
-namespace MyApp.Application.Validators
+namespace MyApp.Application.Validators.Users
 {
     public class UserChangePasswordValidator : AbstractValidator<UserChangePasswordRequest>
     {

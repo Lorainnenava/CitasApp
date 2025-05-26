@@ -47,7 +47,7 @@ namespace MyApp.Tests.Application.RefreshTokens
                 .Setup(j => j.GenerateAccessToken(It.IsAny<List<Claim>>()))
                 .Returns("newAccessToken");
 
-            var request = new UserSessionResponseDto { RefreshToken = "myRefreshToken" };
+            var request = new UserSessionResponse { RefreshToken = "myRefreshToken" };
 
             var result = await _service.Execute(request);
 
@@ -72,7 +72,7 @@ namespace MyApp.Tests.Application.RefreshTokens
                 .Setup(r => r.Delete(x => x.Token == It.IsAny<string>()))
                 .ReturnsAsync(true);
 
-            var request = new UserSessionResponseDto { RefreshToken = "expiredToken" };
+            var request = new UserSessionResponse { RefreshToken = "expiredToken" };
 
             var ex = await Assert.ThrowsAsync<ApplicationException>(() => _service.Execute(request));
             Assert.Contains("La sessión expiro", ex.InnerException?.Message);
@@ -85,7 +85,7 @@ namespace MyApp.Tests.Application.RefreshTokens
                 .Setup(r => r.GetByCondition(It.IsAny<System.Linq.Expressions.Expression<Func<RefreshTokensEntity, bool>>>()))
                 .ThrowsAsync(new Exception("DB failure"));
 
-            var request = new UserSessionResponseDto { RefreshToken = "anyToken" };
+            var request = new UserSessionResponse { RefreshToken = "anyToken" };
 
             var ex = await Assert.ThrowsAsync<ApplicationException>(() => _service.Execute(request));
             Assert.Contains("Ha ocurrido un error", ex.Message);

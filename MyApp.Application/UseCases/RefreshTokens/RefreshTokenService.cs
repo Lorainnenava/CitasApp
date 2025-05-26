@@ -27,22 +27,22 @@ namespace MyApp.Application.UseCases.RefreshTokens
             _refreshTokensRepository = refreshTokensRepository;
         }
 
-        public async Task<UserSessionResponseDto> Execute(UserSessionResponseDto request)
+        public async Task<UserSessionResponse> Execute(UserSessionResponse request)
         {
             _logger.LogInformation("Iniciando la actualización de token para refresh token: {RefreshToken}", request.RefreshToken);
 
             var searchRefreshToken = await _refreshTokensRepository.GetByCondition(x => x.Token == request.RefreshToken, x => x.Session);
 
-            if (searchRefreshToken is null || !searchRefreshToken.Active || searchRefreshToken.TokenExpirationDate <= DateTime.UtcNow)
+            if (searchRefreshToken is null || !searchRefreshToken.UserSessionId || searchRefreshToken.TokenExpirationDate <= DateTime.UtcNow)
             {
                 _logger.LogWarning("Refresh token inválido o expirado. Token: {RefreshToken}", request.RefreshToken);
 
-                if (searchRefreshToken?.SessionId is not null)
+                if (searchRefreshToken?.UserSessionId is not null)
                 {
-                    await _userSessionsRepository.Delete(x => x.UserSessionId == searchRefreshToken.SessionId);
-                    await _refreshTokensRepository.Delete(x => x.SessionId == searchRefreshToken.SessionId);
+                    await _userSessionsRepository.Delete(x => x.UserSessionId == searchRefreshToken.UserSessionId);
+                    await _refreshTokensRepository.Delete(x => x.UserSessionId == searchRefreshToken.UserSessionId);
 
-                    _logger.LogInformation("Sesión y token eliminados para SessionId: {SessionId}", searchRefreshToken.SessionId);
+                    _logger.LogInformation("Sesión y token eliminados para UserSessionId: {UserSessionId}", searchRefreshToken.UserSessionId);
                 }
 
                 throw new UnauthorizedAccessException("La sessión expiro");
@@ -57,7 +57,7 @@ namespace MyApp.Application.UseCases.RefreshTokens
 
             _logger.LogInformation("Nuevo token generado exitosamente para el usuario {UserId}", searchRefreshToken.Session.UserId);
 
-            return new UserSessionResponseDto { AccessToken = generateAccessToken, RefreshToken = request.RefreshToken };
+            return new UserSessionResponse { AccessToken = generateAccessToken, RefreshToken = request.RefreshToken };
         }
     }
 }

@@ -6,6 +6,6 @@ namespace MyApp.Application.Interfaces.Infrastructure
     public interface IJwtHandler
     {
         string GenerateAccessToken(IEnumerable<Claim> claims);
-        RefreshTokensEntity GenerateRefreshToken();
+        Task<RefreshTokensEntity> GenerateRefreshToken();
     }
 }

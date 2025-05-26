@@ -1,7 +1,6 @@
 ﻿using MyApp.Shared.DTOs;
 using MyApp.Shared.Exceptions;
 using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 using System.Net;
 
 namespace MyApp.Presentation.MiddlewaresAndFilters
@@ -40,12 +39,10 @@ namespace MyApp.Presentation.MiddlewaresAndFilters
             // Manejo de excepciones específicas
             switch (ex)
             {
-                case ValidationException validationEx:
+                case FluentValidation.ValidationException validationEx:
                     statusCode = HttpStatusCode.BadRequest;
-                    if (validationEx.ValidationResult != null)
-                    {
-                        errors = validationEx.ValidationResult.MemberNames.ToList();
-                    }
+                    errorMessage = "Uno o más errores de validación ocurrieron.";
+                    errors = validationEx.Errors.Select(e => $"{e.PropertyName}: {e.ErrorMessage}").ToList();
                     break;
 
                 case NotFoundException:

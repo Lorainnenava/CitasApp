@@ -1,9 +1,8 @@
-﻿using AutoMapper;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using MyApp.Application.DTOs.Users;
 using MyApp.Application.Interfaces.Infrastructure;
 using MyApp.Application.Interfaces.UseCases.Users;
-using MyApp.Application.Validators;
+using MyApp.Application.Validators.Users;
 using MyApp.Domain.Entities;
 using MyApp.Domain.Interfaces.Infrastructure;
 using MyApp.Shared.Exceptions;
@@ -14,18 +13,15 @@ namespace MyApp.Application.UseCases.Users
     public class UserChangePasswordUseCase : IUserChangePasswordUseCase
     {
         private readonly IGenericRepository<UsersEntity> _userRepository;
-        private readonly IMapper _mapper;
         private readonly ILogger<UserChangePasswordUseCase> _logger;
         private readonly IPasswordHasherService _passwordHasherService;
 
         public UserChangePasswordUseCase(
             IGenericRepository<UsersEntity> userRepository,
-            IMapper mapper,
             ILogger<UserChangePasswordUseCase> logger,
             IPasswordHasherService passwordHasherService)
         {
             _userRepository = userRepository;
-            _mapper = mapper;
             _logger = logger;
             _passwordHasherService = passwordHasherService;
         }
@@ -54,6 +50,7 @@ namespace MyApp.Application.UseCases.Users
             }
 
             user.PasswordHash = _passwordHasherService.HashPassword(request.NewPassword);
+            user.UpdatedAt = DateTime.Now;
 
             await _userRepository.Update(user);
 

@@ -4,6 +4,6 @@ namespace MyApp.Application.Interfaces.UseCases.UserSessions
 {
     public interface IUserSessionsCreateUseCase
     {
-        Task<UserSessionResponseDto> Execute(UserSessionRequestDto request);
+        Task<UserSessionResponse> Execute(UserSessionRequest request);
     }
 }

@@ -24,6 +24,7 @@ namespace MyApp.Application
             services.AddScoped<IUserChangePasswordUseCase, UserChangePasswordUseCase>();
 
             services.AddScoped<IUserSessionsCreateUseCase, UserSessionCreateUseCase>();
+            services.AddScoped<IUserSessionRevokedUseCase, UserSessionRevokedUseCase>();
 
             services.AddScoped(typeof(IGenericCreateUseCase<,>), typeof(GenericCreateUseCase<,>));
             services.AddScoped(typeof(IGenericGetAllUseCase<,>), typeof(GenericGetAllPaginatedUseCase<,>));

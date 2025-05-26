@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using MyApp.Application.DTOs.Common;
 using MyApp.Application.Interfaces.Infrastructure;
 using MyApp.Domain.Entities;
+using MyApp.Domain.Interfaces.Infrastructure;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -14,11 +15,16 @@ namespace MyApp.Infrastructure.Security
     {
         private readonly JwtSettings _jwtSettings;
         private readonly ILogger<JwtTokenService> _logger;
+        private readonly IGenericRepository<RefreshTokensEntity> _refreshTokenRepository;
 
-        public JwtTokenService(ILogger<JwtTokenService> logger, IOptions<JwtSettings> jwtSettings)
+        public JwtTokenService(
+            ILogger<JwtTokenService> logger,
+            IOptions<JwtSettings> jwtSettings,
+            IGenericRepository<RefreshTokensEntity> refreshTokenRepository)
         {
             _logger = logger;
             _jwtSettings = jwtSettings.Value;
+            _refreshTokenRepository = refreshTokenRepository;
         }
 
         public string GenerateAccessToken(IEnumerable<Claim> claims)
@@ -48,14 +54,24 @@ namespace MyApp.Infrastructure.Security
             }
         }
 
-        public RefreshTokensEntity GenerateRefreshToken()
+        public async Task<RefreshTokensEntity> GenerateRefreshToken()
         {
             try
             {
+                string token;
+                RefreshTokensEntity? existingToken;
+                do
+                {
+                    token = Guid.NewGuid().ToString("N");
+
+                    existingToken = await _refreshTokenRepository.GetByCondition(x => x.Token == token);
+                }
+                while (existingToken != null);
+
                 var refreshToken = new RefreshTokensEntity
                 {
                     IsActive = true,
-                    Token = Guid.NewGuid().ToString("N"),
+                    Token = token,
                     TokenExpirationDate = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpirationDays),
                 };
 
@@ -68,7 +84,6 @@ namespace MyApp.Infrastructure.Security
                 _logger.LogError(ex, "Error al generar el token de refresco.");
                 throw;
             }
-
         }
     }
 }
