@@ -15,6 +15,7 @@ namespace MyApp.Application.UseCases.Users
     public class UserCreateUseCase : IUserCreateUseCase
     {
         private readonly IGenericRepository<UsersEntity> _userRepository;
+        private readonly IGenericRepository<HospitalsEntity> _hospitalRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<UserCreateUseCase> _logger;
         private readonly IPasswordHasherService _passwordHasherService;
@@ -25,11 +26,13 @@ namespace MyApp.Application.UseCases.Users
             IMapper mapper,
             ILogger<UserCreateUseCase> logger,
             IPasswordHasherService passwordHasherService,
-            ICodeGeneratorService codeGeneratorService)
+            ICodeGeneratorService codeGeneratorService,
+            IGenericRepository<HospitalsEntity> hospitalEntity)
         {
             _logger = logger;
             _userRepository = userRepository;
             _mapper = mapper;
+            _hospitalRepository = hospitalEntity;
             _passwordHasherService = passwordHasherService;
             _codeGeneratorService = codeGeneratorService;
         }
@@ -47,6 +50,14 @@ namespace MyApp.Application.UseCases.Users
             {
                 _logger.LogWarning("Intento de crear usuario con un email ya existente: {Email}", request.Email);
                 throw new AlreadyExistsException($"El email '{request.Email}' ya está registrado.");
+            }
+
+            var hospitalExisted = await _hospitalRepository.GetByCondition(x => x.HospitalId == request.HospitalId);
+
+            if (hospitalExisted is null)
+            {
+                _logger.LogWarning("Intento de crear usuario con un HospitalId no existente: {HospitalId}", request.HospitalId);
+                throw new NotFoundException($"El hospital con el HospitalId '{request.HospitalId}' no existe.");
             }
 
             var entityMapped = _mapper.Map<UsersEntity>(request);

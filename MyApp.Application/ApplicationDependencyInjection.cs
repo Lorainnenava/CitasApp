@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MyApp.Application.Interfaces.Services;
+using MyApp.Application.Interfaces.UseCases.ChangeHospitalRequests;
 using MyApp.Application.Interfaces.UseCases.Common;
 using MyApp.Application.Interfaces.UseCases.RefreshTokens;
 using MyApp.Application.Interfaces.UseCases.Users;
 using MyApp.Application.Interfaces.UseCases.UserSessions;
 using MyApp.Application.Services;
+using MyApp.Application.UseCases.ChangeHospitalRequests;
 using MyApp.Application.UseCases.Common;
 using MyApp.Application.UseCases.RefreshTokens;
 using MyApp.Application.UseCases.Users;
@@ -29,6 +31,11 @@ namespace MyApp.Application
             services.AddScoped<IUserSessionRevokedUseCase, UserSessionRevokedUseCase>();
 
             services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+
+            services.AddScoped<IChangeHospitalRequestChangeStateUseCase, ChangeHospitalRequestChangeStateUseCase>();
+            services.AddScoped<IChangeHospitalRequestCreateUseCase, ChangeHospitalRequestCreateUseCase>();
+            services.AddScoped<IChangeHospitalRequestGetByIdUseCase, ChangeHospitalRequestGetByIdUseCase>();
+            services.AddScoped<IChangeHospitalRequestGetAllPaginatedUseCase, ChangeHospitalRequestGetAllPaginatedUseCase>();
 
             services.AddScoped(typeof(IGenericCreateUseCase<,>), typeof(GenericCreateUseCase<,>));
             services.AddScoped(typeof(IGenericGetAllUseCase<,>), typeof(GenericGetAllPaginatedUseCase<,>));

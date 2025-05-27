@@ -21,6 +21,7 @@ namespace MyApp.Tests.Application.Users
         private readonly Mock<ILogger<UserCreateUseCase>> _loggerMock;
         private readonly Mock<ICodeGeneratorService> _codeGeneratorServiceMock;
         private readonly Mock<IPasswordHasherService> _passwordHasherServiceMock;
+        private readonly Mock<IGenericRepository<HospitalsEntity>> _hospitalRepositoryMock;
 
         public UserCreateUseCaseTests()
         {
@@ -28,6 +29,7 @@ namespace MyApp.Tests.Application.Users
             _loggerMock = new Mock<ILogger<UserCreateUseCase>>();
             _codeGeneratorServiceMock = new Mock<ICodeGeneratorService>();
             _passwordHasherServiceMock = new Mock<IPasswordHasherService>();
+            _hospitalRepositoryMock = new Mock<IGenericRepository<HospitalsEntity>>();
 
             var config = new MapperConfiguration(cfg =>
             {
@@ -41,7 +43,8 @@ namespace MyApp.Tests.Application.Users
                 _mapper,
                 _loggerMock.Object,
                 _passwordHasherServiceMock.Object,
-                _codeGeneratorServiceMock.Object);
+                _codeGeneratorServiceMock.Object,
+                _hospitalRepositoryMock.Object);
         }
 
         [Fact]
@@ -49,6 +52,7 @@ namespace MyApp.Tests.Application.Users
         {
             var userEntity = MockUser.MockOneUserEntityWithCodeValidation();
             var userRequest = MockUser.MockOneUserRequest();
+            var hospitalResponse = MockHospital.MockHospitalEntity();
 
             _userRepositoryMock
                 .Setup(repo => repo.GetByCondition(It.IsAny<Expression<Func<UsersEntity, bool>>>()))
@@ -62,6 +66,9 @@ namespace MyApp.Tests.Application.Users
                 .Setup(service => service.HashPassword(userRequest.Password))
                 .Returns("hashed_password_placeholder");
 
+            _hospitalRepositoryMock
+                .Setup(repo => repo.GetByCondition(It.IsAny<Expression<Func<HospitalsEntity, bool>>>()))
+                .ReturnsAsync(hospitalResponse);
 
             _userRepositoryMock
                 .Setup(x => x.Create(It.IsAny<UsersEntity>()))
@@ -87,6 +94,24 @@ namespace MyApp.Tests.Application.Users
             var exception = await Assert.ThrowsAsync<AlreadyExistsException>(() => _useCase.Execute(userRequest));
 
             Assert.Equal("El email 'usuario.prueba@example.com' ya está registrado.", exception.Message);
+        }
+
+        [Fact]
+        public async Task Execute_ShouldThrowConflictException_WhenHospitalNotExists()
+        {
+            var userRequest = MockUser.MockOneUserRequest();
+
+            _userRepositoryMock
+                .Setup(repo => repo.GetByCondition(It.IsAny<Expression<Func<UsersEntity, bool>>>()))
+                .ReturnsAsync((UsersEntity)null!);
+
+            _hospitalRepositoryMock
+                .Setup(repo => repo.GetByCondition(It.IsAny<Expression<Func<HospitalsEntity, bool>>>()))
+                .ReturnsAsync((HospitalsEntity)null!);
+
+            var exception = await Assert.ThrowsAsync<NotFoundException>(() => _useCase.Execute(userRequest));
+
+            Assert.Equal("El hospital con el HospitalId '1' no existe.", exception.Message);
         }
 
         [Fact]

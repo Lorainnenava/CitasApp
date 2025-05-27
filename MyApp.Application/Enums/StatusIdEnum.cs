@@ -13,6 +13,9 @@
         Confirmada = 9,
         Cancelada = 10,
         Reprogramada = 11,
-        NoPresentada = 12
+        NoPresentada = 12,
+        EnEstudio = 13,
+        Aceptada = 14,
+        Rechazada = 15
     }
 }

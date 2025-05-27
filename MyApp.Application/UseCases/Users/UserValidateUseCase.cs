@@ -37,6 +37,8 @@ namespace MyApp.Application.UseCases.Users
 
             UsersEntity? updateEntity = await _userRepository.Update(searchUser);
 
+            _logger.LogInformation("Usuario con código de verificación {Code} validado exitosamente.", code);
+
             return true;
         }
     }

@@ -52,13 +52,13 @@ namespace MyApp.Presentation.Controllers
             return Ok(result);
         }
 
-        [HttpGet("getAll")]
+        [HttpGet("getAll/{HospitalId}")]
         [AllowAnonymous]
         public async Task<ActionResult<PaginationResult<UserResponse>>> GetAllUsers(
             [FromQuery] int page = 1,
-            [FromQuery] int size = 10)
+            [FromQuery] int size = 10, int HospitalId)
         {
-            var result = await _userGetAllUseCase.Execute(page, size);
+            var result = await _userGetAllUseCase.Execute(page, size, HospitalId);
             return Ok(result);
         }
 

@@ -29,7 +29,7 @@ namespace MyApp.Presentation.Controllers
         }
 
         [HttpGet("logout/{refreshToken}")]
-        [Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> GetByIdUser(string refreshToken)
         {
             var result = await _userSessionRevokedUseCase.Execute(refreshToken);

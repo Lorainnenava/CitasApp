@@ -35,9 +35,6 @@ namespace MyApp.Application.Validators.Users
                 .NotEmpty().WithMessage("El campo DateOfBirth es requerido.")
                 .LessThan(DateTime.Now).WithMessage("La fecha de nacimiento debe ser anterior a la fecha actual.");
 
-            RuleFor(x => x.RoleId)
-                .NotEmpty().WithMessage("El campo RoleId es requerido.");
-
             RuleFor(x => x.Phone)
                 .NotEmpty().WithMessage("El campo Phone es requerido.")
                 .Length(10).WithMessage("Phone debe tener exactamente 10 caracteres.");

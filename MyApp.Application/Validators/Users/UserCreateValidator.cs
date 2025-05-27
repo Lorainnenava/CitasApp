@@ -11,6 +11,9 @@ namespace MyApp.Application.Validators.Users
                 .NotEmpty().WithMessage("El campo FirstName es requerido.")
                 .Length(4, 20).WithMessage("FirstName debe tener entre 4 y 20 caracteres.");
 
+            RuleFor(x => x.HospitalId)
+                .NotEmpty().WithMessage("El campo HospitalId es requerido.");
+
             RuleFor(x => x.MiddleName)
                 .MaximumLength(20).WithMessage("MiddleName debe tener máximo 20 caracteres.");
 

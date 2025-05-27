@@ -17,7 +17,7 @@ namespace MyApp.Presentation.Controllers
 
         [HttpPost("RefreshToken")]
         [AllowAnonymous]
-        public async Task<IActionResult> CreateUser([FromBody] string RefreshToken)
+        public async Task<IActionResult> RefreshToken([FromBody] string RefreshToken)
         {
             var result = await _refreshTokenService.Execute(RefreshToken);
             return Ok(result);

@@ -40,7 +40,7 @@ namespace MyApp.Tests.Infrastructure.Repositories
             Assert.NotNull(result);
             Assert.Equal(3, _dbContext.Users.Count());
             Assert.Equal("usuario.prueba@example.com", result.Email);
-            Assert.True(await _dbContext.Users.AnyAsync(p => p.IdentificatiónNumber == "1234567890"));
+            Assert.True(await _dbContext.Users.AnyAsync(p => p.IdentificationNumber == "1234567890"));
         }
 
         [Fact]
@@ -61,7 +61,7 @@ namespace MyApp.Tests.Infrastructure.Repositories
             Assert.Equal(2, result.Count());
             Assert.Collection(result,
                 item => Assert.Equal("usuario.prueba@example.com", item.Email),
-                item => Assert.Equal("23456789", item.IdentificatiónNumber)
+                item => Assert.Equal("23456789", item.IdentificationNumber)
             );
 
         }
@@ -89,7 +89,7 @@ namespace MyApp.Tests.Infrastructure.Repositories
             Assert.NotNull(result);
             Assert.Equal("+57 300 123 4685", result.Phone);
             Assert.Equal("Segundo apellido", result.SecondName);
-            Assert.Equal("1234567890", result.IdentificatiónNumber);
+            Assert.Equal("1234567890", result.IdentificationNumber);
         }
 
         [Fact]

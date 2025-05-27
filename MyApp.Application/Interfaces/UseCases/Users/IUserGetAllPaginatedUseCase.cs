@@ -5,6 +5,6 @@ namespace MyApp.Application.Interfaces.UseCases.Users
 {
     public interface IUserGetAllPaginatedUseCase
     {
-        Task<PaginationResult<UserResponse>> Execute(int Page, int Size);
+        Task<PaginationResult<UserListResponse>> Execute(int Page, int Size, int HospitalId);
     }
 }

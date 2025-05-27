@@ -104,14 +104,18 @@ namespace MyApp.Infrastructure.Seeders
                 new StatusesEntity { StatusId = 9, Name = "Confirmada", StatusTypeId = 1 },
                 new StatusesEntity { StatusId = 10, Name = "Cancelada", StatusTypeId = 1 },
                 new StatusesEntity { StatusId = 11, Name = "Reprogramada", StatusTypeId = 1 },
-                new StatusesEntity { StatusId = 12, Name = "No presentada", StatusTypeId = 1 }
+                new StatusesEntity { StatusId = 12, Name = "No presentada", StatusTypeId = 1 },
+                new StatusesEntity { StatusId = 13, Name = "En estudio", StatusTypeId = 4 },
+                new StatusesEntity { StatusId = 14, Name = "Aceptada", StatusTypeId = 4 },
+                new StatusesEntity { StatusId = 15, Name = "Rechazada", StatusTypeId = 4 }
             );
 
             // Tipos de estados
             modelBuilder.Entity<StatusTypesEntity>().HasData(
                 new StatusTypesEntity { StatusTypeId = 1, Name = "Citas medicas" },
                 new StatusTypesEntity { StatusTypeId = 2, Name = "Pagos citas medicas" },
-                new StatusTypesEntity { StatusTypeId = 3, Name = "Ordenes medicas" }
+                new StatusTypesEntity { StatusTypeId = 3, Name = "Ordenes medicas" },
+                new StatusTypesEntity { StatusTypeId = 4, Name = "Solicitudes de cambio" }
             );
 
             // Tipos de ordenes

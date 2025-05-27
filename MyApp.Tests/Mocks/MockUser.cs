@@ -18,7 +18,7 @@ namespace MyApp.Tests.Mocks
                     SecondName = null,
                     Email = "usuario.prueba@example.com",
                     PasswordHash = "hashed_password_placeholder",
-                    IdentificatiónNumber = "1234567890",
+                    IdentificationNumber = "1234567890",
                     IdentificationTypeId = 1,
                     GenderId = 1,
                     DateOfBirth = new DateTime(2004, 7, 23),
@@ -38,7 +38,7 @@ namespace MyApp.Tests.Mocks
                     SecondName = null,
                     Email = "usuario2.prueba@example.com",
                     PasswordHash = "hashed_password_placeholder",
-                    IdentificatiónNumber = "23456789",
+                    IdentificationNumber = "23456789",
                     IdentificationTypeId = 1,
                     GenderId = 1,
                     DateOfBirth = new DateTime(2004, 7, 23),
@@ -63,7 +63,7 @@ namespace MyApp.Tests.Mocks
                 SecondName = null,
                 Email = "usuario.prueba@example.com",
                 PasswordHash = "hashed_password_placeholder",
-                IdentificatiónNumber = "1234567890",
+                IdentificationNumber = "1234567890",
                 IdentificationTypeId = 1,
                 GenderId = 1,
                 DateOfBirth = new DateTime(2004, 7, 23),
@@ -81,13 +81,14 @@ namespace MyApp.Tests.Mocks
             return new UsersEntity
             {
                 UserId = 1,
+                HospitalId = 1,
                 FirstName = "Usuario",
                 MiddleName = "Prueba",
                 LastName = "Ejemplo",
                 SecondName = null,
                 Email = "usuario.prueba@example.com",
                 PasswordHash = "hashed_password_placeholder",
-                IdentificatiónNumber = "1234567890",
+                IdentificationNumber = "1234567890",
                 IdentificationTypeId = 1,
                 GenderId = 1,
                 DateOfBirth = new DateTime(2004, 7, 23),
@@ -105,13 +106,14 @@ namespace MyApp.Tests.Mocks
             return new UsersEntity
             {
                 UserId = 1,
+                HospitalId = 1,
                 FirstName = "Usuario",
                 MiddleName = "Prueba",
                 LastName = "Ejemplo",
                 SecondName = null,
                 Email = "usuario.prueba@example.com",
                 PasswordHash = "hashed_password_placeholder",
-                IdentificatiónNumber = "1234567890",
+                IdentificationNumber = "1234567890",
                 IdentificationTypeId = 1,
                 GenderId = 1,
                 DateOfBirth = new DateTime(2004, 7, 23),
@@ -129,11 +131,12 @@ namespace MyApp.Tests.Mocks
             return new UserCreateRequest
             {
                 FirstName = "Usuario",
+                HospitalId = 1,
                 MiddleName = "Prueba",
                 LastName = "Ejemplo",
                 SecondName = null,
                 Email = "usuario.prueba@example.com",
-                IdentificatiónNumber = "1234567890",
+                IdentificationNumber = "1234567890",
                 IdentificationTypeId = 1,
                 GenderId = 1,
                 DateOfBirth = new DateTime(2004, 7, 23),
@@ -147,6 +150,7 @@ namespace MyApp.Tests.Mocks
             return new UserResponse
             {
                 UserId = 1,
+                HospitalId = 1,
                 FirstName = "Usuario",
                 MiddleName = "Prueba",
                 LastName = "Ejemplo",
@@ -171,7 +175,7 @@ namespace MyApp.Tests.Mocks
                 SecondName = "Segundo apellido",
                 Email = "usuario.prueba@example.com",
                 PasswordHash = "hashed_password_placeholder",
-                IdentificatiónNumber = "1234567890",
+                IdentificationNumber = "1234567890",
                 IdentificationTypeId = 1,
                 GenderId = 1,
                 DateOfBirth = new DateTime(2004, 7, 23),
@@ -196,7 +200,6 @@ namespace MyApp.Tests.Mocks
                 IdentificationTypeId = 1,
                 GenderId = 1,
                 DateOfBirth = new DateTime(2004, 7, 23),
-                RoleId = 2,
                 Phone = "+57 300 123 4685",
             };
         }
