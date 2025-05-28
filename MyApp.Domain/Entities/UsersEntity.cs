@@ -14,7 +14,7 @@
         public int IdentificationTypeId { get; set; }
         public int GenderId { get; set; }
         public DateTime DateOfBirth { get; set; } = DateTime.Now;
-        public int RoleId { get; set; }
+        public int RoleId { get; set; } = 3; // Rol por defecto: Paciente
         public string? CodeValidation { get; set; }
         public bool IsActive { get; set; } = false;
         public string Phone { get; set; } = string.Empty;

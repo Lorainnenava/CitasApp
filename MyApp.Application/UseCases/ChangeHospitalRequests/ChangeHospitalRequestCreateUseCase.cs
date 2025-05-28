@@ -34,7 +34,7 @@ namespace MyApp.Application.UseCases.ChangeHospitalRequests
 
         public async Task<ChangeHospitalRequestResponse> Execute(ChangeHospitalRequestCreateRequest request)
         {
-            _logger.LogInformation("Iniciando creación de solicitud de cambio de hospital para el usuario con UserId: {UserId}", request.UserId);
+            _logger.LogInformation("Iniciando creación de solicitud de cambio de hospital para el usuario con IS: {UserId}", request.UserId);
 
             var validator = new ChangeHospitalRequestCreateValidator();
             ValidatorHelper.ValidateAndThrow(request, validator);
@@ -57,7 +57,7 @@ namespace MyApp.Application.UseCases.ChangeHospitalRequests
 
             if (existingRequest is not null)
             {
-                _logger.LogWarning("Ya existe una solicitud de cambio de hospital para el usuario con UserId: {UserId}", request.UserId);
+                _logger.LogWarning("Ya existe una solicitud de cambio de hospital para el usuario con ID: {UserId}", request.UserId);
                 throw new AlreadyExistsException("Ya existe una solicitud de cambio de hospital para el usuario.");
             }
 

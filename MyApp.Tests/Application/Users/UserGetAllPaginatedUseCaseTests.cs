@@ -72,7 +72,7 @@ namespace MyApp.Tests.Application.Users
 
             var exception = await Assert.ThrowsAsync<NotFoundException>(() => _useCase.Execute(1, 10, 1));
 
-            Assert.Equal("El hospital con el HospitalId '1' no existe.", exception.Message);
+            Assert.Equal("No se encontró un hospital registrado con ese identificador.", exception.Message);
         }
 
         [Fact]

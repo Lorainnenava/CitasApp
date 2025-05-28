@@ -45,7 +45,7 @@ namespace MyApp.Application.UseCases.Users
 
             if (!isCurrentPasswordValid)
             {
-                _logger.LogWarning("Contraseña actual incorrecta para usuario con UserId: {UserId}", userId);
+                _logger.LogWarning("Contraseña actual incorrecta para usuario con ID: {UserId}", userId);
                 throw new UnauthorizedAccessException("Contraseña actual incorrecta.");
             }
 

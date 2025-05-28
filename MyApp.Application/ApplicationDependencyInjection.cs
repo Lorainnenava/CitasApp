@@ -37,6 +37,7 @@ namespace MyApp.Application
             services.AddScoped<IChangeHospitalRequestGetByIdUseCase, ChangeHospitalRequestGetByIdUseCase>();
             services.AddScoped<IChangeHospitalRequestGetAllPaginatedUseCase, ChangeHospitalRequestGetAllPaginatedUseCase>();
 
+
             services.AddScoped(typeof(IGenericCreateUseCase<,>), typeof(GenericCreateUseCase<,>));
             services.AddScoped(typeof(IGenericGetAllUseCase<,>), typeof(GenericGetAllPaginatedUseCase<,>));
             services.AddScoped(typeof(IGenericGetOneUseCase<,>), typeof(GenericGetOneUseCase<,>));

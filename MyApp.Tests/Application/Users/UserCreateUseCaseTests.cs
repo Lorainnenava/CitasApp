@@ -93,7 +93,7 @@ namespace MyApp.Tests.Application.Users
 
             var exception = await Assert.ThrowsAsync<AlreadyExistsException>(() => _useCase.Execute(userRequest));
 
-            Assert.Equal("El email 'usuario.prueba@example.com' ya está registrado.", exception.Message);
+            Assert.Equal("Ya existe una cuenta con este correo. Por favor, usa uno diferente.", exception.Message);
         }
 
         [Fact]
@@ -111,7 +111,7 @@ namespace MyApp.Tests.Application.Users
 
             var exception = await Assert.ThrowsAsync<NotFoundException>(() => _useCase.Execute(userRequest));
 
-            Assert.Equal("El hospital con el HospitalId '1' no existe.", exception.Message);
+            Assert.Equal("No se encontró un hospital registrado con ese identificador.", exception.Message);
         }
 
         [Fact]

@@ -49,7 +49,7 @@ namespace MyApp.Application.UseCases.Users
             if (emailExisted is not null)
             {
                 _logger.LogWarning("Intento de crear usuario con un email ya existente: {Email}", request.Email);
-                throw new AlreadyExistsException($"El email '{request.Email}' ya está registrado.");
+                throw new AlreadyExistsException("Ya existe una cuenta con este correo. Por favor, usa uno diferente.");
             }
 
             var hospitalExisted = await _hospitalRepository.GetByCondition(x => x.HospitalId == request.HospitalId);
@@ -57,7 +57,7 @@ namespace MyApp.Application.UseCases.Users
             if (hospitalExisted is null)
             {
                 _logger.LogWarning("Intento de crear usuario con un HospitalId no existente: {HospitalId}", request.HospitalId);
-                throw new NotFoundException($"El hospital con el HospitalId '{request.HospitalId}' no existe.");
+                throw new NotFoundException("No se encontró un hospital registrado con ese identificador.");
             }
 
             var entityMapped = _mapper.Map<UsersEntity>(request);
@@ -71,7 +71,7 @@ namespace MyApp.Application.UseCases.Users
 
             var response = _mapper.Map<UserResponse>(userCreated);
 
-            _logger.LogInformation("Usuario creado exitosamente con UserId: {UserId}", userCreated.UserId);
+            _logger.LogInformation("Usuario creado exitosamente con ID: {UserId}", userCreated.UserId);
 
             return response;
         }

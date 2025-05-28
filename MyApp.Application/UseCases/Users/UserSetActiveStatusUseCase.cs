@@ -22,13 +22,13 @@ namespace MyApp.Application.UseCases.Users
 
         public async Task<bool> Execute(int UserId)
         {
-            _logger.LogInformation("Intentando cambiar el estado activo/inactivo del usuario con UserId: {UserId}", UserId);
+            _logger.LogInformation("Intentando cambiar el estado activo/inactivo del usuario con ID: {UserId}", UserId);
 
             UsersEntity? searchUser = await _userRepository.GetByCondition(u => u.UserId == UserId);
 
             if (searchUser is null)
             {
-                _logger.LogWarning("No se encontró ningún usuario con UserId: {UserId}", UserId);
+                _logger.LogWarning("No se encontró ningún usuario con ID: {UserId}", UserId);
                 throw new NotFoundException("Usuario no encontrado.");
             }
 
@@ -37,7 +37,7 @@ namespace MyApp.Application.UseCases.Users
 
             var updateEntity = await _userRepository.Update(searchUser);
 
-            _logger.LogInformation("Usuario con UserId: {UserId} ahora está {Estado}", UserId, updateEntity.IsActive ? "activo" : "inactivo");
+            _logger.LogInformation("Usuario con ID: {UserId} ahora está {Estado}", UserId, updateEntity.IsActive ? "activo" : "inactivo");
 
             return true;
         }

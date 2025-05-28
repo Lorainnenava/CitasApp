@@ -39,10 +39,17 @@ namespace MyApp.Application.UseCases.UserSessions
                 throw new NotFoundException("No existe ninguna sessión asociada a este refresh token.");
             }
 
-            await _refreshTokensRepository.Delete(x => x.Token == RefreshToken);
-            await _userSessionsRepository.Delete(x => x.UserSessionId == searchRefreshToken.UserSessionId);
+            searchRefreshToken.IsActive = false;
+            searchRefreshToken.UpdatedAt = DateTime.UtcNow;
+
+            searchRefreshToken.UserSession.IsRevoked = false;
+            searchRefreshToken.UserSession.UpdatedAt = DateTime.UtcNow;
+
+            await _refreshTokensRepository.Update(searchRefreshToken);
+            await _userSessionsRepository.Update(searchRefreshToken.UserSession);
 
             _logger.LogInformation("Sesión eliminada exitosamente");
+
             return true;
         }
     }

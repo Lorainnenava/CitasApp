@@ -41,7 +41,7 @@ namespace MyApp.Application.UseCases.UserSessions
             var validator = new UserSessionCreateValidator();
             ValidatorHelper.ValidateAndThrow(request, validator);
 
-            var searchUser = await _usersRepository.GetByCondition(x => x.Email == request.Email);
+            var searchUser = await _usersRepository.GetByCondition(x => x.Email == request.Email, x=> x.Role);
 
             if (searchUser is null)
             {
@@ -65,7 +65,8 @@ namespace MyApp.Application.UseCases.UserSessions
 
             var claims = new List<Claim>
             {
-                new(ClaimTypes.Sid, searchUser.UserId.ToString())
+                new(ClaimTypes.Sid, searchUser.UserId.ToString()),
+                new(ClaimTypes.Role, searchUser.Role.Name),
             };
 
             var generateAccessToken = _jwtHandler.GenerateAccessToken(claims);

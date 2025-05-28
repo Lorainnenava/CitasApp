@@ -62,12 +62,14 @@ namespace MyApp.Application.UseCases.ChangeHospitalRequests
 
             if ((StatusIdEnum)request.StatusId == StatusIdEnum.Aceptada)
             {
-                _logger.LogInformation("Actualizando el hospital del usuario con UserId: {UserId} al nuevo hospital con ID: {NewHospitalId}", user!.UserId, changeRequest.NewHospitalId);
+                _logger.LogInformation("Actualizando el hospital del usuario con ID: {UserId} al nuevo hospital con ID: {NewHospitalId}", user!.UserId, changeRequest.NewHospitalId);
                 user!.HospitalId = changeRequest.NewHospitalId;
                 var updateUser = await _userRepository.Update(user);
             }
 
             var changeHospitalRequest = _mapper.Map<ChangeHospitalRequestsEntity>(request);
+
+            changeHospitalRequest.UpdatedAt = DateTime.UtcNow;
 
             var createdRequest = await _changeHospitalRequestRepository.Update(changeRequest, changeHospitalRequest);
 

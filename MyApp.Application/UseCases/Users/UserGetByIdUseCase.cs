@@ -26,19 +26,19 @@ namespace MyApp.Application.UseCases.Users
 
         public async Task<UserResponse> Execute(int UserId)
         {
-            _logger.LogInformation("Buscando usuario con UserId: {UserId}", UserId);
+            _logger.LogInformation("Buscando usuario con ID: {UserId}", UserId);
 
             var searchUser = await _userRepository.GetByCondition(u => u.UserId == UserId);
 
             if (searchUser is null)
             {
-                _logger.LogWarning("No se encontró ningún usuario con UserId: {UserId}", UserId);
+                _logger.LogWarning("No se encontró ningún usuario con ID: {UserId}", UserId);
                 throw new NotFoundException("Usuario no encontrado.");
             }
 
             var response = _mapper.Map<UserResponse>(searchUser);
 
-            _logger.LogInformation("Usuario con UserId {UserId} encontrado exitosamente", UserId);
+            _logger.LogInformation("Usuario con ID {UserId} encontrado exitosamente", UserId);
 
             return response;
         }

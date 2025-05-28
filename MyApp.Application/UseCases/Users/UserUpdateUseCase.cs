@@ -28,7 +28,7 @@ namespace MyApp.Application.UseCases.Users
 
         public async Task<UserResponse> Execute(int UserId, UserUpdateRequest request)
         {
-            _logger.LogInformation("Iniciando actualización del usuario con UserId: {UserId}", UserId);
+            _logger.LogInformation("Iniciando actualización del usuario con ID: {UserId}", UserId);
 
             var validator = new UserUpdateValidator();
             ValidatorHelper.ValidateAndThrow(request, validator);
@@ -40,7 +40,7 @@ namespace MyApp.Application.UseCases.Users
 
             if (searchUser is null)
             {
-                _logger.LogWarning("No se encontró ningún usuario con UserId: {UserId}", UserId);
+                _logger.LogWarning("No se encontró ningún usuario con ID: {UserId}", UserId);
                 throw new NotFoundException("Usuario no encontrado.");
             }
 
@@ -48,7 +48,7 @@ namespace MyApp.Application.UseCases.Users
 
             var response = _mapper.Map<UserResponse>(userUpdate);
 
-            _logger.LogInformation("Usuario con UserId: {UserId} actualizado exitosamente", UserId);
+            _logger.LogInformation("Usuario con ID: {UserId} actualizado exitosamente", UserId);
 
             return response;
         }

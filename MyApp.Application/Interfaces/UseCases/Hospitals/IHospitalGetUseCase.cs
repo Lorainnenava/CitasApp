@@ -2,8 +2,8 @@
 
 namespace MyApp.Application.Interfaces.UseCases.HospitalSchedules
 {
-    public interface IHospitalScheduleGetUseCase
+    public interface IHospitalScheduleGetByIdUseCase
     {
-        Task<HospitalScheduleResponse> Execute();
+        Task<HospitalScheduleResponse> Execute(int HospitalId);
     }
 }
