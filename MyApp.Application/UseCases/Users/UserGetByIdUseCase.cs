@@ -33,7 +33,7 @@ namespace MyApp.Application.UseCases.Users
             if (searchUser is null)
             {
                 _logger.LogWarning("No se encontró ningún usuario con ID: {UserId}", UserId);
-                throw new NotFoundException("Usuario no encontrado.");
+                throw new NotFoundException("El usuario que estas buscando no existe o ha sido eliminado.");
             }
 
             var response = _mapper.Map<UserResponse>(searchUser);

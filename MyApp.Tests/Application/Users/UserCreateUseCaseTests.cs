@@ -58,6 +58,10 @@ namespace MyApp.Tests.Application.Users
                 .Setup(repo => repo.GetByCondition(It.IsAny<Expression<Func<UsersEntity, bool>>>()))
                 .ReturnsAsync((UsersEntity)null!);
 
+            _hospitalRepositoryMock
+                .Setup(repo => repo.GetByCondition(It.IsAny<Expression<Func<HospitalsEntity, bool>>>()))
+                .ReturnsAsync(hospitalResponse);
+
             _codeGeneratorServiceMock
                 .Setup(service => service.GenerateUniqueCode())
                 .ReturnsAsync("CODE123");
@@ -65,10 +69,6 @@ namespace MyApp.Tests.Application.Users
             _passwordHasherServiceMock
                 .Setup(service => service.HashPassword(userRequest.Password))
                 .Returns("hashed_password_placeholder");
-
-            _hospitalRepositoryMock
-                .Setup(repo => repo.GetByCondition(It.IsAny<Expression<Func<HospitalsEntity, bool>>>()))
-                .ReturnsAsync(hospitalResponse);
 
             _userRepositoryMock
                 .Setup(x => x.Create(It.IsAny<UsersEntity>()))
@@ -97,7 +97,7 @@ namespace MyApp.Tests.Application.Users
         }
 
         [Fact]
-        public async Task Execute_ShouldThrowConflictException_WhenHospitalNotExists()
+        public async Task Execute_ShouldThrowNotFoundException_WhenHospitalNotExists()
         {
             var userRequest = MockUser.MockOneUserRequest();
 
@@ -111,17 +111,38 @@ namespace MyApp.Tests.Application.Users
 
             var exception = await Assert.ThrowsAsync<NotFoundException>(() => _useCase.Execute(userRequest));
 
-            Assert.Equal("No se encontró un hospital registrado con ese identificador.", exception.Message);
+            Assert.Equal("Hospital no encontrado. Revisa tu selección.", exception.Message);
+        }
+
+        [Fact]
+        public async Task Execute_ShouldThrowAlreadyException_WhenIdentificationNumberExisted()
+        {
+            var userEntity = MockUser.MockOneUserEntity();
+            var userRequest = MockUser.MockOneUserRequest();
+
+            int callCount = 0;
+
+            _userRepositoryMock
+                .Setup(repo => repo.GetByCondition(It.IsAny<Expression<Func<UsersEntity, bool>>>()))
+                .ReturnsAsync(() =>
+                {
+                    callCount++;
+                    return callCount switch
+                    {
+                        1 => null,
+                        2 => userEntity,
+                        _ => null
+                    };
+                });
+
+            var exception = await Assert.ThrowsAsync<AlreadyExistsException>(() => _useCase.Execute(userRequest));
+            Assert.Equal("Número de identificación ya registrado.", exception.Message);
         }
 
         [Fact]
         public async Task Execute_ShouldThrowValidationException_WhenRequestIsInvalid()
         {
-            var userRequest = new UserCreateRequest
-            {
-                Email = "",
-                Password = "123"
-            };
+            var userRequest = MockUser.MockUserCreateInvalidCredentials();
 
             await Assert.ThrowsAsync<FluentValidation.ValidationException>(() => _useCase.Execute(userRequest));
         }

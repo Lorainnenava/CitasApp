@@ -23,6 +23,7 @@ namespace MyApp.Presentation.MiddlewaresAndFilters
             }
             catch (Exception ex)
             {
+                Console.WriteLine("Exception capturada: " + ex.Message);
                 // Manejar la excepción
                 await HandleExceptionAsync(context, ex);
             }

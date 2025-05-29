@@ -46,7 +46,7 @@ namespace MyApp.Application.UseCases.UserSessions
             if (searchUser is null)
             {
                 _logger.LogWarning("El usuario con el email {Email} ingresó credenciales inválidas", request.Email);
-                throw new InvalidDataException("Las credenciales son incorrectas.");
+                throw new InvalidDataException("Email o contraseña incorrectos. Por favor, intenta de nuevo.");
             }
 
             if (searchUser.CodeValidation is not null || !searchUser.IsActive)
@@ -60,7 +60,7 @@ namespace MyApp.Application.UseCases.UserSessions
             if (!isPasswordValid)
             {
                 _logger.LogWarning("El usuario con el email {Email} ingresó una contraseña incorrecta", request.Email);
-                throw new InvalidDataException("Las credenciales son incorrectas.");
+                throw new InvalidDataException("Email o contraseña incorrectos. Por favor, intenta de nuevo.");
             }
 
             var claims = new List<Claim>

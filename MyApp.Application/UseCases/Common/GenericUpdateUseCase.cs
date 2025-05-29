@@ -43,7 +43,7 @@ namespace MyApp.Application.UseCases.Common
             if (entityToUpdate is null)
             {
                 _logger.LogWarning("No se encontró ningún registro de tipo {EntityName} con la condición especificada.", typeof(TEntity).Name);
-                throw new NotFoundException("No se encontró el registro solicitado.");
+                throw new NotFoundException("El registro que estas buscando no existe o ha sido eliminado.");
             }
 
             var normalizedName = NormalizeService.Normalize(request.Name);
@@ -58,7 +58,7 @@ namespace MyApp.Application.UseCases.Common
 
             var mappedData = _mapper.Map<TEntity>(request);
 
-            var updatedEntity = await _repository.Update(entityToUpdateCondition, entityToUpdate, mappedData);
+            var updatedEntity = await _repository.Update(entityToUpdate, mappedData);
 
             var response = _mapper.Map<TResponse>(updatedEntity);
 

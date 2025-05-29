@@ -35,17 +35,25 @@ namespace MyApp.Tests.Application.Users
         [Fact]
         public async Task Execute_ShouldReturnUserByIdSuccessfully()
         {
-            var expectedUser = MockUser.MockOneUserEntity();
+            try
+            {
+                var expectedUser = MockUser.MockOneUserEntity();
 
-            _userRepositoryMock.Setup(x => x.GetByCondition(It.IsAny<Expression<Func<UsersEntity, bool>>>()))
-                .ReturnsAsync(expectedUser);
+                _userRepositoryMock.Setup(x => x.GetByCondition(It.IsAny<Expression<Func<UsersEntity, bool>>>()))
+                    .ReturnsAsync(expectedUser);
 
-            var result = await _useCase.Execute(1);
+                var result = await _useCase.Execute(1);
 
-            Assert.NotNull(result);
-            Assert.Equal(expectedUser.FirstName, result.FirstName);
-            Assert.Equal(expectedUser.Email, result.Email);
+                Assert.NotNull(result);
+                Assert.Equal(expectedUser.FirstName, result.FirstName);
+                Assert.Equal(expectedUser.Email, result.Email);
+            }
+            catch (Exception ex)
+            {
+                Assert.False(true, $"Excepción durante el test: {ex.Message}");
+            }
         }
+
 
         [Fact]
         public async Task Execute_WithNonExistentUser_ReturnsNull()
@@ -55,7 +63,7 @@ namespace MyApp.Tests.Application.Users
                 .ReturnsAsync(null as UsersEntity);
 
             var exception = await Assert.ThrowsAsync<NotFoundException>(() => _useCase.Execute(99));
-            Assert.Contains("Usuario no encontrado.", exception.Message);
+            Assert.Contains("El usuario que estas buscando no existe o ha sido eliminado.", exception.Message);
         }
     }
 }

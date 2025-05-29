@@ -34,7 +34,7 @@ namespace MyApp.Application.UseCases.Common
             if (searchEntity is null)
             {
                 _logger.LogWarning("No se encontró ningún registro de tipo {EntityName} con la condición especificada.", typeof(TEntity).Name);
-                throw new NotFoundException("No se encontró el registro solicitado.");
+                throw new NotFoundException("El registro que estas buscando no existe o ha sido eliminado.");
             }
 
             var response = _mapper.Map<TResponse>(searchEntity);

@@ -94,7 +94,7 @@ namespace MyApp.Tests.Mocks
                 DateOfBirth = new DateTime(2004, 7, 23),
                 RoleId = 2,
                 CodeValidation = "CODE123",
-                IsActive = true,
+                IsActive = false,
                 Phone = "+57 300 123 4567",
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
@@ -135,32 +135,14 @@ namespace MyApp.Tests.Mocks
                 MiddleName = "Prueba",
                 LastName = "Ejemplo",
                 SecondName = null,
+                Password="123456",
                 Email = "usuario.prueba@example.com",
                 IdentificationNumber = "1234567890",
                 IdentificationTypeId = 1,
                 GenderId = 1,
                 DateOfBirth = new DateTime(2004, 7, 23),
                 RoleId = 2,
-                Phone = "+57 300 123 4567",
-            };
-        }
-
-        public static UserResponse MockOneUserResponse()
-        {
-            return new UserResponse
-            {
-                UserId = 1,
-                HospitalId = 1,
-                FirstName = "Usuario",
-                MiddleName = "Prueba",
-                LastName = "Ejemplo",
-                SecondName = null,
-                Email = "usuario.prueba@example.com",
-                IdentificationTypeId = 1,
-                GenderId = 1,
-                DateOfBirth = new DateTime(2004, 7, 23),
-                RoleId = 2,
-                Phone = "+57 300 123 4567"
+                Phone = "3001234567",
             };
         }
 
@@ -204,20 +186,48 @@ namespace MyApp.Tests.Mocks
             };
         }
 
-        public static UsersEntity MockOneUserEntityToUpdateEntityModel()
+        public static UserCreateRequest MockUserCreateInvalidCredentials()
         {
-            return new UsersEntity
+            return new UserCreateRequest
             {
-                FirstName = "Usuario",
-                MiddleName = "Prueba",
-                LastName = "Ejemplo",
-                SecondName = "Segundo apellido",
+                Email = "",
+                Password = "123"
+            };
+        }
+
+        public static UserCodeValidationRequest MockUserValidateInvalidCredentials()
+        {
+            return new UserCodeValidationRequest
+            {
+                Email = "",
+                CodeValidation = "123"
+            };
+        }
+
+        public static UserCodeValidationRequest MockUserValidateRequest()
+        {
+            return new UserCodeValidationRequest
+            {
                 Email = "usuario.prueba@example.com",
-                IdentificationTypeId = 1,
-                GenderId = 1,
-                DateOfBirth = new DateTime(2004, 7, 23),
-                RoleId = 2,
-                Phone = "+57 300 123 4685",
+                CodeValidation = "CODE123",
+            };
+        }
+
+        public static UserChangePasswordRequest UserChangePasswordRequestInvalid()
+        {
+            return new UserChangePasswordRequest
+            {
+                CurrentPassword = "123",
+                NewPassword = "123"
+            };
+        }
+
+        public static UserChangePasswordRequest UserChangePasswordRequestValid()
+        {
+            return new UserChangePasswordRequest
+            {
+                CurrentPassword = "12345",
+                NewPassword = "123456"
             };
         }
     }

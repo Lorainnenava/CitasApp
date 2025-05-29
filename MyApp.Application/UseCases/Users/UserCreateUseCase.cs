@@ -52,12 +52,20 @@ namespace MyApp.Application.UseCases.Users
                 throw new AlreadyExistsException("Ya existe una cuenta con este correo. Por favor, usa uno diferente.");
             }
 
+            var identificationNumberExisted = await _userRepository.GetByCondition(x => x.IdentificationNumber == request.IdentificationNumber);
+
+            if (identificationNumberExisted is not null)
+            {
+                _logger.LogWarning("Se intentó registrar un usuario con un número de identificación ya registrado: {IdentificationNumber}", request.IdentificationNumber);
+                throw new AlreadyExistsException("Número de identificación ya registrado.");
+            }
+
             var hospitalExisted = await _hospitalRepository.GetByCondition(x => x.HospitalId == request.HospitalId);
 
             if (hospitalExisted is null)
             {
                 _logger.LogWarning("Intento de crear usuario con un HospitalId no existente: {HospitalId}", request.HospitalId);
-                throw new NotFoundException("No se encontró un hospital registrado con ese identificador.");
+                throw new NotFoundException("Hospital no encontrado. Revisa tu selección.");
             }
 
             var entityMapped = _mapper.Map<UsersEntity>(request);

@@ -33,7 +33,7 @@ namespace MyApp.Application.UseCases.Users
             if (hospitalExistes is null)
             {
                 _logger.LogWarning("No se encontró el hospital con ID: {HospitalId}", HospitalId);
-                throw new NotFoundException("No se encontró un hospital registrado con ese identificador.");
+                throw new NotFoundException("Hospital no encontrado. Revisa tu selección.");
             }
 
             var (items, totalCount) = await _userRepository.Pagination(

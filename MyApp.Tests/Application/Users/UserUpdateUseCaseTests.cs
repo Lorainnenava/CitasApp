@@ -64,7 +64,7 @@ namespace MyApp.Tests.Application.Users
 
             var exception = await Assert.ThrowsAsync<NotFoundException>(() => _useCase.Execute(1, userToUpdate));
 
-            Assert.Contains("Usuario no encontrado.", exception.Message);
+            Assert.Contains("El usuario que intentas actualizar no existe o ha sido eliminado.", exception.Message);
         }
 
         [Fact]

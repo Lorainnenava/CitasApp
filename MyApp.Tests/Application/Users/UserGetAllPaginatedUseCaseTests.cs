@@ -72,7 +72,7 @@ namespace MyApp.Tests.Application.Users
 
             var exception = await Assert.ThrowsAsync<NotFoundException>(() => _useCase.Execute(1, 10, 1));
 
-            Assert.Equal("No se encontró un hospital registrado con ese identificador.", exception.Message);
+            Assert.Equal("Hospital no encontrado. Revisa tu selección.", exception.Message);
         }
 
         [Fact]
@@ -80,6 +80,10 @@ namespace MyApp.Tests.Application.Users
         {
             int page = 1, size = 10;
             var emptyList = new List<UsersEntity>();
+
+            _hospitalRepositoryMock
+                .Setup(repo => repo.GetByCondition(It.IsAny<Expression<Func<HospitalsEntity, bool>>>()))
+                .ReturnsAsync(new HospitalsEntity { HospitalId = 1 });
 
             _userRepositoryMock
                 .Setup(repo => repo.Pagination(page, size, null, Array.Empty<Expression<Func<UsersEntity, object>>>()))

@@ -14,7 +14,7 @@ namespace MyApp.Presentation.Controllers
         public readonly IUserGetByIdUseCase _userGetByIdUseCase;
         public readonly IUserGetAllPaginatedUseCase _userGetAllUseCase;
         public readonly IUserUpdateUseCase _userUpdateUseCase;
-        public readonly IUserSetActiveStatusUseCase _userDeleteUseCase;
+        public readonly IUserSetActiveStatusUseCase _userSetActiveStatusUseCase;
         public readonly IUserChangePasswordUseCase _userChangePasswordUseCase;
         public readonly IUserValidateUseCase _userValidateUseCase;
 
@@ -23,7 +23,7 @@ namespace MyApp.Presentation.Controllers
             IUserGetByIdUseCase userGetByIdUseCase,
             IUserGetAllPaginatedUseCase userGetAllUseCase,
             IUserUpdateUseCase userUpdateUseCase,
-            IUserSetActiveStatusUseCase userDeleteUseCase,
+            IUserSetActiveStatusUseCase userSetActiveStatusUseCase,
             IUserChangePasswordUseCase userChangePasswordUseCase,
             IUserValidateUseCase userValidateUseCase)
         {
@@ -31,7 +31,7 @@ namespace MyApp.Presentation.Controllers
             _userGetByIdUseCase = userGetByIdUseCase;
             _userGetAllUseCase = userGetAllUseCase;
             _userUpdateUseCase = userUpdateUseCase;
-            _userDeleteUseCase = userDeleteUseCase;
+            _userSetActiveStatusUseCase = userSetActiveStatusUseCase;
             _userChangePasswordUseCase = userChangePasswordUseCase;
             _userValidateUseCase = userValidateUseCase;
         }
@@ -44,37 +44,54 @@ namespace MyApp.Presentation.Controllers
             return CreatedAtAction(nameof(CreateUser), new { id = result.UserId }, result);
         }
 
-        [HttpGet("getById/{id}")]
+        [HttpGet("getById/{UserId}")]
         [Authorize]
-        public async Task<IActionResult> GetByIdUser(int id)
+        public async Task<IActionResult> GetByIdUser(int UserId)
         {
-            var result = await _userGetByIdUseCase.Execute(id);
+            var result = await _userGetByIdUseCase.Execute(UserId);
             return Ok(result);
         }
 
-        [HttpGet("getAll/{HospitalId}")]
+        [HttpGet("getAllPaginated/{HospitalId}")]
         [AllowAnonymous]
         public async Task<ActionResult<PaginationResult<UserResponse>>> GetAllUsers(
+            int HospitalId,
             [FromQuery] int page = 1,
-            [FromQuery] int size = 10, int HospitalId)
+            [FromQuery] int size = 10)
         {
             var result = await _userGetAllUseCase.Execute(page, size, HospitalId);
             return Ok(result);
         }
 
-        [HttpPut("update/{id}")]
+        [HttpPut("update/{UserId}")]
         [Authorize]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserUpdateRequest request)
+        public async Task<IActionResult> UpdateUser(int UserId, [FromBody] UserUpdateRequest request)
         {
-            var result = await _userUpdateUseCase.Execute(id, request);
+            var result = await _userUpdateUseCase.Execute(UserId, request);
             return Ok(result);
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpPut("changePassword/{UserId}")]
         [Authorize]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> ChangePassword(int UserId, [FromBody] UserChangePasswordRequest request)
         {
-            var result = await _userDeleteUseCase.Execute(id);
+            var result = await _userChangePasswordUseCase.Execute(UserId, request);
+            return Ok(result);
+        }
+
+        [HttpPut("setActiveStatus/{UserId}")]
+        [Authorize]
+        public async Task<IActionResult> SetActiveStatus(int UserId)
+        {
+            var result = await _userSetActiveStatusUseCase.Execute(UserId);
+            return Ok(result);
+        }
+
+        [HttpPut("validate")]
+        [Authorize]
+        public async Task<IActionResult> ValidateUser([FromBody] UserCodeValidationRequest request)
+        {
+            var result = await _userValidateUseCase.Execute(request);
             return Ok(result);
         }
     }

@@ -38,7 +38,7 @@ namespace MyApp.Application.UseCases.Users
             if (user is null)
             {
                 _logger.LogWarning("No se encontró ningún usuario con ID: {UserId}", userId);
-                throw new NotFoundException("Usuario no encontrado.");
+                throw new NotFoundException("No se encontró tu cuenta.");
             }
 
             bool isCurrentPasswordValid = _passwordHasherService.VerifyPassword(request.CurrentPassword, user.PasswordHash);
@@ -46,7 +46,7 @@ namespace MyApp.Application.UseCases.Users
             if (!isCurrentPasswordValid)
             {
                 _logger.LogWarning("Contraseña actual incorrecta para usuario con ID: {UserId}", userId);
-                throw new UnauthorizedAccessException("Contraseña actual incorrecta.");
+                throw new UnauthorizedAccessException("La contraseña actual es incorrecta.");
             }
 
             user.PasswordHash = _passwordHasherService.HashPassword(request.NewPassword);

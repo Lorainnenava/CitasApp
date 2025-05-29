@@ -32,7 +32,7 @@ namespace MyApp.Application.Validators.Users
                 .NotEmpty().WithMessage("El campo Password es requerido.")
                 .Length(4, 10).WithMessage("Password debe tener entre 4 y 10 caracteres.");
 
-            RuleFor(x => x.IdentificatiónNumber)
+            RuleFor(x => x.IdentificationNumber)
                 .NotEmpty().WithMessage("El campo IdentificatiónNumber es requerido.")
                 .MaximumLength(20).WithMessage("IdentificatiónNumber debe tener máximo 20 caracteres.");
 

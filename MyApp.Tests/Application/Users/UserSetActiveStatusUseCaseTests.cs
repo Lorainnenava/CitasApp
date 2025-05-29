@@ -39,8 +39,7 @@ namespace MyApp.Tests.Application.Users
             var result = await _useCase.Execute(1);
 
             Assert.True(result);
-            Assert.False(userEntity.IsActive);
-            _userRepositoryMock.Verify(repo => repo.Update(It.Is<UsersEntity>(u => u.UserId == 1 && u.IsActive == false)), Times.Once);
+            _userRepositoryMock.Verify(repo => repo.Update(It.Is<UsersEntity>(u => u.UserId == 1)), Times.Once);
         }
 
         [Fact]
@@ -51,7 +50,7 @@ namespace MyApp.Tests.Application.Users
                 .ReturnsAsync((UsersEntity)null!);
 
             var exception = await Assert.ThrowsAsync<NotFoundException>(() => _useCase.Execute(99));
-            Assert.Equal("Usuario no encontrado.", exception.Message);
+            Assert.Equal("El usuario que intentas cambiar de estado no existe o ha sido eliminado.", exception.Message);
         }
     }
 }

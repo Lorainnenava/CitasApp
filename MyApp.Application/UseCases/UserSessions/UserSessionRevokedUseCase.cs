@@ -48,7 +48,7 @@ namespace MyApp.Application.UseCases.UserSessions
             await _refreshTokensRepository.Update(searchRefreshToken);
             await _userSessionsRepository.Update(searchRefreshToken.UserSession);
 
-            _logger.LogInformation("Sesión eliminada exitosamente");
+            _logger.LogInformation("Sesión eliminada exitosamente.");
 
             return true;
         }
