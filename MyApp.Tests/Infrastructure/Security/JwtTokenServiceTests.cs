@@ -17,7 +17,7 @@ namespace MyApp.Tests.Infrastructure.Security
         {
             var jwtSettings = Options.Create(new JwtSettings
             {
-                SecretKey = "clave_supersecreta_1234567890",
+                SecretKey = "m1Cl4v3D3SeguridadCon32Caracteres!!",
                 Issuer = "MyApp",
                 Audience = "MyAppUsers",
                 AccessTokenExpirationMinutes = 60

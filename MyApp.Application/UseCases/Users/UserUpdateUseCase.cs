@@ -33,9 +33,6 @@ namespace MyApp.Application.UseCases.Users
             var validator = new UserUpdateValidator();
             ValidatorHelper.ValidateAndThrow(request, validator);
 
-            var userMapped = _mapper.Map<UsersEntity>(request);
-            userMapped.UpdatedAt = DateTime.Now;
-
             UsersEntity? searchUser = await _userRepository.GetByCondition(x => x.UserId == UserId);
 
             if (searchUser is null)
@@ -43,6 +40,9 @@ namespace MyApp.Application.UseCases.Users
                 _logger.LogWarning("No se encontró ningún usuario con ID: {UserId}", UserId);
                 throw new NotFoundException("El usuario que intentas actualizar no existe o ha sido eliminado.");
             }
+
+            var userMapped = _mapper.Map<UsersEntity>(request);
+            userMapped.UpdatedAt = DateTime.Now;
 
             var userUpdate = await _userRepository.Update(searchUser, userMapped);
 

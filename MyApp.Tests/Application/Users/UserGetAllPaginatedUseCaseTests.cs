@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Moq;
-using MyApp.Application.DTOs.Users;
 using MyApp.Application.UseCases.Users;
 using MyApp.Domain.Entities;
 using MyApp.Domain.Interfaces.Infrastructure;
@@ -24,12 +22,6 @@ namespace MyApp.Tests.Application.Users
             _loggerMock = new Mock<ILogger<UserGetAllPaginatedUseCase>>();
             _hospitalRepositoryMock = new Mock<IGenericRepository<HospitalsEntity>>();
 
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<UsersEntity, UserResponse>();
-            });
-
-
             _useCase = new UserGetAllPaginatedUseCase(
                 _userRepositoryMock.Object,
                 _loggerMock.Object,
@@ -48,7 +40,10 @@ namespace MyApp.Tests.Application.Users
                 .ReturnsAsync(new HospitalsEntity { HospitalId = 1 });
 
             _userRepositoryMock
-                .Setup(repo => repo.Pagination(page, size, It.IsAny<Expression<Func<UsersEntity, bool>>>(), Array.Empty<Expression<Func<UsersEntity, object>>>()))
+                .Setup(repo => repo.Pagination(
+                    page, size,
+                    It.IsAny<Expression<Func<UsersEntity, bool>>>(),
+                    It.IsAny<Expression<Func<UsersEntity, object>>[]>()))
                 .ReturnsAsync((usersEntity, usersEntity.Count));
 
             var result = await _useCase.Execute(page, size, 1);

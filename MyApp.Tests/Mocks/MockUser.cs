@@ -12,6 +12,7 @@ namespace MyApp.Tests.Mocks
                 new UsersEntity
                 {
                     UserId = 1,
+                    HospitalId = 1,
                     FirstName = "Usuario",
                     MiddleName = "Prueba",
                     LastName = "Ejemplo",
@@ -22,16 +23,33 @@ namespace MyApp.Tests.Mocks
                     IdentificationTypeId = 1,
                     GenderId = 1,
                     DateOfBirth = new DateTime(2004, 7, 23),
-                    RoleId = 2,
+                    RoleId = 1,
                     CodeValidation = null,
                     IsActive = true,
                     Phone = "+57 300 123 4567",
                     CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
+                    UpdatedAt = DateTime.Now,
+                    Hospital = new HospitalsEntity
+                    {
+                        Name = "Hospital Central"
+                    },
+                    Gender = new GendersEntity
+                    {
+                        Name = "Masculino"
+                    },
+                    Role = new RolesEntity
+                    {
+                        Name = "Admin"
+                    },
+                    IdentificationType = new IdentificationTypesEntity
+                    {
+                        Name = "Cédula de Ciudadanía"
+                    }
                 },
                 new UsersEntity
                 {
                     UserId = 2,
+                    HospitalId=1,
                     FirstName = "Usuario2",
                     MiddleName = "Prueba2",
                     LastName = "Ejemplo2",
@@ -42,12 +60,28 @@ namespace MyApp.Tests.Mocks
                     IdentificationTypeId = 1,
                     GenderId = 1,
                     DateOfBirth = new DateTime(2004, 7, 23),
-                    RoleId = 2,
+                    RoleId = 1,
                     CodeValidation = null,
                     IsActive = true,
                     Phone = "+57 300 123 4567",
                     CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
+                    UpdatedAt = DateTime.Now,
+                    Hospital = new HospitalsEntity
+                    {
+                        Name = "Hospital Central"
+                    },
+                    Gender = new GendersEntity
+                    {
+                        Name = "Masculino"
+                    },
+                    Role = new RolesEntity
+                    {
+                        Name = "Admin"
+                    },
+                    IdentificationType = new IdentificationTypesEntity
+                    {
+                        Name = "Cédula de Ciudadanía"
+                    }
                 }
             ];
         }
@@ -93,7 +127,7 @@ namespace MyApp.Tests.Mocks
                 GenderId = 1,
                 DateOfBirth = new DateTime(2004, 7, 23),
                 RoleId = 2,
-                CodeValidation = "CODE123",
+                CodeValidation = "56412",
                 IsActive = false,
                 Phone = "+57 300 123 4567",
                 CreatedAt = DateTime.Now,
@@ -105,7 +139,7 @@ namespace MyApp.Tests.Mocks
         {
             return new UsersEntity
             {
-                UserId = 1,
+                UserId = 3,
                 HospitalId = 1,
                 FirstName = "Usuario",
                 MiddleName = "Prueba",
@@ -135,7 +169,7 @@ namespace MyApp.Tests.Mocks
                 MiddleName = "Prueba",
                 LastName = "Ejemplo",
                 SecondName = null,
-                Password="123456",
+                Password = "123456",
                 Email = "usuario.prueba@example.com",
                 IdentificationNumber = "1234567890",
                 IdentificationTypeId = 1,
@@ -182,7 +216,7 @@ namespace MyApp.Tests.Mocks
                 IdentificationTypeId = 1,
                 GenderId = 1,
                 DateOfBirth = new DateTime(2004, 7, 23),
-                Phone = "+57 300 123 4685",
+                Phone = "3001234685",
             };
         }
 
@@ -209,7 +243,7 @@ namespace MyApp.Tests.Mocks
             return new UserCodeValidationRequest
             {
                 Email = "usuario.prueba@example.com",
-                CodeValidation = "CODE123",
+                CodeValidation = "56412",
             };
         }
 

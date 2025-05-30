@@ -73,7 +73,6 @@ namespace MyApp.Infrastructure.Repositories
 
         public async Task<T> Update(T entityToUpdate)
         {
-            _dbContext.Set<T>().Update(entityToUpdate);
             await _dbContext.SaveChangesAsync();
             return entityToUpdate;
         }

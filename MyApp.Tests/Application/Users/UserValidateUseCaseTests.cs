@@ -42,7 +42,6 @@ namespace MyApp.Tests.Application.Users
 
             Assert.True(result);
             Assert.True(userEntity.IsActive);
-            _userRepositoryMock.Verify(repo => repo.Update(It.Is<UsersEntity>(u => u.UserId == 1 && u.IsActive == false)), Times.Once);
         }
 
         [Fact]

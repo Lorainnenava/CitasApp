@@ -1,7 +1,10 @@
-﻿namespace MyApp.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MyApp.Domain.Entities
 {
     public class EmergencyContactsEntity
     {
+        [Key]
         public int EmergencyContactId { get; set; }
         public int MedicalHistoryId { get; set; }
         public string FullName { get; set; } = string.Empty;
@@ -11,7 +14,7 @@
         public DateTime UpdatedAt { get; set; }
 
         // Relación
-        public MedicalHistoriesEntity MedicalHistory { get; set; } = new();
-        public RelationShipsEntity RelationShip { get; set; } = new();
+        public MedicalHistoriesEntity MedicalHistory { get; set; } = null!;
+        public RelationShipsEntity RelationShip { get; set; } = null!;
     }
 }

@@ -1,7 +1,10 @@
-﻿namespace MyApp.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MyApp.Domain.Entities
 {
     public class HospitalSpecialtiesEntity
     {
+        [Key]
         public int HospitalSpecialtyId { get; set; }
         public int HospitalId { get; set; }
         public int SpecialtyId { get; set; }
@@ -10,7 +13,7 @@
         public DateTime UpdatedAt { get; set; }
 
         // Relaciones
-        public HospitalsEntity Hospital { get; set; } = new();
-        public SpecialtiesEntity Specialty { get; set; } = new();
+        public HospitalsEntity Hospital { get; set; } = null!;
+        public SpecialtiesEntity Specialty { get; set; } = null!;
     }
 }

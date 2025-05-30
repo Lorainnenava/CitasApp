@@ -1,7 +1,10 @@
-﻿namespace MyApp.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MyApp.Domain.Entities
 {
     public class AppointmentsEntity
     {
+        [Key]
         public int AppointmentId { get; set; }
         public int UserId { get; set; }
         public int HospitalId { get; set; }
@@ -15,12 +18,12 @@
         public DateTime UpdatedAt { get; set; }
 
         // Relaciones
-        public UsersEntity User { get; set; } = new();
-        public SpecialtiesEntity Specialty { get; set; } = new();
-        public DoctorsEntity Doctor { get; set; } = new();
-        public StatusesEntity Status { get; set; } = new();
-        public DiagnosesEntity Diagnose { get; set; } = new();
-        public PrescriptionsEntity Prescription { get; set; } = new();
-        public MedicalOrdersEntity MedicalOrder { get; set; } = new();
+        public UsersEntity User { get; set; } = null!;
+        public SpecialtiesEntity Specialty { get; set; } = null!;
+        public DoctorsEntity Doctor { get; set; } = null!;
+        public StatusesEntity Status { get; set; } = null!;
+        public DiagnosesEntity? Diagnose { get; set; } = null!;
+        public PrescriptionsEntity? Prescription { get; set; } = null!;
+        public MedicalOrdersEntity? MedicalOrder { get; set; } = null!;
     }
 }

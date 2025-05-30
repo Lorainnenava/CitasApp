@@ -64,8 +64,8 @@ namespace MyApp.Infrastructure.Seeders
                 new GendersEntity { GenderId = 1, Name = "Masculino" },
                 new GendersEntity { GenderId = 2, Name = "Femenino" },
                 new GendersEntity { GenderId = 3, Name = "Homosexual" },
-                new GendersEntity { GenderId = 3, Name = "Bisexual" },
-                new GendersEntity { GenderId = 3, Name = "Otro" }
+                new GendersEntity { GenderId = 4, Name = "Bisexual" },
+                new GendersEntity { GenderId = 5, Name = "Otro" }
             );
 
             // Roles
@@ -87,8 +87,8 @@ namespace MyApp.Infrastructure.Seeders
                 new SpecialtiesEntity { SpecialtyId = 3, Name = "Cardiología" },
                 new SpecialtiesEntity { SpecialtyId = 4, Name = "Medicina General" },
                 new SpecialtiesEntity { SpecialtyId = 5, Name = "Medicina Externa" },
-                new SpecialtiesEntity { SpecialtyId = 8, Name = "Psicologia" },
-                new SpecialtiesEntity { SpecialtyId = 8, Name = "Odontologia" }
+                new SpecialtiesEntity { SpecialtyId = 6, Name = "Psicologia" },
+                new SpecialtiesEntity { SpecialtyId = 7, Name = "Odontologia" }
             );
 
             // Estados

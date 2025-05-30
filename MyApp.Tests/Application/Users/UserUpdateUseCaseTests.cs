@@ -27,6 +27,7 @@ namespace MyApp.Tests.Application.Users
             {
                 cfg.CreateMap<UserCreateRequest, UsersEntity>();
                 cfg.CreateMap<UsersEntity, UserResponse>();
+                cfg.CreateMap<UserUpdateRequest, UsersEntity>();
             });
             _mapper = config.CreateMapper();
             _useCase = new UserUpdateUseCase(_userRepositoryMock.Object, _mapper, _loggerMock.Object);

@@ -1,7 +1,10 @@
-﻿namespace MyApp.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MyApp.Domain.Entities
 {
     public class MedicalHistoriesEntity
     {
+        [Key]
         public int MedicalHistoryId { get; set; }
         public int UserId { get; set; }
         public int Age { get; set; }
@@ -14,11 +17,11 @@
         public DateTime UpdatedAt { get; set; }
 
         // Relaciones
-        public UsersEntity User { get; set; } = new();
-        public UserAddressDetailsEntity UserAddressDetail { get; set; } = new();
-        public EmergencyContactsEntity EmergencyContact { get; set; } = new();
-        public MaritalStatusesEntity MaritalStatus { get; set; } = new();
-        public MedicalConditionsEntity MedicalCondition { get; set; } = new();
-        public BloodTypesEntity BloodType { get; set; } = new();
+        public UsersEntity User { get; set; } = null!;
+        public UserAddressDetailsEntity? UserAddressDetail { get; set; } = null!;
+        public EmergencyContactsEntity? EmergencyContact { get; set; } = null!;
+        public MaritalStatusesEntity? MaritalStatus { get; set; } = null!;
+        public MedicalConditionsEntity? MedicalCondition { get; set; } = null!;
+        public BloodTypesEntity? BloodType { get; set; } = null!;
     }
 }

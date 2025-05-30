@@ -33,18 +33,16 @@ namespace MyApp.Application.UseCases.RefreshTokens
         {
             _logger.LogInformation("Iniciando la actualización de token para refresh token: {RefreshToken}", RefreshToken);
 
-            if (string.IsNullOrWhiteSpace(RefreshToken))
-            {
-                _logger.LogWarning("Refresh token no proporcionado o vacío.");
-                throw new ValidationException("El refresh token es requerido.");
-            }
-
-            var searchRefreshToken = await _refreshTokensRepository.GetByCondition(x => x.Token == RefreshToken, x => x.UserSession);
+            var searchRefreshToken = await _refreshTokensRepository.GetByCondition(
+                x => x.Token == RefreshToken,
+                x => x.UserSession!,
+                x => x.UserSession!.User!,
+                x => x.UserSession!.User!.Role);
 
             if (searchRefreshToken is null || searchRefreshToken.IsActive == false)
             {
                 _logger.LogWarning("Refresh token no encontrado: {RefreshToken}", RefreshToken);
-                throw new NotFoundException($"El refresh token '{RefreshToken}' no existe.");
+                throw new NotFoundException("No se pudo validar tu sesión. Por favor, vuelve a iniciar sesión.");
             }
 
             if (searchRefreshToken!.TokenExpirationDate <= DateTime.UtcNow)
@@ -61,12 +59,13 @@ namespace MyApp.Application.UseCases.RefreshTokens
                     _logger.LogInformation("Sesión y token eliminados para UserSessionId: {UserSessionId}", searchRefreshToken.UserSessionId);
                 }
 
-                throw new UnauthorizedAccessException("La sessión ha expirado.");
+                throw new UnauthorizedAccessException("Tu sesión ha expirado. Por favor, inicia sesión nuevamente.");
             }
 
             var claims = new List<Claim>
             {
-                new(ClaimTypes.Sid, searchRefreshToken.UserSession.UserId.ToString())
+                new(ClaimTypes.Sid, searchRefreshToken.UserSession.UserId.ToString()),
+                new(ClaimTypes.Role, searchRefreshToken.UserSession.User.Role.Name),
             };
 
             var generateAccessToken = _jwtHandler.GenerateAccessToken(claims);

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
+using MyApp.Application.DTOs.Common;
 using MyApp.Application.DTOs.UserSessions;
 using MyApp.Application.Interfaces.Infrastructure;
 using MyApp.Application.UseCases.UserSessions;
@@ -7,6 +8,7 @@ using MyApp.Domain.Entities;
 using MyApp.Domain.Interfaces.Infrastructure;
 using MyApp.Shared.Exceptions;
 using MyApp.Tests.Mocks;
+using Newtonsoft.Json.Linq;
 using System.Linq.Expressions;
 using System.Security.Claims;
 
@@ -47,7 +49,8 @@ namespace MyApp.Tests.Application.UserSessions
             var request = MockUserSession.MockUserSessionsRequestDto();
             var user = MockUserSession.MockUsersEntityCorrect();
             var createdSession = MockUserSession.MockUserSessionsEntity();
-            var refreshToken = MockUserSession.MockRefreshTokensEntity();
+            var refreshToken = MockUserSession.MockRefreshTokensEntityTwo();
+            var responseToken = MockUserSession.MockGenerateRefreshToken();
 
             _usersRepoMock
                 .Setup(r => r.GetByCondition(It.IsAny<Expression<Func<UsersEntity, bool>>>()))
@@ -63,7 +66,7 @@ namespace MyApp.Tests.Application.UserSessions
 
             _jwtHandlerMock
                 .Setup(j => j.GenerateRefreshToken())
-                .ReturnsAsync(It.IsAny<RefreshTokensEntity>());
+                .ReturnsAsync(responseToken);
 
             _userSessionsRepoMock
                 .Setup(r => r.Create(It.IsAny<UserSessionsEntity>()))
@@ -89,7 +92,7 @@ namespace MyApp.Tests.Application.UserSessions
                 .ReturnsAsync((UsersEntity)null!);
 
             var ex = await Assert.ThrowsAsync<InvalidDataException>(() => _useCase.Execute(request));
-            Assert.Contains("Las credenciales son incorrectas.", ex.Message);
+            Assert.Contains("Email o contraseña incorrectos. Por favor, intenta de nuevo.", ex.Message);
         }
 
         [Fact]
@@ -118,7 +121,7 @@ namespace MyApp.Tests.Application.UserSessions
                 .Returns(false);
 
             var ex = await Assert.ThrowsAsync<InvalidDataException>(() => _useCase.Execute(request));
-            Assert.Contains("Las credenciales son incorrectas.", ex.Message);
+            Assert.Contains("Email o contraseña incorrectos. Por favor, intenta de nuevo.", ex.Message);
         }
 
         [Fact]

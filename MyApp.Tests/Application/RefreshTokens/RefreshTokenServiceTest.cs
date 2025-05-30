@@ -40,7 +40,9 @@ namespace MyApp.Tests.Application.RefreshTokens
             var refreshToken = MockRefreshToken.MockRefreshTokenEntity();
 
             _refreshTokenRepoMock
-                .Setup(r => r.GetByCondition(It.IsAny<Expression<Func<RefreshTokensEntity, bool>>>()))
+                .Setup(r => r.GetByCondition(
+                    It.IsAny<Expression<Func<RefreshTokensEntity, bool>>>(),
+                    It.IsAny<Expression<Func<RefreshTokensEntity, object>>[]>()))
                 .ReturnsAsync(refreshToken);
 
             _jwtHandlerMock
@@ -54,13 +56,6 @@ namespace MyApp.Tests.Application.RefreshTokens
         }
 
         [Fact]
-        public async Task Execute_EmptyRefreshToken_ThrowsValidationException()
-        {
-            var ex = await Assert.ThrowsAsync<ValidationException>(() => _service.Execute(""));
-            Assert.Contains("El refresh token es requerido.", ex.Message);
-        }
-
-        [Fact]
         public async Task Execute_WithExpiredRefreshToken_DeletesSessionAndThrowsException()
         {
             var refreshToken = MockRefreshToken.MockRefreshTokenEntityExpired();
@@ -68,7 +63,9 @@ namespace MyApp.Tests.Application.RefreshTokens
             var refreshTokenResponse = MockRefreshToken.MockRefreshTokenEntityExpiredWithActiveFalse();
 
             _refreshTokenRepoMock
-                .Setup(r => r.GetByCondition(x => x.Token == It.IsAny<string>()))
+                .Setup(r => r.GetByCondition(
+                    It.IsAny<Expression<Func<RefreshTokensEntity, bool>>>(),
+                    It.IsAny<Expression<Func<RefreshTokensEntity, object>>[]>()))
                 .ReturnsAsync(refreshToken);
 
             _userSessionsRepoMock
@@ -80,7 +77,7 @@ namespace MyApp.Tests.Application.RefreshTokens
                 .ReturnsAsync(refreshTokenResponse);
 
             var ex = await Assert.ThrowsAsync<UnauthorizedAccessException>(() => _service.Execute("expiredToken"));
-            Assert.Contains("La sessión ha expirado.", ex.Message);
+            Assert.Contains("Tu sesión ha expirado. Por favor, inicia sesión nuevamente.", ex.Message);
         }
     }
 }

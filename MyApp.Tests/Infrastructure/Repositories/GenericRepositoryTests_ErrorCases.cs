@@ -38,7 +38,7 @@ namespace MyApp.Tests.Infrastructure.Repositories
         {
             SeedDatabaseWithFakeData();
 
-            var resultado = await _genericRepository.Delete(x => x.FirstName == "Usuario");
+            var resultado = await _genericRepository.Delete(x => x.FirstName == "Usuario3");
 
             Assert.False(resultado);
             Assert.Equal(2, _dbContext.Users.Count());

@@ -28,27 +28,25 @@ namespace MyApp.Tests.Application.UserSessions
                 _loggerMock.Object
             );
         }
-
+         
         [Fact]
         public async Task Execute_WithValidData_ReturnsTrue()
         {
             var refreshToken = MockRefreshToken.MockRefreshTokenEntity();
 
             _refreshTokenRepoMock
-                .Setup(r => r.GetByCondition(It.IsAny<Expression<Func<RefreshTokensEntity, bool>>>()))
+                .Setup(r => r.GetByCondition(
+                    It.IsAny<Expression<Func<RefreshTokensEntity, bool>>>(),
+                    It.IsAny<Expression<Func<RefreshTokensEntity, object>>[]>()))
                 .ReturnsAsync(refreshToken);
 
             _refreshTokenRepoMock
-                .Setup(r => r.Delete(It.IsAny<Expression<Func<RefreshTokensEntity, bool>>>()))
-                .ReturnsAsync(true);
+                .Setup(r => r.Update(It.IsAny<RefreshTokensEntity>()))
+                .ReturnsAsync(refreshToken);
 
             _userSessionRepoMock
-                .Setup(r => r.Delete(It.IsAny<Expression<Func<UserSessionsEntity, bool>>>()))
-                .ReturnsAsync(true);
-
-            _refreshTokenRepoMock
-                .Setup(r => r.Delete(It.IsAny<Expression<Func<RefreshTokensEntity, bool>>>()))
-                .ReturnsAsync(true);
+                .Setup(r => r.Update(It.IsAny<UserSessionsEntity>()))
+                .ReturnsAsync((UserSessionsEntity entity) => entity);
 
             var result = await _useCase.Execute("myRefreshToken");
 

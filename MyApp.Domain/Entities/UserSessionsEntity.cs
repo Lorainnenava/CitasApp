@@ -1,7 +1,10 @@
-﻿namespace MyApp.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MyApp.Domain.Entities
 {
     public class UserSessionsEntity
     {
+        [Key]
         public int UserSessionId { get; set; }
         public int UserId { get; set; }
         public string IpAddress { get; set; } = string.Empty;
@@ -11,7 +14,7 @@
         public DateTime UpdatedAt { get; set; }
 
         // Relaciones
-        public UsersEntity User { get; set; } = new();
-        public RefreshTokensEntity RefreshTokenEntity { get; set; } = new();
+        public UsersEntity User { get; set; } = null!;
+        public RefreshTokensEntity RefreshTokenEntity { get; set; } = null!;
     }
 }

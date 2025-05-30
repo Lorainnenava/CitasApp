@@ -41,7 +41,7 @@ namespace MyApp.Application.UseCases.UserSessions
             var validator = new UserSessionCreateValidator();
             ValidatorHelper.ValidateAndThrow(request, validator);
 
-            var searchUser = await _usersRepository.GetByCondition(x => x.Email == request.Email, x=> x.Role);
+            var searchUser = await _usersRepository.GetByCondition(x => x.Email == request.Email);
 
             if (searchUser is null)
             {

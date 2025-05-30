@@ -1,8 +1,13 @@
-﻿namespace MyApp.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MyApp.Domain.Entities
 {
     public class MedicalOrdersEntity
     {
+        [Key]
         public int MedicalOrderId { get; set; }
+        [ForeignKey("Appointment")]
         public int AppointmentId { get; set; }
         public int UserId { get; set; }
         public int OrderTypeId { get; set; }
@@ -12,9 +17,9 @@
         public DateTime UpdatedAt { get; set; }
 
         // Relaciones
-        public AppointmentsEntity Appointment { get; set; } = new();
-        public UsersEntity User { get; set; } = new();
-        public OrderTypesEntity OrderType { get; set; } = new();
-        public StatusesEntity Status { get; set; } = new();
+        public AppointmentsEntity Appointment { get; set; } = null!;
+        public UsersEntity User { get; set; } = null!;
+        public OrderTypesEntity OrderType { get; set; } = null!;
+        public StatusesEntity Status { get; set; } = null!;
     }
 }

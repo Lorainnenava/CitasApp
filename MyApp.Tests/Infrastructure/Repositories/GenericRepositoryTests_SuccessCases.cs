@@ -69,9 +69,10 @@ namespace MyApp.Tests.Infrastructure.Repositories
         [Fact]
         public async Task Update_ShouldModifyEntity_WhenEntityExists()
         {
+            var existingEntity = await _dbContext.Users.FirstOrDefaultAsync(x=> x.UserId == 1);
             var entityToUpdate = MockUser.MockOneUserEntityUpdated();
 
-            UsersEntity? result = await _genericRepository.Update(entityToUpdate);
+            UsersEntity? result = await _genericRepository.Update(existingEntity!, entityToUpdate);
 
             Assert.NotNull(result);
             Assert.Equal("+57 300 123 4685", result.Phone);

@@ -24,6 +24,12 @@ namespace MyApp.Tests.Mocks
                 UserId = 1,
                 CodeValidation = null,
                 IsActive = true,
+                RoleId = 1,
+                Role = new RolesEntity
+                {
+                    RoleId = 1,
+                    Name = "User"
+                }
             };
         }
 
@@ -41,20 +47,43 @@ namespace MyApp.Tests.Mocks
         {
             return new RefreshTokensEntity
             {
+                RefreshTokenId = 1,
                 UserSessionId = 99,
                 IsActive = true,
                 Token = "refreshToken123",
                 TokenExpirationDate = DateTime.UtcNow.AddDays(7),
                 UserSession =
                 {
-                    UserSessionId = 101,
-                    UserId = 202,
+                    UserSessionId = 99,
+                    UserId = 1,
                     IpAddress = "192.168.0.123",
                     IsRevoked = false,
                     ExpiresAt = DateTime.UtcNow.AddDays(7),
                     CreatedAt = DateTime.UtcNow.AddDays(-1),
                     UpdatedAt = DateTime.UtcNow,
                 }
+            };
+        }
+
+        public static RefreshTokensEntity MockGenerateRefreshToken()
+        {
+            return new RefreshTokensEntity
+            {
+                IsActive = true,
+                Token = "refreshToken123",
+                TokenExpirationDate = DateTime.UtcNow.AddDays(7),
+            };
+        }
+
+        public static RefreshTokensEntity MockRefreshTokensEntityTwo()
+        {
+            return new RefreshTokensEntity
+            {
+                RefreshTokenId = 1,
+                UserSessionId = 99,
+                IsActive = true,
+                Token = "refreshToken123",
+                TokenExpirationDate = DateTime.UtcNow.AddDays(7)
             };
         }
 
@@ -72,10 +101,10 @@ namespace MyApp.Tests.Mocks
         {
             return new UsersEntity
             {
-                Email = "test@example.com",
+                Email = "user@example.com",
                 PasswordHash = "hashed_correct",
-                IsActive = true,
-                CodeValidation = null
+                IsActive = false,
+                CodeValidation = "56412"
             };
         }
     }

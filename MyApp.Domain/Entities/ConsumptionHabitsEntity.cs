@@ -1,7 +1,10 @@
-﻿namespace MyApp.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MyApp.Domain.Entities
 {
     public class ConsumptionHabitsEntity
     {
+        [Key]
         public int ConsumptionHabitId { get; set; }
         public int MedicalHistoryId { get; set; }
         public bool ConsumesAlcohol { get; set; }
@@ -16,6 +19,6 @@
         public DateTime UpdatedAt { get; set; }
 
         // Relación
-        public MedicalHistoriesEntity MedicalHistory { get; set; } = new();
+        public MedicalHistoriesEntity MedicalHistory { get; set; } = null!;
     }
 }

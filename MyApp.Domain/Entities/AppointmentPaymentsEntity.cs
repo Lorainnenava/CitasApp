@@ -1,7 +1,10 @@
-﻿namespace MyApp.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MyApp.Domain.Entities
 {
     public class AppointmentPaymentsEntity
     {
+        [Key]
         public int AppointmentPaymentId { get; set; }
         public int AppointmentId { get; set; }
         public double Amount { get; set; }
@@ -12,8 +15,8 @@
         public DateTime UpdatedAt { get; set; }
 
         // Relaciones
-        public AppointmentsEntity Appointment { get; set; } = new();
-        public PaymentTypesEntity PaymentType { get; set; } = new();
-        public StatusesEntity Status { get; set; } = new();
+        public AppointmentsEntity Appointment { get; set; } = null!;
+        public PaymentTypesEntity PaymentType { get; set; } = null!;
+        public StatusesEntity Status { get; set; } = null!;
     }
 }
