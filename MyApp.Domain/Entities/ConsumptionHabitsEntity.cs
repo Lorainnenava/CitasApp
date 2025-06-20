@@ -15,7 +15,7 @@ namespace MyApp.Domain.Entities
         public bool Exercises { get; set; }
         public int ExerciseDaysPerWeek { get; set; }
         public int AverageSleepHours { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
         // Relación

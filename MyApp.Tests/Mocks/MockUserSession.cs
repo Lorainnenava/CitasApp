@@ -40,6 +40,7 @@ namespace MyApp.Tests.Mocks
                 UserSessionId = 99,
                 UserId = 1,
                 IpAddress = "127.0.0.1",
+                RefreshTokenEntity = MockRefreshTokensEntity(),
             };
         }
 
@@ -52,7 +53,7 @@ namespace MyApp.Tests.Mocks
                 IsActive = true,
                 Token = "refreshToken123",
                 TokenExpirationDate = DateTime.UtcNow.AddDays(7),
-                UserSession =
+                UserSession = new UserSessionsEntity
                 {
                     UserSessionId = 99,
                     UserId = 1,

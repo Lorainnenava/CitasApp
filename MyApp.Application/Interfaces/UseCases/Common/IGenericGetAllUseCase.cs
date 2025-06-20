@@ -6,6 +6,6 @@ namespace MyApp.Application.Interfaces.UseCases.Common
         where TEntity : class
         where TResponse : class
     {
-        Task<IEnumerable<TResponse>> Execute(Expression<Func<TEntity, bool>>? condition = null);
+        Task<IEnumerable<TResponse>> Execute(Expression<Func<TEntity, bool>>? condition = null, params Expression<Func<TEntity, object>>[] includes);
     }
 }

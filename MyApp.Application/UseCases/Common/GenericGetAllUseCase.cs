@@ -24,11 +24,11 @@ namespace MyApp.Application.UseCases.Common
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<TResponse>> Execute(Expression<Func<TEntity, bool>>? condition = null)
+        public async Task<IEnumerable<TResponse>> Execute(Expression<Func<TEntity, bool>>? condition = null, params Expression<Func<TEntity, object>>[] includes)
         {
             _logger.LogInformation("Iniciando la obtención para registros de tipo {EntityName}.", typeof(TEntity).Name);
 
-            var searchItems = await _repository.GetAll(condition);
+            var searchItems = await _repository.GetAll(condition, includes);
 
             var response = _mapper.Map<IEnumerable<TResponse>>(searchItems);
 

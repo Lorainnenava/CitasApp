@@ -15,14 +15,23 @@ builder.Configuration
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
     .AddEnvironmentVariables();
 
-string? connectionString;
+string? connectionString = null;
+
 if (builder.Environment.IsDevelopment())
 {
     connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 }
 else
 {
-    connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
+    var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+
+    if (!string.IsNullOrWhiteSpace(databaseUrl))
+    {
+        var uri = new Uri(databaseUrl);
+        var userInfo = uri.UserInfo.Split(':');
+
+        connectionString = $"Host={uri.Host};Port={uri.Port};Username={userInfo[0]};Password={userInfo[1]};Database={uri.AbsolutePath.TrimStart('/')};SSL Mode=Require;Trust Server Certificate=true";
+    }
 }
 
 if (string.IsNullOrWhiteSpace(connectionString))
@@ -30,12 +39,10 @@ if (string.IsNullOrWhiteSpace(connectionString))
     throw new InvalidOperationException("No se encontró la cadena de conexión a la base de datos.");
 }
 
-// Registra el DbContext en el contenedor de servicios
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseMySql(
-        connectionString,
-        ServerVersion.AutoDetect(connectionString)
-    ));
+{
+    options.UseNpgsql(connectionString);
+});
 
 // Add services to the container.
 builder.Services.AddControllers();

@@ -10,14 +10,14 @@ namespace MyApp.Application.UseCases.ChangeHospitalRequests
 {
     public class ChangeHospitalRequestGetByIdUseCase : IChangeHospitalRequestGetByIdUseCase
     {
-        private readonly IGenericRepository<ChangeHospitalRequestsEntity> _changeHospitalRequestRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<ChangeHospitalRequestGetByIdUseCase> _logger;
+        private readonly IGenericRepository<ChangeHospitalRequestsEntity> _changeHospitalRequestRepository;
 
         public ChangeHospitalRequestGetByIdUseCase(
-            IGenericRepository<ChangeHospitalRequestsEntity> changeHospitalRequestRepository,
+            IMapper mapper,
             ILogger<ChangeHospitalRequestGetByIdUseCase> logger,
-            IMapper mapper)
+            IGenericRepository<ChangeHospitalRequestsEntity> changeHospitalRequestRepository)
         {
             _mapper = mapper;
             _logger = logger;

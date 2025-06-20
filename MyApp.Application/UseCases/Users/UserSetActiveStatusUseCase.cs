@@ -32,6 +32,12 @@ namespace MyApp.Application.UseCases.Users
                 throw new NotFoundException("El usuario que intentas cambiar de estado no existe o ha sido eliminado.");
             }
 
+            if(searchUser.CodeValidation is not null)
+            {
+                _logger.LogWarning("No se puede cambiar el estado de este usuario ya que no se ha validado");
+                throw new InvalidOperationException("No se puede cambiar el estado del usuario porque aún no ha validado su cuenta.");
+            }
+
             searchUser.IsActive = !searchUser.IsActive;
             searchUser.UpdatedAt = DateTime.Now;
 

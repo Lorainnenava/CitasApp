@@ -12,7 +12,7 @@ namespace MyApp.Domain.Entities
         public int MunicipalityId { get; set; }
         public string Address { get; set; } = string.Empty;
         public int ResidentsCount { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
         // Relación

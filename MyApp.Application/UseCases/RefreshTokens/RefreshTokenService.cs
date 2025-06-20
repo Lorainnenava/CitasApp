@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using MyApp.Application.DTOs.UserSessions;
 using MyApp.Application.Interfaces.Infrastructure;
 using MyApp.Application.Interfaces.UseCases.RefreshTokens;
@@ -12,10 +11,10 @@ namespace MyApp.Application.UseCases.RefreshTokens
 {
     public class RefreshTokenService : IRefreshTokenService
     {
-        private readonly IGenericRepository<RefreshTokensEntity> _refreshTokensRepository;
-        private readonly IGenericRepository<UserSessionsEntity> _userSessionsRepository;
         private readonly IJwtHandler _jwtHandler;
         private readonly ILogger<RefreshTokenService> _logger;
+        private readonly IGenericRepository<UserSessionsEntity> _userSessionsRepository;
+        private readonly IGenericRepository<RefreshTokensEntity> _refreshTokensRepository;
 
         public RefreshTokenService(
             IGenericRepository<RefreshTokensEntity> refreshTokensRepository,

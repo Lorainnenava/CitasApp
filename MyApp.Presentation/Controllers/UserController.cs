@@ -10,13 +10,13 @@ namespace MyApp.Presentation.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        public readonly IUserUpdateUseCase _userUpdateUseCase;
         public readonly IUserCreateUseCase _userCreateUseCase;
         public readonly IUserGetByIdUseCase _userGetByIdUseCase;
-        public readonly IUserGetAllPaginatedUseCase _userGetAllUseCase;
-        public readonly IUserUpdateUseCase _userUpdateUseCase;
-        public readonly IUserSetActiveStatusUseCase _userSetActiveStatusUseCase;
-        public readonly IUserChangePasswordUseCase _userChangePasswordUseCase;
         public readonly IUserValidateUseCase _userValidateUseCase;
+        public readonly IUserGetAllPaginatedUseCase _userGetAllUseCase;
+        public readonly IUserChangePasswordUseCase _userChangePasswordUseCase;
+        public readonly IUserSetActiveStatusUseCase _userSetActiveStatusUseCase;
 
         public UserController(
             IUserCreateUseCase userCreateUseCase,
@@ -41,7 +41,7 @@ namespace MyApp.Presentation.Controllers
         public async Task<IActionResult> CreateUser([FromBody] UserCreateRequest request)
         {
             var result = await _userCreateUseCase.Execute(request);
-            return CreatedAtAction(nameof(CreateUser), new { id = result.UserId }, result);
+            return Ok(result);
         }
 
         [HttpGet("getById/{UserId}")]

@@ -9,7 +9,7 @@ namespace MyApp.Domain.Entities
         public int UserId { get; set; }
         public string Message { get; set; } = string.Empty;
         public bool IsRead { get; set; } = false;
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }
 }

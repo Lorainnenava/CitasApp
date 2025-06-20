@@ -51,7 +51,9 @@ namespace MyApp.Application.UseCases.Users
                 IdentificationNumber = x.IdentificationNumber,
                 IdentificationTypeName = x.IdentificationType.Name,
                 GenderName = x.Gender.Name,
-                RoleName = x.Role.Name
+                RoleName = x.Role.Name,
+                IsValidated = x.CodeValidation is not null,
+                IsActived = x.IsActive,
             });
 
             _logger.LogInformation("Se obtuvieron {Count} usuarios.", totalCount);

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
 using MyApp.Application.DTOs.Hospitals;
+using MyApp.Application.Interfaces.UseCases.Hospitals;
 using MyApp.Application.Validators.Hospitals;
 using MyApp.Domain.Entities;
 using MyApp.Domain.Interfaces.Infrastructure;
@@ -9,11 +10,11 @@ using MyApp.Shared.Services;
 
 namespace MyApp.Application.UseCases.Hospitals
 {
-    public class HospitalUpdateUseCase
+    public class HospitalUpdateUseCase : IHospitalUpdateUseCase
     {
-        private readonly IGenericRepository<HospitalsEntity> _hospitalRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<HospitalUpdateUseCase> _logger;
+        private readonly IGenericRepository<HospitalsEntity> _hospitalRepository;
 
         public HospitalUpdateUseCase(
             IMapper mapper,

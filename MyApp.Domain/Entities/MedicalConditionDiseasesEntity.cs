@@ -8,7 +8,7 @@ namespace MyApp.Domain.Entities
         public int MedicalConditionDiseaseId { get; set; }
         public int MedicalConditionId { get; set; }
         public int DiseaseId { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
         // Relaciones

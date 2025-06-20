@@ -14,7 +14,7 @@ namespace MyApp.Domain.Entities
         public int CovidVaccineDoses { get; set; }
         public string FamilyDiseases { get; set; } = string.Empty;
         public string Surgeries { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
         // Relación

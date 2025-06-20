@@ -14,6 +14,11 @@ namespace MyApp.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
+        public DbContext GetDbContext()
+        {
+            return _dbContext;
+        }
+
         public async Task<T> Create(T request)
         {
             var createEntity = _dbContext.Set<T>().Add(request);

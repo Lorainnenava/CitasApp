@@ -1,17 +1,18 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
 using MyApp.Application.DTOs.Hospitals;
+using MyApp.Application.Interfaces.UseCases.Hospitals;
 using MyApp.Domain.Entities;
 using MyApp.Domain.Interfaces.Infrastructure;
 using MyApp.Shared.Exceptions;
 
 namespace MyApp.Application.UseCases.Hospitals
 {
-    public class HospitalToogleIsActiveUseCase
+    public class HospitalToogleIsActiveUseCase : IHospitalToogleIsActiveUseCase
     {
-        private readonly IGenericRepository<HospitalsEntity> _hospitalRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<HospitalToogleIsActiveUseCase> _logger;
+        private readonly IGenericRepository<HospitalsEntity> _hospitalRepository;
 
         public HospitalToogleIsActiveUseCase(
             IMapper mapper,

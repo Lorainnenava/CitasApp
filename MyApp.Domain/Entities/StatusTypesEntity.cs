@@ -7,6 +7,6 @@ namespace MyApp.Domain.Entities
         [Key]
         public int StatusTypeId { get; set; }
         public string Name { get; set; } = string.Empty;
-        public bool IsSystemDefined { get; set; } = false;
+        public bool IsSystemDefined { get; set; } = true;
     }
 }

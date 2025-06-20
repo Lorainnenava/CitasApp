@@ -11,7 +11,7 @@ namespace MyApp.Domain.Entities
         public int AppointmentId { get; set; }
         public string ConsultationReason { get; set; } = string.Empty;
         public string? Notes { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
         // Relaciones

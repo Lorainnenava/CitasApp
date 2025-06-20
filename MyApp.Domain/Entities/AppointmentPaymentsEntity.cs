@@ -11,7 +11,7 @@ namespace MyApp.Domain.Entities
         public int PaymentTypeId { get; set; }
         public DateTime PaymentDate { get; set; }
         public int StatusId { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
         // Relaciones

@@ -13,20 +13,20 @@ namespace MyApp.Application.UseCases.ChangeHospitalRequests
 {
     public class ChangeHospitalRequestChangeStateUseCase : IChangeHospitalRequestChangeStateUseCase
     {
-        private readonly IGenericRepository<UsersEntity> _userRepository;
-        private readonly IGenericRepository<ChangeHospitalRequestsEntity> _changeHospitalRequestRepository;
         private readonly IMapper _mapper;
+        private readonly IGenericRepository<UsersEntity> _userRepository;
         private readonly ILogger<ChangeHospitalRequestChangeStateUseCase> _logger;
+        private readonly IGenericRepository<ChangeHospitalRequestsEntity> _changeHospitalRequestRepository;
 
         public ChangeHospitalRequestChangeStateUseCase(
-            IGenericRepository<UsersEntity> userRepository,
             IMapper mapper,
+            IGenericRepository<UsersEntity> userRepository,
             ILogger<ChangeHospitalRequestChangeStateUseCase> logger,
             IGenericRepository<ChangeHospitalRequestsEntity> changeHospitalRequestRepository)
         {
             _logger = logger;
-            _userRepository = userRepository;
             _mapper = mapper;
+            _userRepository = userRepository;
             _changeHospitalRequestRepository = changeHospitalRequestRepository;
         }
 

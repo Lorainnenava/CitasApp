@@ -10,18 +10,18 @@ namespace MyApp.Application.UseCases.ChangeHospitalRequests
 {
     public class ChangeHospitalRequestGetAllPaginatedUseCase : IChangeHospitalRequestGetAllPaginatedUseCase
     {
-        private readonly IGenericRepository<ChangeHospitalRequestsEntity> _changeHospitalRequestRepository;
         private readonly IGenericRepository<HospitalsEntity> _hospitalRepository;
         private readonly ILogger<ChangeHospitalRequestGetAllPaginatedUseCase> _logger;
+        private readonly IGenericRepository<ChangeHospitalRequestsEntity> _changeHospitalRequestRepository;
 
         public ChangeHospitalRequestGetAllPaginatedUseCase(
-            IGenericRepository<ChangeHospitalRequestsEntity> changeHospitalRequestRepository,
+            IGenericRepository<HospitalsEntity> hospitalRepository,
             ILogger<ChangeHospitalRequestGetAllPaginatedUseCase> logger,
-            IGenericRepository<HospitalsEntity> hospitalRepository)
+            IGenericRepository<ChangeHospitalRequestsEntity> changeHospitalRequestRepository)
         {
             _logger = logger;
-            _changeHospitalRequestRepository = changeHospitalRequestRepository;
             _hospitalRepository = hospitalRepository;
+            _changeHospitalRequestRepository = changeHospitalRequestRepository;
         }
 
         public async Task<PaginationResult<ChangeHospitalRequestListResponse>> Execute(int Page, int Size, int HospitalId)

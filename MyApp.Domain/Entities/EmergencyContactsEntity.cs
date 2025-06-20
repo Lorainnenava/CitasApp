@@ -10,7 +10,7 @@ namespace MyApp.Domain.Entities
         public string FullName { get; set; } = string.Empty;
         public int RelationshipId { get; set; }
         public string PhoneNumber { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
         // Relación

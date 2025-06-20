@@ -1,9 +1,9 @@
-﻿using MyApp.Application.DTOs.HospitalSchedules;
+﻿using MyApp.Application.DTOs.Hospitals;
 
-namespace MyApp.Application.Interfaces.UseCases.HospitalSchedules
+namespace MyApp.Application.Interfaces.UseCases.Hospitals
 {
     public interface IHospitalUpdateUseCase
     {
-        Task<HospitalScheduleResponse> Execute(int HospitalScheduleId, HospitalScheduleRequest request);
+        Task<HospitalResponse> Execute(int HospitalId, HospitalUpdateRequest request);
     }
 }

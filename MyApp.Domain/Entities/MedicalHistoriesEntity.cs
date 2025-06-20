@@ -13,7 +13,7 @@ namespace MyApp.Domain.Entities
         public int BloodTypeId { get; set; }
         public int MaritalStatusId { get; set; }
         public string Occupation { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
         // Relaciones

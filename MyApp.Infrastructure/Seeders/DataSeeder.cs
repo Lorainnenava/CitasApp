@@ -9,7 +9,7 @@ namespace MyApp.Infrastructure.Seeders
         {
             // Municipios del Atlántico, Colombia
             modelBuilder.Entity<MunicipalitiesEntity>().HasData(
-                new MunicipalitiesEntity { MunicipalityId = 1, Name = "Barranquilla" },
+                new MunicipalitiesEntity { MunicipalityId = 1, Name = "Barranquilla", IsSystemDefined= true },
                 new MunicipalitiesEntity { MunicipalityId = 2, Name = "Baranoa" },
                 new MunicipalitiesEntity { MunicipalityId = 3, Name = "Campo de la Cruz" },
                 new MunicipalitiesEntity { MunicipalityId = 4, Name = "Candelaria" },
@@ -178,6 +178,20 @@ namespace MyApp.Infrastructure.Seeders
                 new RelationShipsEntity { RelationShipId = 9, Name = "Otro" }
             );
 
+            // Módulos
+            modelBuilder.Entity<ModulesEntity>().HasData(
+                new ModulesEntity { ModuleId = 1, Name = "Gestión de Usuarios" },
+                new ModulesEntity { ModuleId = 2, Name = "Hospitales" },
+                new ModulesEntity { ModuleId = 3, Name = "Citas Médicas" },
+                new ModulesEntity { ModuleId = 4, Name = "Historias Clinicas" },
+                new ModulesEntity { ModuleId = 5, Name = "Reportes" },
+                new ModulesEntity { ModuleId = 6, Name = "Utilitarios" },
+                new ModulesEntity { ModuleId = 7, Name = "Configuración" },
+                new ModulesEntity { ModuleId = 8, Name = "Seguridad y Accesos" }
+            );
+
+            // Submódulos
+            // Permisos
         }
     }
 }

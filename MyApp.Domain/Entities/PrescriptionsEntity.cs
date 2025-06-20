@@ -14,7 +14,7 @@ namespace MyApp.Domain.Entities
         public string Frequency { get; set; } = string.Empty;
         public string Duration { get; set; } = string.Empty;
         public string? Notes { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
         // Relaciones

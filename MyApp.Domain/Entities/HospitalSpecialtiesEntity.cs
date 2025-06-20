@@ -9,7 +9,7 @@ namespace MyApp.Domain.Entities
         public int HospitalId { get; set; }
         public int SpecialtyId { get; set; }
         public bool IsActive { get; set; } = true;
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
         // Relaciones

@@ -6,7 +6,6 @@ using MyApp.Domain.Entities;
 using MyApp.Domain.Interfaces.Infrastructure;
 using MyApp.Shared.Exceptions;
 using MyApp.Tests.Mocks;
-using System;
 using System.Linq.Expressions;
 
 namespace MyApp.Tests.Application.Users

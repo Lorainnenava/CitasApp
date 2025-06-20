@@ -14,11 +14,12 @@ namespace MyApp.Domain.Entities
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
         public int StatusId { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
         // Relaciones
         public UsersEntity User { get; set; } = null!;
+        public HospitalsEntity Hospital { get; set; } = null!;
         public SpecialtiesEntity Specialty { get; set; } = null!;
         public DoctorsEntity Doctor { get; set; } = null!;
         public StatusesEntity Status { get; set; } = null!;

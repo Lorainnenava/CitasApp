@@ -26,6 +26,7 @@ namespace MyApp.Infrastructure.Context
         public DbSet<AppointmentPaymentsEntity> AppointmentPayments { get; set; }
         public DbSet<AppointmentsEntity> Appointments { get; set; }
         public DbSet<BloodTypesEntity> BloodTypes { get; set; }
+        public DbSet<ChangeHospitalRequestsEntity> ChangeHospitalRequests { get; set; }
         public DbSet<ConsumptionHabitsEntity> ConsumptionHabits { get; set; }
         public DbSet<DiagnosesEntity> Diagnoses { get; set; }
         public DbSet<DiseasesEntity> Diseases { get; set; }
@@ -36,6 +37,8 @@ namespace MyApp.Infrastructure.Context
         public DbSet<GendersEntity> Genders { get; set; }
         public DbSet<HospitalScheduleDetailsEntity> HospitalScheduleDetails { get; set; }
         public DbSet<HospitalSchedulesEntity> HospitalSchedules { get; set; }
+        public DbSet<HospitalsEntity> Hospitals { get; set; }
+        public DbSet<HospitalSpecialtiesEntity> HospitalSpecialties { get; set; }
         public DbSet<IdentificationTypesEntity> IdentificationTypes { get; set; }
         public DbSet<MaritalStatusesEntity> MaritalStatuses { get; set; }
         public DbSet<MedicalConditionAllergiesEntity> MedicalConditionAllergies { get; set; }
@@ -43,6 +46,7 @@ namespace MyApp.Infrastructure.Context
         public DbSet<MedicalConditionsEntity> MedicalConditions { get; set; }
         public DbSet<MedicalHistoriesEntity> MedicalHistories { get; set; }
         public DbSet<MedicalOrdersEntity> MedicalOrders { get; set; }
+        public DbSet<ModulesEntity> Modules { get; set; }
         public DbSet<MunicipalitiesEntity> Municipalities { get; set; }
         public DbSet<NotificationsEntity> Notifications { get; set; }
         public DbSet<OrderTypesEntity> OrderTypes { get; set; }
@@ -51,16 +55,15 @@ namespace MyApp.Infrastructure.Context
         public DbSet<PrescriptionsEntity> Prescriptions { get; set; }
         public DbSet<RefreshTokensEntity> RefreshTokens { get; set; }
         public DbSet<RelationShipsEntity> RelationShips { get; set; }
-        public DbSet<RolePermissionsEntity> RolePermissions { get; set; }
         public DbSet<RolesEntity> Roles { get; set; }
+        public DbSet<RoleSubModulePermissionsEntity> RoleSubModulePermissions { get; set; }
         public DbSet<SpecialtiesEntity> Specialties { get; set; }
         public DbSet<StatusesEntity> Statuses { get; set; }
         public DbSet<StatusTypesEntity> StatusTypes { get; set; }
+        public DbSet<SubModulesEntity> SubModules { get; set; }
+        public DbSet<SubmodulePermissionsEntity> SubmodulePermissions { get; set; }
         public DbSet<UserAddressDetailsEntity> UserAddressDetails { get; set; }
         public DbSet<UsersEntity> Users { get; set; }
         public DbSet<UserSessionsEntity> UserSessions { get; set; }
-        public DbSet<HospitalsEntity> Hospitals { get; set; }
-        public DbSet<HospitalSpecialtiesEntity> HospitalSpecialties { get; set; }
-        public DbSet<ChangeHospitalRequestsEntity> ChangeHospitalRequest { get; set; }
     }
 }

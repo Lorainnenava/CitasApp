@@ -1,9 +1,11 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace MyApp.Domain.Interfaces.Infrastructure
 {
     public interface IGenericRepository<T>
     {
+        DbContext GetDbContext();
         Task<T> Create(T request);
         Task<T?> GetByCondition(Expression<Func<T, bool>> condition, params Expression<Func<T, object>>[] includes);
         Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>>? condition = null, params Expression<Func<T, object>>[] includes);

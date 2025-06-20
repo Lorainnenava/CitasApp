@@ -10,7 +10,7 @@ namespace MyApp.Domain.Entities
         public int MedicalConditionId { get; set; }
         [ForeignKey("Allergy")]
         public int AllergyId { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
         // Relaciones

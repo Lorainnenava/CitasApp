@@ -12,6 +12,7 @@ namespace MyApp.Infrastructure
         public static IServiceCollection AddInfrastructureDependencies(this IServiceCollection services)
         {
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IModuleRepository, ModuleRepository>();
             services.AddScoped<IJwtHandler, JwtTokenService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IPasswordHasherService, PasswordHasherService>();

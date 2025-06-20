@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MyApp.Application.DTOs.Hospitals;
 
 namespace MyApp.Application.Interfaces.UseCases.Hospitals
 {
-    interface IHospitalCreateUseCase
+    public interface IHospitalCreateUseCase
     {
+        Task<HospitalResponse> Execute(HospitalCreateRequest request);
     }
 }

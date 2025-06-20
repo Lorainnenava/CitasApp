@@ -35,10 +35,10 @@ namespace MyApp.Tests.Application.ChangeHospitalRequests
             _mapper = config.CreateMapper();
 
             _useCase = new ChangeHospitalRequestCreateUseCase(
-                _userRepositoryMock.Object,
                 _mapper,
-                _loggerMock.Object,
+                _userRepositoryMock.Object,
                 _hospitalRepositoryMock.Object,
+                _loggerMock.Object,
                 _changeHospitalRequestRepositoryMock.Object);
         }
 
