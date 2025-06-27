@@ -9,7 +9,7 @@ namespace MyApp.Infrastructure.Seeders
         {
             // Municipios del Atlántico, Colombia
             modelBuilder.Entity<MunicipalitiesEntity>().HasData(
-                new MunicipalitiesEntity { MunicipalityId = 1, Name = "Barranquilla", IsSystemDefined= true },
+                new MunicipalitiesEntity { MunicipalityId = 1, Name = "Barranquilla", IsSystemDefined = true },
                 new MunicipalitiesEntity { MunicipalityId = 2, Name = "Baranoa" },
                 new MunicipalitiesEntity { MunicipalityId = 3, Name = "Campo de la Cruz" },
                 new MunicipalitiesEntity { MunicipalityId = 4, Name = "Candelaria" },
@@ -180,17 +180,80 @@ namespace MyApp.Infrastructure.Seeders
 
             // Módulos
             modelBuilder.Entity<ModulesEntity>().HasData(
-                new ModulesEntity { ModuleId = 1, Name = "Gestión de Usuarios" },
-                new ModulesEntity { ModuleId = 2, Name = "Hospitales" },
-                new ModulesEntity { ModuleId = 3, Name = "Citas Médicas" },
-                new ModulesEntity { ModuleId = 4, Name = "Historias Clinicas" },
-                new ModulesEntity { ModuleId = 5, Name = "Reportes" },
-                new ModulesEntity { ModuleId = 6, Name = "Utilitarios" },
-                new ModulesEntity { ModuleId = 7, Name = "Configuración" },
-                new ModulesEntity { ModuleId = 8, Name = "Seguridad y Accesos" }
+                new ModulesEntity { ModuleId = 1, Name = "Gestión de Usuarios", Icon = "", Route = "gestionUsuarios", Order = 1, IsActive = true },
+                new ModulesEntity { ModuleId = 2, Name = "Gestión de Hospitales", Icon = "", Route = "gestionhospitales", Order = 2, IsActive = true },
+                new ModulesEntity { ModuleId = 3, Name = "Citas Médicas", Icon = "", Route = "citasMedicas", Order = 3, IsActive = true },
+                new ModulesEntity { ModuleId = 4, Name = "Historias Clinicas", Icon = "", Route = "historiasClinicas", Order = 4, IsActive = true },
+                new ModulesEntity { ModuleId = 5, Name = "Reportes", Icon = "", Route = "reportes", Order = 5, IsActive = true },
+                new ModulesEntity { ModuleId = 6, Name = "Solicitudes", Icon = "", Route = "solicitudes", Order = 6, IsActive = true },
+                new ModulesEntity { ModuleId = 7, Name = "Utilitarios", Icon = "", Route = "utilitarios", Order = 7, IsActive = true },
+                new ModulesEntity { ModuleId = 8, Name = "Configuración", Icon = "", Route = "configuracion", Order = 8, IsActive = true },
+                new ModulesEntity { ModuleId = 9, Name = "Seguridad y Accesos", Icon = "", Route = "seguridadAcceso", Order = 9, IsActive = true },
+                new ModulesEntity { ModuleId = 10, Name = "Panel personal", Icon = "", Route = "panelPersonal", Order = 10, IsActive = true }
             );
 
             // Submódulos
+            modelBuilder.Entity<SubModulesEntity>().HasData(
+                // Gestión de Usuarios
+                new SubModulesEntity { SubModuleId = 1, ModuleId = 1, Name = "Lista de usuarios", Route = "usuarios", Order = 1, IsActive = true },
+                new SubModulesEntity { SubModuleId = 2, ModuleId = 1, Name = "Crear usuario", Route = "crear", Order = 2, IsActive = true },
+                new SubModulesEntity { SubModuleId = 3, ModuleId = 1, Name = "Lista doctores", Route = "doctores", Order = 3, IsActive = true },
+                new SubModulesEntity { SubModuleId = 4, ModuleId = 1, Name = "Vacaciones doctores", Route = "vacacionesDoctores", Order = 4, IsActive = true },
+
+                // Gestión de Hospitales
+                new SubModulesEntity { SubModuleId = 5, ModuleId = 2, Name = "Lista de hospitales", Route = "hospitales", Order = 1, IsActive = true },
+
+                // Citas Médicas
+                new SubModulesEntity { SubModuleId = 6, ModuleId = 3, Name = "Agendar cita", Route = "agendar", Order = 1, IsActive = true },
+                new SubModulesEntity { SubModuleId = 7, ModuleId = 3, Name = "Citas por paciente", Route = "porPaciente", Order = 2, IsActive = true },
+                new SubModulesEntity { SubModuleId = 8, ModuleId = 3, Name = "Citas por médico", Route = "porDoctor", Order = 3, IsActive = true },
+                new SubModulesEntity { SubModuleId = 9, ModuleId = 3, Name = "Citas canceladas", Route = "canceladas", Order = 4, IsActive = true },
+                new SubModulesEntity { SubModuleId = 10, ModuleId = 3, Name = "Lista de citas", Route = "todas", Order = 5, IsActive = true },
+                new SubModulesEntity { SubModuleId = 11, ModuleId = 3, Name = "Reprogramar cita", Route = "reprogramar", Order = 6, IsActive = true },
+
+                // Historias Clínicas
+                new SubModulesEntity { SubModuleId = 12, ModuleId = 4, Name = "Buscar historia", Route = "buscar", Order = 1, IsActive = true },
+                new SubModulesEntity { SubModuleId = 13, ModuleId = 4, Name = "Crear historia medica", Route = "buscar", Order = 1, IsActive = true },
+                new SubModulesEntity { SubModuleId = 14, ModuleId = 4, Name = "Mi historia medica", Route = "miHistoriaMedica", Order = 2, IsActive = true },
+
+                // Reportes
+                new SubModulesEntity { SubModuleId = 15, ModuleId = 5, Name = "Reportes médicos", Route = "medicos", Order = 1, IsActive = true },
+                new SubModulesEntity { SubModuleId = 16, ModuleId = 5, Name = "Reportes administrativos", Route = "administrativos", Order = 2, IsActive = true },
+
+                // Solicitudes
+                new SubModulesEntity { SubModuleId = 17, ModuleId = 6, Name = "Solicitudes cambio de hospital", Route = "cambioDeHospital", Order = 1, IsActive = true },
+                new SubModulesEntity { SubModuleId = 18, ModuleId = 6, Name = "Solicitudes de vacaciones", Route = "solicitudVacaciones", Order = 2, IsActive = true },
+                new SubModulesEntity { SubModuleId = 19, ModuleId = 10, Name = "Mis solicitudes", Route = "misVacaciones", Order = 4, IsActive = true },
+
+                // Utilitarios
+                new SubModulesEntity { SubModuleId = 20, ModuleId = 7, Name = "Géneros", Route = "generos", Order = 1, IsActive = true },
+                new SubModulesEntity { SubModuleId = 21, ModuleId = 7, Name = "Tipos de documento", Route = "tiposDeIdentificacion", Order = 2, IsActive = true },
+                new SubModulesEntity { SubModuleId = 22, ModuleId = 7, Name = "Especialidades", Route = "especialidades", Order = 3, IsActive = true },
+                new SubModulesEntity { SubModuleId = 23, ModuleId = 7, Name = "Alergias", Route = "alergias", Order = 4, IsActive = true },
+                new SubModulesEntity { SubModuleId = 24, ModuleId = 7, Name = "Tipos de sangre", Route = "tiposDeSangre", Order = 5, IsActive = true },
+                new SubModulesEntity { SubModuleId = 25, ModuleId = 7, Name = "Enfermedades", Route = "enfermedades", Order = 6, IsActive = true },
+                new SubModulesEntity { SubModuleId = 26, ModuleId = 7, Name = "Tipos de estado", Route = "tiposDeEstado", Order = 7, IsActive = true },
+                new SubModulesEntity { SubModuleId = 27, ModuleId = 7, Name = "Municipios", Route = "municipios", Order = 8, IsActive = true },
+                new SubModulesEntity { SubModuleId = 28, ModuleId = 7, Name = "Tipos de órdenes", Route = "tiposDeOrdenes", Order = 9, IsActive = true },
+                new SubModulesEntity { SubModuleId = 29, ModuleId = 7, Name = "Tipos de pago", Route = "tiposDePago", Order = 10, IsActive = true },
+                new SubModulesEntity { SubModuleId = 30, ModuleId = 7, Name = "Estados", Route = "estados", Order = 11, IsActive = true },
+
+                // Configuración
+                new SubModulesEntity { SubModuleId = 31, ModuleId = 8, Name = "Asignación de horarios", Route = "asignarHorarios", Order = 1, IsActive = true },
+                new SubModulesEntity { SubModuleId = 32, ModuleId = 8, Name = "Asignación de especialidades", Route = "asignarEspecialidades", Order = 2, IsActive = true },
+
+                // Seguridad y Accesos
+                new SubModulesEntity { SubModuleId = 33, ModuleId = 9, Name = "Lista de roles", Route = "roles", Order = 1, IsActive = true },
+                new SubModulesEntity { SubModuleId = 34, ModuleId = 9, Name = "Lista de módulos", Route = "modulos", Order = 2, IsActive = true },
+                new SubModulesEntity { SubModuleId = 35, ModuleId = 9, Name = "Lista de submódulos", Route = "subModulos", Order = 3, IsActive = true },
+
+                // Panel personal
+                new SubModulesEntity { SubModuleId = 36, ModuleId = 10, Name = "Mi perfil", Route = "perfil", Order = 1, IsActive = true },
+                new SubModulesEntity { SubModuleId = 37, ModuleId = 10, Name = "Mi agenda", Route = "miAgenda", Order = 2, IsActive = true },
+                new SubModulesEntity { SubModuleId = 38, ModuleId = 10, Name = "Mis pacientes", Route = "misPacientes", Order = 3, IsActive = true },
+                new SubModulesEntity { SubModuleId = 39, ModuleId = 10, Name = "Solicitar vacaciones", Route = "misVacaciones", Order = 4, IsActive = true }
+            );
+
             // Permisos
         }
     }
