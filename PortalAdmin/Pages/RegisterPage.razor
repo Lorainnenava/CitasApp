@@ -1,0 +1,51 @@
+﻿@page "/Registrarse"
+@layout EmptyLayout
+@inject ToastService Toast
+
+<MudGrid Class="fill-grid">
+	<MudHidden Breakpoint="Breakpoint.SmAndDown">
+		<MudItem sm="6" Style="height: 100%;">
+			<div style="height: 100%; width: 100%;">
+				<img src="images/picture_two.jpg"
+					 alt="imgRegister"
+					 style="object-fit: cover; width: 100%; height: 100%; display: block;" />
+			</div>
+		</MudItem>
+	</MudHidden>
+
+	<MudItem xs="12" sm="6" Style="padding: 0; margin: 0; height: 100%; display: flex; align-items: center; justify-content: center;">
+		<MudContainer Style="width:100%; height: 100vh; overflow-y: auto; padding: 2rem;"
+					  Class="d-flex flex-column align-items-center">
+			<MudText Typo="Typo.h3" Class="pb-7 fw-semibold">Registro Hospital App</MudText>
+			<MudForm Model="@Model" @ref="@form" Validation="@(PropertyValidator.ValidateValue)" Style="width:100%;">
+				<div class="d-flex gap-2">
+					<MudTextField Variant="Variant.Outlined" Label="Primer nombre" @bind-Value="Model.FirstName" For="(()=> Model.FirstName)" />
+					<MudTextField Variant="Variant.Outlined" Label="Segundo nombre" @bind-Value="Model.MiddleName" For="(()=> Model.MiddleName)" />
+				</div>
+				<div class="d-flex gap-2">
+					<MudTextField Variant="Variant.Outlined" Label="Primer apellido" @bind-Value="Model.LastName" For="(()=> Model.LastName)" />
+					<MudTextField Variant="Variant.Outlined" Label="Segundo apellido" @bind-Value="Model.SecondName" For="(()=> Model.SecondName)" />
+				</div>
+				<MudTextField Variant="Variant.Outlined" Label="Correo" @bind-Value="Model.Email" For="(()=> Model.Email)" />
+				<MudTextField Variant="Variant.Outlined" Label="Contraseña" @bind-Value="Model.Password" For="(()=> Model.Password)" />
+				<div class="d-flex gap-2">
+					<MudTextField Variant="Variant.Outlined" Label="Hospital" @bind-Value="Model.HospitalId" For="(()=> Model.HospitalId)" />
+					<MudTextField Variant="Variant.Outlined" Label="Tipo de identificación" @bind-Value="Model.IdentificationTypeId" For="(()=> Model.IdentificationTypeId)" />
+				</div>
+				<MudTextField Variant="Variant.Outlined" Label="N° de identificación" @bind-Value="Model.IdentificationNumber" For="(()=> Model.IdentificationNumber)" />
+				<div class="d-flex gap-2">
+					<MudTextField Variant="Variant.Outlined" Label="Genero" @bind-Value="Model.GenderId" For="(()=> Model.GenderId)" />
+					<MudDatePicker Label="Fecha de nacimiento"
+								   @bind-Date="Model.DateOfBirth"
+								   For="(() => Model.DateOfBirth)" />
+				</div>
+				<MudTextField Variant="Variant.Outlined" Label="Telefono" @bind-Value="Model.Phone" For="(()=> Model.Phone)" />
+				<MudButton FullWidth=true Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto mt-4" OnClick="@(async () => await Submit())">Registrarse</MudButton>
+			</MudForm>
+			<div Class="d-flex gap-2 pt-4">
+				<MudText Typo="Typo.subtitle2">Ya tienes una cuenta?</MudText>
+				<MudLink Href="" Typo="Typo.body2" Underline="Underline.Always">Inicia sesión</MudLink>
+			</div>
+		</MudContainer>
+	</MudItem>
+</MudGrid>

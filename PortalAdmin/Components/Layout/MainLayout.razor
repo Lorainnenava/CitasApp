@@ -1,0 +1,38 @@
+﻿@inherits LayoutComponentBase
+@inject IJSRuntime JS
+
+<MudThemeProvider @bind-IsDarkMode="@IsDarkMode" Theme="MyCustomTheme" />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+	<MudAppBar Elevation="1"
+			   Style="background-color: var(--mud-palette-appbar-background); color: var(--mud-palette-text-primary);">
+		<MudIconButton Icon="@Icons.Material.Filled.Menu" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+		<MudSpacer />
+		<MudIconButton Icon="@(IsDarkMode ? Icons.Material.Filled.DarkMode : Icons.Material.Filled.WbSunny)"
+					   Color="@(IsDarkMode ? Color.Default : Color.Warning)"
+					   Style="@(IsDarkMode ? "color: white;" : null)"
+					   OnClick="@((x) => ToggleTheme())" />
+		<MudMenu Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" TransformOrigin="Origin.TopRight">
+			<MudMenuItem Icon="@Icons.Material.Filled.Group">Perfil</MudMenuItem>
+			<MudMenuItem Icon="@Icons.Material.Filled.LockReset">Cambiar contraseña</MudMenuItem>
+			<MudMenuItem Icon="@Icons.Material.Filled.Output">Cerrar sesión</MudMenuItem>
+		</MudMenu>
+	</MudAppBar>
+	<MudDrawer @bind-Open="@DrawerOpen" Elevation="2"
+			   Style="background-color: var(--mud-palette-primary); color: white;">
+		<MudDrawerHeader>
+			<MudText Typo="Typo.h5" Class="mt-1">Application</MudText>
+		</MudDrawerHeader>
+		<NavMenu />
+	</MudDrawer>
+	<MudMainContent Style="height: 100vh;">
+		<MudContainer DisableGutters="true" Class="p-0 m-0" Style="background-color: var(--mud-palette-background);height: 100%;">
+			<div class="p-4">
+				@Body
+			</div>
+		</MudContainer>
+	</MudMainContent>
+</MudLayout>
